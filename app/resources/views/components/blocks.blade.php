@@ -1,6 +1,6 @@
 <section class="px-4 mx-auto max-w-7xl">
     <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-        @foreach ($items as $item)
+        @foreach ($items ?? [] as $item)
         <a href="{{ $item['url'] }}" class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-800 dark:ring-zinc-800 dark:text-white dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
             <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
                 @svg($item['icon'], 'w-12 h-12', ['style' => 'color:#FF2D20'])
@@ -16,5 +16,10 @@
             </svg>
         </a>
         @endforeach
+
+        @if (count($items ?? []) < 1) <p class="dark:text-white">
+            {{__('Nothing to show.')}}
+            </p>
+            @endif
     </div>
 </section>
