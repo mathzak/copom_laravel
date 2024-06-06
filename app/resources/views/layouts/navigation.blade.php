@@ -46,6 +46,15 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('messages.index')">
+                            {{ __('Messages') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('schedule.index')">
+                            {{ __('Schedule') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('requirements.index')">
+                            {{ __('Requirements') }}
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -91,6 +100,15 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('messages.index')">
+                    {{ __('Messages') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('schedule.index')">
+                    {{ __('Schedule') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('requirements.index')">
+                    {{ __('Requirements') }}
+                </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
@@ -98,7 +116,7 @@
 
                     <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Log out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
