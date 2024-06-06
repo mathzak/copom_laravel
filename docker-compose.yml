@@ -1,0 +1,218 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: copom_postgres
+    image: postgis/postgis:16-3.4-alpine
+    restart: unless-stopped
+    networks:
+      - copom_laravel_network
+    ports:
+      - ${DB_PORT:-5432}:${DB_PORT:-5432}
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+      - ./docker/postgresql/scripts/:/docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-db_bood4ll}
+      POSTGRES_USER: ${DB_USERNAME:-bood4ll}
+      POSTGRES_PASSWORD: ${DB_PASSWORD-admin}
+    command: -p ${DB_PORT:-5432}
+
+  pgadmin:
+    container_name: copom_pgadmin
+    image: dpage/pgadmin4
+    entrypoint: >
+      /bin/sh -c "
+        echo '
+          {
+            \"Servers\": {
+              \"1\": {
+                \"Name\": \"${APP_NAME:-Bood4ll}\",
+                \"Group\": \"Servers\",
+                \"Host\": \"${DB_HOST:-postgres}\",
+                \"Port\": ${DB_PORT:-5432},
+                \"MaintenanceDB\": \"postgres\",
+                \"Username\": \"${DB_USERNAME:-bood4ll}\",
+                \"PassFile\": \"/var/lib/pgadmin/pgpass\",
+                \"SSLMode\": \"prefer\"
+              }
+            }
+          }
+        ' > /var/lib/pgadmin/servers;
+        echo '${DB_HOST:-postgres}:${DB_PORT:-5432}:*:${DB_USERNAME:-bood4ll}:${DB_PASSWORD:-admin}' > /var/lib/pgadmin/pgpass;
+        chmod 600 /var/lib/pgadmin/pgpass;
+        chown pgadmin /var/lib/pgadmin/pgpass;
+        /entrypoint.sh
+      "
+    restart: unless-stopped
+    networks:
+      - copom_laravel_network
+    ports:
+      - ${PGADMIN_PORT:-5050}:${PGADMIN_PORT:-5050}
+    volumes:
+      - pgadmin-volume:/var/lib/pgadmin
+    environment:
+      PGADMIN_LISTEN_PORT: ${PGADMIN_PORT:-5050}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_SERVER_JSON_FILE: '/var/lib/pgadmin/servers'
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+      GUNICORN_ACCESS_LOGFILE: '/dev/null'
+    depends_on:
+      - postgres
+
+  redis:
+    container_name: copom_redis
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - copom_laravel_network
+    ports:
+      - ${REDIS_PORT:-6379}:${REDIS_PORT:-6379}
+    volumes:
+      - redis-volume:/data
+    command: /bin/sh -c "redis-server --port ${REDIS_PORT:-6379} --requirepass ${REDIS_PASSWORD:-redis}"
+
+  redis-commander:
+    container_name: copom_redis-commander
+    image: rediscommander/redis-commander
+    restart: unless-stopped
+    networks:
+      - copom_laravel_network
+    ports:
+      - ${REDIS_COMANDER_PORT:-6060}:${REDIS_COMANDER_PORT:-6060}
+    environment:
+      PORT: ${REDIS_COMANDER_PORT:-6060}
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis}
+    depends_on:
+      - redis
+
+  node:
+    container_name: copom_node
+    image: node:alpine
+    restart: unless-stopped
+    networks:
+      - copom_laravel_network
+    ports:
+      - ${VITE_PORT:-5173}:${VITE_PORT:-5173}
+    volumes:
+      - ./app/.env.example:/var/www/.env
+      - ./app/package.json:/var/www/package.json
+      - ./app:/var/www
+      - php-vendor-volume:/var/www/vendor
+      - node-nodemodules-volume:/var/www/node_modules
+    environment:
+      VITE_PORT: ${VITE_PORT:-5173}
+    working_dir: /var/www/
+    command: sh -c "npm install && npm run dev"
+
+  php:
+    container_name: copom_php
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+      args:
+        - UID=${UID:-1000}
+        - USER=${USER:-laravel}
+    restart: always
+    networks:
+      - copom_laravel_network
+    volumes:
+      - ./app/.env.example:/var/www/.env
+      - ./app:/var/www
+      - php-vendor-volume:/var/www/vendor
+      - node-nodemodules-volume:/var/www/node_modules
+    environment:
+      - APP_NAME=${APP_NAME:-Bood4ll}
+      - APP_ENV=${APP_ENV:-local}
+      - APP_DEBUG=${APP_DEBUG:-true}
+      - APP_URL=${APP_URL:-http://localhost}
+      - APP_PORT=${APP_PORT:-80}
+      - VITE_PORT=${VITE_PORT:-5173}
+
+      - LOG_CHANNEL=daily
+      - LOG_DEPRECATIONS_CHANNEL=null
+      - LOG_LEVEL=debug
+
+      - DB_CONNECTION=${DB_CONNECTION:-pgsql}
+      - DB_HOST=${DB_HOST:-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_DATABASE=${DB_DATABASE:-db_bood4ll}
+      - DB_USERNAME=${DB_USERNAME:-bood4ll}
+      - DB_PASSWORD=${DB_PASSWORD:-admin}
+
+      - BROADCAST_DRIVER=redis
+      - CACHE_DRIVER=redis
+      - FILESYSTEM_DISK=local
+      - QUEUE_CONNECTION=database
+      - SESSION_DRIVER=redis
+      - SESSION_LIFETIME=120
+
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+
+      - MAIL_HOST=${MAIL_HOST:-mailpit}
+      - MAIL_PORT=${MAIL_PORT:-1025}
+      - MAIL_USERNAME=${MAIL_USERNAME:-null}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-null}
+      - MAIL_ENCRYPTION=${MAIL_ENCRYPTION:-null}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-"hello@example.com"}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-"Bood4ll"}
+
+      - GITHUB_CLIENT_ID=
+      - GITHUB_CLIENT_SECRET=
+
+      - GOOGLE_CLIENT_ID=
+      - GOOGLE_CLIENT_SECRET=
+
+      - TWITTER_CLIENT_ID=
+      - TWITTER_CLIENT_SECRET=
+
+      - FACEBOOK_CLIENT_ID=
+      - FACEBOOK_CLIENT_SECRET=
+    depends_on:
+      - postgres
+      - redis
+
+  nginx:
+    container_name: copom_nginx
+    image: nginx:alpine
+    restart: always
+    networks:
+      - copom_laravel_network
+    ports:
+      - "${APP_PORT:-80}:80"
+    volumes:
+      - ./app:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites-available:/etc/nginx/sites-available
+    depends_on:
+      - php
+      - node
+
+  mailpit:
+    container_name: copom_mailpit
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    networks:
+      - copom_laravel_network
+    ports:
+      - ${MAIL_PORT:-1025}:${MAIL_PORT:-1025}
+      - ${MAILSERVER_PORT:-7070}:${MAILSERVER_PORT:-7070}
+    environment:
+      MP_SMTP_BIND_ADDR: "0.0.0.0:${MAIL_PORT:-1025}"
+      MP_UI_BIND_ADDR: "0.0.0.0:${MAILSERVER_PORT:-7070}"
+
+networks:
+  copom_laravel_network:
+    driver: bridge
+
+volumes:
+  php-vendor-volume:
+  node-nodemodules-volume:
+  postgres-volume:
+  pgadmin-volume:
+  redis-volume:
