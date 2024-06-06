@@ -45,8 +45,6 @@ RUN docker-php-ext-install \
 
 RUN docker-php-ext-configure calendar
 
-RUN pecl install redis && docker-php-ext-enable redis 
-
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
