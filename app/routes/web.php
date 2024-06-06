@@ -11,10 +11,18 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/apps', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('apps');
+
+Route::get('/help', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('help');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
