@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AppsController;
+use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\HelpController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/locale/{locale}', function (string $locale) {
@@ -18,9 +22,7 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::name('profile.')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
@@ -31,13 +33,37 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('apps')->name('apps.')->group(function () {
+        Route::get('/', [AppsController::class, 'index'])->name('index');
+
         Route::middleware('verified', 'password.confirm')->group(function () {
+            Route::controller(RolesController::class)->name('roles.')->group(function () {
+                Route::get('/roles', 'index')->name('index');
+                Route::get('/roles/create', 'create')->name('create');
+                Route::post('/roles/create', 'store')->name('store');
+                Route::get('/roles/edit/{id}', 'edit')->name('edit');
+                Route::patch('/roles/edit/{id}', 'update')->name('update');
+                Route::delete('/roles/destroy', 'destroy')->name('destroy');
+                Route::delete('/roles/forcedestroy', 'forceDestroy')->name('forceDestroy');
+                Route::post('/roles/restore', 'restore')->name('restore');
+            });
+
+            Route::controller(UnitsController::class)->name('units.')->group(function () {
+                Route::get('/units', 'index')->name('index');
+                Route::get('/units/create', 'create')->name('create');
+                Route::post('/units/create', 'store')->name('store');
+                Route::get('/units/edit/{id}', 'edit')->name('edit');
+                Route::patch('/units/edit/{id}', 'update')->name('update');
+                Route::delete('/units/destroy', 'destroy')->name('destroy');
+                Route::delete('/units/forcedestroy', 'forceDestroy')->name('forceDestroy');
+                Route::post('/units/restore', 'restore')->name('restore');
+            });
+
             Route::controller(UsersController::class)->name('users.')->group(function () {
                 Route::get('/users', 'index')->name('index');
                 Route::get('/users/create', 'create')->name('create');
                 Route::post('/users/create', 'store')->name('store');
-                Route::get('/users/edit/{user}', 'edit')->name('edit');
-                Route::patch('/users/edit/{user}', 'update')->name('update');
+                Route::get('/users/edit/{id}', 'edit')->name('edit');
+                Route::patch('/users/edit/{id}', 'update')->name('update');
                 Route::delete('/users/destroy', 'destroy')->name('destroy');
                 Route::delete('/users/forcedestroy', 'forceDestroy')->name('forceDestroy');
                 Route::post('/users/restore', 'restore')->name('restore');
@@ -46,23 +72,23 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', [ReportsController::class, 'index'])->name('index');
+
         Route::middleware('verified', 'password.confirm')->group(function () {
-            Route::controller(UsersController::class)->name('users.')->group(function () {
-                Route::get('/users', 'index')->name('index');
-                Route::get('/users/create', 'create')->name('create');
-                Route::post('/users/create', 'store')->name('store');
-                Route::get('/users/edit/{user}', 'edit')->name('edit');
-                Route::patch('/users/edit/{user}', 'update')->name('update');
-                Route::delete('/users/destroy', 'destroy')->name('destroy');
-                Route::delete('/users/forcedestroy', 'forceDestroy')->name('forceDestroy');
-                Route::post('/users/restore', 'restore')->name('restore');
+            Route::controller(ReportsController::class)->name('reports.')->group(function () {
+                Route::get('/reports', 'index')->name('index');
+                Route::get('/reports/create', 'create')->name('create');
+                Route::post('/reports/create', 'store')->name('store');
+                Route::get('/reports/edit/{user}', 'edit')->name('edit');
+                Route::patch('/reports/edit/{user}', 'update')->name('update');
+                Route::delete('/reports/destroy', 'destroy')->name('destroy');
+                Route::delete('/reports/forcedestroy', 'forceDestroy')->name('forceDestroy');
+                Route::post('/reports/restore', 'restore')->name('restore');
             });
         });
     });
 
-    Route::get('/help', function () {
-        return view('help');
-    })->name('help');
+    Route::get('/help', [HelpController::class, 'index'])->name('help.index');
 });
 
 require __DIR__.'/auth.php';
