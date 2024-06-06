@@ -44,6 +44,25 @@ Route::middleware('auth')->group(function () {
             });
         });
     });
+
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::middleware('verified', 'password.confirm')->group(function () {
+            Route::controller(UsersController::class)->name('users.')->group(function () {
+                Route::get('/users', 'index')->name('index');
+                Route::get('/users/create', 'create')->name('create');
+                Route::post('/users/create', 'store')->name('store');
+                Route::get('/users/edit/{user}', 'edit')->name('edit');
+                Route::patch('/users/edit/{user}', 'update')->name('update');
+                Route::delete('/users/destroy', 'destroy')->name('destroy');
+                Route::delete('/users/forcedestroy', 'forceDestroy')->name('forceDestroy');
+                Route::post('/users/restore', 'restore')->name('restore');
+            });
+        });
+    });
+
+    Route::get('/help', function () {
+        return view('help');
+    })->name('help');
 });
 
 require __DIR__.'/auth.php';
