@@ -15,6 +15,10 @@ Route::get('/apps', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('apps');
 
+Route::get('/reports', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('reports');
+
 Route::get('/help', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('help');
