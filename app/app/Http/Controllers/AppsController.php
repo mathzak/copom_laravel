@@ -20,8 +20,9 @@ class AppsController extends Controller
 
         foreach ($appsRoutes as $route) {
             $items[] = [
-                'label' => $route->defaults['label'],
-                'description' => $route->defaults['description'],
+                'label' => __($route->defaults['label']),
+                'description' => __($route->defaults['description']),
+                'icon' => $route->defaults['icon'],
                 'url' => route($route->action['as']),
             ];
         };
