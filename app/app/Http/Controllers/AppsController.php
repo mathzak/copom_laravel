@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use stdClass;
 
 class AppsController extends Controller
 {
@@ -11,7 +13,22 @@ class AppsController extends Controller
      */
     public function index()
     {
-        return view('apps.index');
+        $appsRoutes = collect(Route::getRoutes()->get())
+            ->filter(fn ($item) => strstr($item->action['as'] ?? null, 'apps') && strstr($item->action['as'] ?? null, 'index'));
+
+        // dd($appsRoutes);
+
+        foreach ($appsRoutes as $route) {
+            $items[] = [
+                'label' => $route->defaults['label'],
+                'description' => $route->defaults['description'],
+                'url' => route($route->action['as']),
+            ];
+        };
+
+        return view('apps.index', [
+            'items' => $items,
+        ]);
     }
 
     /**

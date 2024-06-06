@@ -5,13 +5,17 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AppsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\HelpController;
+use App\Http\Controllers\System\RolesController;
+use App\Http\Controllers\System\UnitsController;
+use App\Http\Controllers\System\UsersController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/locale/{locale}', function (string $locale) {
     if (!in_array($locale, ['en', 'pt_BR'])) {
         abort(400);
     }
-    
+
     App::setLocale($locale);
 
     return redirect()->back();
@@ -32,12 +36,15 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::prefix('apps')->name('apps.')->group(function () {
-        Route::get('/', [AppsController::class, 'index'])->name('index');
+    Route::get('/apps', [AppsController::class, 'index'])->name('apps');
 
+    Route::prefix('apps')->name('apps.')->group(function () {
         Route::middleware('verified', 'password.confirm')->group(function () {
             Route::controller(RolesController::class)->name('roles.')->group(function () {
-                Route::get('/roles', 'index')->name('index');
+                Route::get('/roles', 'index')->name('index')
+                    ->defaults('label', 'Roles')
+                    ->defaults('description', "Manage your team's commitments, schedules and events.")
+                    ->defaults('icon', 'calendar_month');
                 Route::get('/roles/create', 'create')->name('create');
                 Route::post('/roles/create', 'store')->name('store');
                 Route::get('/roles/edit/{id}', 'edit')->name('edit');
@@ -48,7 +55,10 @@ Route::middleware('auth')->group(function () {
             });
 
             Route::controller(UnitsController::class)->name('units.')->group(function () {
-                Route::get('/units', 'index')->name('index');
+                Route::get('/units', 'index')->name('index')
+                    ->defaults('label', 'Units')
+                    ->defaults('description', "Manage your team's commitments, schedules and events.")
+                    ->defaults('icon', 'calendar_month');
                 Route::get('/units/create', 'create')->name('create');
                 Route::post('/units/create', 'store')->name('store');
                 Route::get('/units/edit/{id}', 'edit')->name('edit');
@@ -59,7 +69,10 @@ Route::middleware('auth')->group(function () {
             });
 
             Route::controller(UsersController::class)->name('users.')->group(function () {
-                Route::get('/users', 'index')->name('index');
+                Route::get('/users', 'index')->name('index')
+                    ->defaults('label', 'Users')
+                    ->defaults('description', "Manage your team's commitments, schedules and events.")
+                    ->defaults('icon', 'calendar_month');
                 Route::get('/users/create', 'create')->name('create');
                 Route::post('/users/create', 'store')->name('store');
                 Route::get('/users/edit/{id}', 'edit')->name('edit');
@@ -71,9 +84,9 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::prefix('reports')->name('reports.')->group(function () {
-        Route::get('/', [ReportsController::class, 'index'])->name('index');
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports');
 
+    Route::prefix('reports')->name('reports.')->group(function () {
         Route::middleware('verified', 'password.confirm')->group(function () {
             Route::controller(ReportsController::class)->name('reports.')->group(function () {
                 Route::get('/reports', 'index')->name('index');
@@ -88,7 +101,7 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::get('/help', [HelpController::class, 'index'])->name('help.index');
+    Route::get('/help', [HelpController::class, 'index'])->name('help');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

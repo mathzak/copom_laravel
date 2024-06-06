@@ -6,6 +6,6 @@
     </x-slot>
 
     <div class="py-12">
-        <x-blocks />
+        <x-blocks :items=$items />
     </div>
 </x-app-layout>
