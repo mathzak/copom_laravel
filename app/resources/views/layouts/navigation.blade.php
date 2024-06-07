@@ -47,23 +47,23 @@
                         <div class="bg-gray-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border-y">
                             <div class="grid px-4 py-6 mx-auto sm:grid-cols-2 2xl:max-w-7xl gap-y-6 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-3 lg:px-8 lg:py-12 xl:py-16">
                                 @foreach (app('menu')->make('app') as $item)
-                                <div class="p-3 duration-200 rounded-xl sm:flex lg:items-start group hover:bg-gray-200 dark:hover:bg-zinc-900">
-                                    <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4">
-                                        <div class="p-2 overflow-hidden border border-zinc-100 dark:border-zinc-700 rounded-3xl">
-                                            @svg($item['icon'], 'object-cover h-full shadow-2xl size-16 lg:size-32 rounded-2xl aspect-square', ['style' => 'color:#FF2D20'])
+                                <a href="{{ $item['url'] }}">
+                                    <div class="p-3 duration-200 rounded-xl sm:flex lg:items-start group hover:bg-gray-200 dark:hover:bg-zinc-900">
+                                        <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4">
+                                            <div class="p-2 overflow-hidden border border-zinc-100 dark:border-zinc-700 rounded-3xl">
+                                                @svg($item['icon'], 'object-cover h-full shadow-2xl size-16 lg:size-32 rounded-2xl aspect-square', ['style' => 'color:#FF2D20'])
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <a href="{{ $item['url'] }}">
+                                        <div>
                                             <p class="mt-3 text-base font-medium text-zinc-800 dark:text-zinc-200 lg:mt-0">
                                                 {{ $item['label'] }}
                                             </p>
                                             <p class="mt-4 text-sm font-medium text-zinc-400 dark:text-zinc-500 text-pretty">
                                                 {{ $item['description'] }}
                                             </p>
-                                        </a>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                                 @endforeach
                             </div>
                         </div>
