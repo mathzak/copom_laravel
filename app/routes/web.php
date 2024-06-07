@@ -5,9 +5,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AppsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\HelpController;
-use App\Http\Controllers\System\RolesController;
-use App\Http\Controllers\System\UnitsController;
-use App\Http\Controllers\System\UsersController;
+use App\Http\Controllers\Apps\RolesController;
+use App\Http\Controllers\Apps\UnitsController;
+use App\Http\Controllers\Apps\UsersController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::get('/apps', [AppsController::class, 'index'])->name('apps');
+    Route::get('/apps', [AppsController::class, 'index'])->name('apps')->middleware('verified', 'password.confirm');
 
     Route::prefix('apps')->name('apps.')->group(function () {
         Route::middleware('verified', 'password.confirm')->group(function () {
@@ -84,7 +84,7 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::get('/reports', [ReportsController::class, 'index'])->name('reports');
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports')->middleware('verified', 'password.confirm');
 
     Route::prefix('reports')->name('reports.')->group(function () {
         Route::middleware('verified', 'password.confirm')->group(function () {

@@ -16,8 +16,6 @@ class AppsController extends Controller
         $appsRoutes = collect(Route::getRoutes()->get())
             ->filter(fn ($item) => strstr($item->action['as'] ?? null, 'apps') && strstr($item->action['as'] ?? null, 'index'));
 
-        // dd($appsRoutes);
-
         foreach ($appsRoutes as $route) {
             $items[] = [
                 'label' => __($route->defaults['label']),

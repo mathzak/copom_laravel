@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\System;
+namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class UnitsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('dashboard');
+        return view('apps.users.index');
     }
 
     /**
