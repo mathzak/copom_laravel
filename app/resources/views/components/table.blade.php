@@ -11,11 +11,81 @@ $links = collect($rows)->all()['links'];
 $rows = collect($rows)->all()['data'];
 ?>
 
+<script>
+    function app() {
+        return {
+            searchValue: '',
+
+            initializeSearchValue() {
+                const params = new URLSearchParams(window.location.search);
+                this.searchValue = params.get('search') || '';
+            },
+
+            updateUrl() {
+                const params = new URLSearchParams(window.location.search);
+                if (this.searchValue) {
+                    params.set('search', this.searchValue);
+                } else {
+                    params.delete('search');
+                }
+                window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+                this.updateFormAction();
+            },
+
+            debouncedUpdateUrl: debounce(function() {
+                this.updateUrl();
+                this.submitForm();
+            }, 500),
+
+            clearSearchOnEsc(event) {
+                if (event.key === 'Escape') {
+                    this.searchValue = '';
+                    this.updateUrl();
+                    this.submitForm();
+                }
+            },
+
+            updateFormAction() {
+                const form = document.getElementById('searchForm');
+                form.action = `${window.location.pathname}?${new URLSearchParams(window.location.search).toString()}`;
+            },
+
+            submitForm() {
+                setTimeout(() => {
+                    document.getElementById('searchForm').submit();
+                }, 0);
+            }
+        }
+    }
+
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(this, args);
+            }, wait);
+        };
+    }
+</script>
+
 <div x-data="{
 		columns: {{ collect($columns) }},
 		rows: {{ collect($rows) }},
 		isStriped: Boolean({{ $striped }})
 	}" x-cloak wire:key="{{ md5(collect($rows)) }}">
+    <div class="flex justify-between pb-4">
+        <div>
+            @isset($tableHeader)
+            {{ $tableHeader }}
+            @endisset
+        </div>
+        <div x-data="app" x-init="initializeSearchValue">
+            <form id="searchForm" method="GET" action="">
+                <x-text-input autofocus id="search" name="search" type="text" class="w-[300px]" :value="request()->search" x-model="searchValue" @input="debouncedUpdateUrl" @keydown.escape="clearSearchOnEsc" placeholder="{{ __('Search...') }}" />
+            </form>
+        </div>
+    </div>
     <div class="overflow-x-auto rounded-lg shadow overflow-y-auto relative">
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-gray-100/50 dark:bg-zinc-900/50 table-striped relative">
             <thead>
@@ -42,7 +112,6 @@ $rows = collect($rows)->all()['data'];
                 </tr>
             </thead>
             <tbody>
-
                 <template x-if="rows.length === 0">
                     @isset($empty)
                     {{ $empty }}
@@ -82,19 +151,19 @@ $rows = collect($rows)->all()['data'];
                 </template>
             </tbody>
         </table>
-
-        <nav class="relative z-0 inline-flex gap-2 -space-x-px justify-center w-full py-4" aria-label="Pagination">
-            @foreach($links as $link)
-            @if($link['active'] == true)
-            <a href="{{ $link['url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-gray-200 dark:bg-zinc-900 hover:bg-gray-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
-                {!! $link['label'] !!}
-            </a>
-            @else
-            <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600/60 dark:text-zinc-500/60 bg-gray-200/60 dark:bg-zinc-900/60 rounded-lg" aria-current="page">
-                {!! $link['label'] !!}
-            </span>
-            @endif
-            @endforeach
-        </nav>
     </div>
+
+    <nav class="relative z-0 inline-flex gap-2 -space-x-px justify-center w-full py-4" aria-label="Pagination">
+        @foreach($links as $link)
+        @if($link['active'] == true)
+        <a href="{{ $link['url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-gray-200 dark:bg-zinc-900 hover:bg-gray-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
+            {!! $link['label'] !!}
+        </a>
+        @else
+        <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600/60 dark:text-zinc-500/60 bg-gray-200/60 dark:bg-zinc-900/60 rounded-lg" aria-current="page">
+            {!! $link['label'] !!}
+        </span>
+        @endif
+        @endforeach
+    </nav>
 </div>

@@ -11,9 +11,11 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(30)->withQueryString();
+        $users = User::where('name', 'ilike', "%$request->search%")
+            ->paginate(30)
+            ->withQueryString();
 
         return view('apps.users.index', [
             'items' => $users,
