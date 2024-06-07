@@ -1,125 +1,140 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border-b border-zinc-100 dark:border-zinc-700">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-zinc-800 dark:text-zinc-200" />
-                    </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('apps')" :active="strstr(request()->route()->getName(), 'apps')">
-                        {{ __('Apps') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('reports')" :active="strstr(request()->route()->getName(), 'reports')">
-                        {{ __('Reports') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('help')" :active="strstr(request()->route()->getName(), 'help')">
-                        {{ __('Help') }}
-                    </x-nav-link>
-                </div>
-            </div>
-
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-zinc-500 dark:text-zinc-400 bg-white dark:bg-zinc-800 hover:text-zinc-700 dark:hover:text-zinc-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
+<div class="justify-center w-full mx-auto bg-gray-100 dark:bg-zinc-800 border-b border-zinc-100 dark:border-zinc-700">
+    <div x-data="{ open: false }" class="flex flex-col w-full px-8 py-2 mx-auto md:px-12 md:items-center md:justify-between md:flex-row lg:px-32 max-w-7xl">
+        <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200 ">
+            <a class="inline-flex items-center gap-3 text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-200" href="/">
+                <x-application-logo class="block h-9 w-auto fill-current text-zinc-800 dark:text-zinc-200" />
+                <span>SisCOPOM</span>
+            </a>
+            <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
+                <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    <path :class="{'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    <path :class="{'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <nav :class="{'flex': open, 'hidden': !open}" class="flex-col items-center flex-grow gap-3 p-4 px-5 text-sm font-medium text-zinc-800 dark:text-zinc-200 md:px-0 md:pb-0 md:flex md:justify-center md:flex-row md:ml-4 lg:p-0 md:mt-0 hidden">
+            <div class="relative lg:mx-auto" x-data="{ appsMenu: false }" x-on:click.away="appsMenu = false">
+                <div class="relative">
+                    <nav class="relative flex items-center justify-around w-full sm:h-10">
+                        <div class="flex items-center justify-between flex-1">
+                            <a class="flex flex-row items-center w-full pr-4 py-2 mt-2 text-sm text-left text-zinc-800 dark:text-zinc-200 md:w-auto md:inline md:mt-0 hover:text-blue-600 dark:hover:text-yellow-600 focus:outline-none focus:shadow-outline" href="{{ route('dashboard') }}">
+                                {{ __('Dashboard') }}
+                            </a>
+                            <div class="flex items-center -mr-2" x-on:click="appsMenu = !appsMenu">
+                                <button type="button" class="flex flex-row items-center w-full pr-4 py-2 mt-2 text-sm text-left text-zinc-800 dark:text-zinc-200 md:w-auto md:inline md:mt-0 hover:text-blue-600 dark:hover:text-yellow-600 focus:outline-none focus:shadow-outline" id="main-menu" aria-label="Main menu" aria-haspopup="true">
+                                    <span> {{ __('Apps') }} </span>
+                                    <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline size-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 rotate-0">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
                             </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Messages') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Schedule') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Requirements') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
+                            <div class="flex items-center -mr-2" x-on:click="appsMenu = !appsMenu">
+                                <button type="button" class="flex flex-row items-center w-full pr-4 py-2 mt-2 text-sm text-left text-zinc-800 dark:text-zinc-200 md:w-auto md:inline md:mt-0 hover:text-blue-600 dark:hover:text-yellow-600 focus:outline-none focus:shadow-outline" id="main-menu" aria-label="Main menu" aria-haspopup="true">
+                                    <span> {{ __('Reports') }} </span>
+                                    <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline size-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 rotate-0">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <a class="flex flex-row items-center w-full pr-4 py-2 mt-2 text-sm text-left text-zinc-800 dark:text-zinc-200 md:w-auto md:inline md:mt-0 hover:text-blue-600 dark:hover:text-yellow-600 focus:outline-none focus:shadow-outline" href="{{ route('help') }}">
+                                {{ __('Help') }}
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+                <div x-on:click="appsMenu = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" :class="{'translate-y-0 shadow-md duration-150': appsMenu, '-translate-y-full': ! appsMenu}" class="fixed inset-0 top-0 z-40 h-screen mx-auto overflow-y-auto transition origin-top transform max-w-7xl -translate-y-full">
+                    <div class="relative overflow-hidden bg-gray-100 dark:bg-zinc-800 shadow-xl lg:bg-transparent" role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
+                        <div class="bg-gray-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border-y">
+                            <div class="grid px-4 py-6 mx-auto sm:grid-cols-2 2xl:max-w-7xl gap-y-6 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-3 lg:px-8 lg:py-12 xl:py-16">
+                                @foreach (app('menu')->make('app') as $item)
+                                <div class="p-3 duration-200 rounded-xl sm:flex lg:items-start group hover:bg-gray-200 dark:hover:bg-zinc-900">
+                                    <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4">
+                                        <div class="p-2 overflow-hidden border border-zinc-100 dark:border-zinc-700 rounded-3xl">
+                                            @svg($item['icon'], 'object-cover h-full shadow-2xl size-16 lg:size-32 rounded-2xl aspect-square', ['style' => 'color:#FF2D20'])
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="{{ $item['url'] }}">
+                                            <p class="mt-3 text-base font-medium text-zinc-800 dark:text-zinc-200 lg:mt-0">
+                                                {{ $item['label'] }}
+                                            </p>
+                                            <p class="mt-4 text-sm font-medium text-zinc-400 dark:text-zinc-500 text-pretty">
+                                                {{ $item['description'] }}
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-zinc-400 dark:text-zinc-500 hover:text-zinc-500 dark:hover:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 focus:outline-none focus:bg-zinc-100 dark:focus:bg-zinc-900 focus:text-zinc-500 dark:focus:text-zinc-400 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+            <div class="flex flex-shrink-0 px-4">
+                <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
+                    <button @click="open = !open" class="inline-flex items-center justify-between w-full px-4 py-3 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-900 focus:outline-none">
+                        <span>
+                            <span class="flex-shrink-0 block group">
+                                <div class="flex items-center">
+                                    <div>
+                                        <img class="inline-block object-cover rounded-full h-9 w-9" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="">
+                                    </div>
+                                    <div class="ml-3 text-left">
+                                        <p class="text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
+                                            {{ Auth::user()->name }}
+                                        </p>
+                                        <p class="text-xs font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
+                                            {{ Auth::user()->email }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </span>
+                        </span>
+                        <svg :class="{'rotate-180': open, 'rotate-0': !open}" xmlns="http://www.w3.org/2000/svg" class="inline size-5 ml-4 text-zinc-800 dark:text-zinc-200 transition-transform duration-200 transform rotate-0" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl" style="display: none;">
+                        <div class="px-2 py-2 bg-gray-200 dark:bg-zinc-900 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <ul>
+                                <li>
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
+                                        <span class="ml-4"> {{ __('Profile') }} </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
+                                        <span class="ml-4"> {{ __('Messages') }} </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
+                                        <span class="ml-4"> {{ __('Schedule') }} </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
+                                        <span class="ml-4"> {{ __('Requirements') }} </span>
+                                    </a>
+                                </li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <li>
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
+                                            <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
+                                            <span class="ml-4"> {{ __('Log Out') }} </span>
+                                        </a>
+                                    </li>
+                                </form>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </nav>
     </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-zinc-200 dark:border-zinc-600">
-            <div class="px-4">
-                <div class="font-medium text-base text-zinc-800 dark:text-zinc-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-zinc-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Messages') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Schedule') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Requirements') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
-    </div>
-</nav>
+</div>

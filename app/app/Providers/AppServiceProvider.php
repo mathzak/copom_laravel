@@ -11,7 +11,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton('menu', function ($app) {
+            return new \App\Helpers\Menu();
+        });
     }
 
     /**
