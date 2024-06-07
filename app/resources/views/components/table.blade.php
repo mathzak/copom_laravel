@@ -6,6 +6,11 @@
 'tableTextLinkLabel' => 'Link',
 ])
 
+<?php
+$links = collect($rows)->all()['links'];
+$rows = collect($rows)->all()['data'];
+?>
+
 <div x-data="{
 		columns: {{ collect($columns) }},
 		rows: {{ collect($rows) }},
@@ -75,5 +80,19 @@
                 </template>
             </tbody>
         </table>
+
+        <nav class="relative z-0 inline-flex gap-2 -space-x-px justify-center w-full pt-4" aria-label="Pagination">
+            @foreach($links as $link)
+            @if($link['active'] == true)
+            <a href="{{ $link['url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-gray-200 dark:bg-zinc-900 hover:bg-gray-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
+                {!! $link['label'] !!}
+            </a>
+            @else
+            <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-light text-zinc-400 dark:text-zinc-500 rounded-lg bg-gray-100 dark:bg-zinc-700" aria-current="page">
+                {!! $link['label'] !!}
+            </span>
+            @endif
+            @endforeach
+        </nav>
     </div>
 </div>

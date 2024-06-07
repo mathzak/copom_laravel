@@ -36,8 +36,6 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::get('/apps', [AppsController::class, 'index'])->name('apps')->middleware('verified', 'password.confirm');
-
     Route::prefix('apps')->name('apps.')->group(function () {
         Route::middleware('verified', 'password.confirm')->group(function () {
             Route::controller(RolesController::class)->name('roles.')->group(function () {
@@ -83,8 +81,6 @@ Route::middleware('auth')->group(function () {
             });
         });
     });
-
-    Route::get('/reports', [ReportsController::class, 'index'])->name('reports')->middleware('verified', 'password.confirm');
 
     Route::prefix('reports')->name('reports.')->group(function () {
         Route::middleware('verified', 'password.confirm')->group(function () {

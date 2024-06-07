@@ -15,18 +15,18 @@ class UsersController extends Controller
     {
         $users = User::paginate(30)->withQueryString();
 
+        // dd(collect($users)->all());
+
         return view('apps.users.index', [
             'columns' => [
                 [
-                    "name" => "Email",
-                    "field" => "email",
-                ],
-                [
-                    "name" => "Created_at",
+                    "name" => "Created at",
                     "field" => "created_at",
+                    "columnClasses" => "md:flex hidden",
+                    "rowClasses" => "md:flex hidden",
                 ]
             ],
-            'items' => collect($users)->all()['data'],
+            'items' => $users,
         ]);
     }
 
