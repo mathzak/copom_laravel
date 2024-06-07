@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -12,7 +13,21 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('apps.users.index');
+        $users = User::paginate(30)->withQueryString();
+
+        return view('apps.users.index', [
+            'columns' => [
+                [
+                    "name" => "Email",
+                    "field" => "email",
+                ],
+                [
+                    "name" => "Created_at",
+                    "field" => "created_at",
+                ]
+            ],
+            'items' => collect($users)->all()['data'],
+        ]);
     }
 
     /**
