@@ -23,12 +23,22 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $cities = \App\Models\City::where('state_id', 2022)->get();
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'active' => fake()->boolean(),
+            'birthday' => fake()->dateTimeBetween('-50 year', '-18 year'),
+            'country_id' => $cities->random()->country_id,
+            'country_code' => $cities->random()->country_code,
+            'state_id' => $cities->random()->state_id,
+            'state_code' => $cities->random()->state_code,
+            'city_id' => $cities->random()->id,
+            'city_name' => $cities->random()->name,
         ];
     }
 

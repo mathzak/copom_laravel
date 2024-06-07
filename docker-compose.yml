@@ -12,7 +12,7 @@ services:
       - postgres-volume:/var/lib/postgresql/data
       - ./docker/postgresql/scripts/:/docker-entrypoint-initdb.d/
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-db_bood4ll}
+      POSTGRES_DB: ${DB_DATABASE:-db_siscopom}
       POSTGRES_USER: ${DB_USERNAME:-bood4ll}
       POSTGRES_PASSWORD: ${DB_PASSWORD-admin}
     command: -p ${DB_PORT:-5432}
@@ -26,7 +26,7 @@ services:
           {
             \"Servers\": {
               \"1\": {
-                \"Name\": \"${APP_NAME:-Bood4ll}\",
+                \"Name\": \"${APP_NAME:-SisCOPOM}\",
                 \"Group\": \"Servers\",
                 \"Host\": \"${DB_HOST:-postgres}\",
                 \"Port\": ${DB_PORT:-5432},
@@ -106,7 +106,7 @@ services:
 
       - APP_LOCALE=pt_BR
       - APP_FALLBACK_LOCALE=en
-      - APP_FAKER_LOCALE=en_US
+      - APP_FAKER_LOCALE=pt_BR
 
       - APP_MAINTENANCE_DRIVER=file
       - APP_MAINTENANCE_STORE=database
@@ -121,7 +121,7 @@ services:
       - DB_CONNECTION=${DB_CONNECTION:-pgsql}
       - DB_HOST=${DB_HOST:-postgres}
       - DB_PORT=${DB_PORT:-5432}
-      - DB_DATABASE=${DB_DATABASE:-db_bood4ll}
+      - DB_DATABASE=${DB_DATABASE:-db_siscopom}
       - DB_USERNAME=${DB_USERNAME:-bood4ll}
       - DB_PASSWORD=${DB_PASSWORD:-admin}
 
