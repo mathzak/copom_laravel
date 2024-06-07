@@ -22,14 +22,12 @@
                             </div>
                         </x-slot>
                         <x-slot name="tableHeader">
-                            <div class="flex flex-wrap space-x-4">
-                                <a :href="`users/create`">
-                                    @svg('heroicon-s-plus-circle', 'size-12', ['style' => 'color:#2DFF20'])
-                                </a>
-                            </div>
+                            <a :href="`users/create`">
+                                @svg('heroicon-s-plus-circle', 'size-12', ['style' => 'color:#2DAA20'])
+                            </a>
                         </x-slot>
                         <x-slot name="tableActions">
-                            <div class="flex flex-wrap space-x-4">
+                            <div class="flex flex-wrap space-x-6">
                                 <a :href="`users/edit/${row.id}`">
                                     @svg('heroicon-o-pencil-square', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>

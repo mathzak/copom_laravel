@@ -14,6 +14,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $users = User::where('name', 'ilike', "%$request->search%")
+            ->orWhere('email', 'ilike', "%$request->search%")
             ->paginate(30)
             ->withQueryString();
 

@@ -99,33 +99,33 @@
                             <ul>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
-                                        <span class="ml-4"> {{ __('Profile') }} </span>
+                                        @svg('gmdi-account-circle-o', 'size-6', ['style' => 'color:#fff'])
+                                        <span class="ml-2"> {{ __('Profile') }} </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
-                                        <span class="ml-4"> {{ __('Messages') }} </span>
+                                        @svg('gmdi-message-o', 'size-6', ['style' => 'color:#fff'])
+                                        <span class="ml-2"> {{ __('Messages') }} </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
-                                        <span class="ml-4"> {{ __('Schedule') }} </span>
+                                        @svg('gmdi-calendar-month-o', 'size-6', ['style' => 'color:#fff'])
+                                        <span class="ml-2"> {{ __('Schedule') }} </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
-                                        <span class="ml-4"> {{ __('Requirements') }} </span>
+                                        @svg('gmdi-playlist-add-check-o', 'size-6', ['style' => 'color:#fff'])
+                                        <span class="ml-2"> {{ __('Requirements') }} </span>
                                     </a>
                                 </li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <li>
                                         <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
-                                            <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
+                                            @svg('gmdi-logout-o', 'size-6', ['style' => 'color:#fff'])
                                             <span class="ml-4"> {{ __('Log Out') }} </span>
                                         </a>
                                     </li>

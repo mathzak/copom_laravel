@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/roles', 'index')->name('index')
                     ->defaults('label', 'Roles')
                     ->defaults('description', "Manage user access roles.")
-                    ->defaults('icon', 'heroicon-c-identification');
+                    ->defaults('icon', 'gmdi-account-tree-o');
                 Route::get('/roles/create', 'create')->name('create');
                 Route::post('/roles/create', 'store')->name('store');
                 Route::get('/roles/edit/{id}', 'edit')->name('edit');
@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/units', 'index')->name('index')
                     ->defaults('label', 'Units')
                     ->defaults('description', "Manage units registered in the system.")
-                    ->defaults('icon', 'heroicon-o-building-office-2');
+                    ->defaults('icon', 'gmdi-apartment-o');
                 Route::get('/units/create', 'create')->name('create');
                 Route::post('/units/create', 'store')->name('store');
                 Route::get('/units/edit/{id}', 'edit')->name('edit');
@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/users', 'index')->name('index')
                     ->defaults('label', 'Users')
                     ->defaults('description', "Manage users and their information registered in the system.")
-                    ->defaults('icon', 'heroicon-o-user-circle');
+                    ->defaults('icon', 'gmdi-account-circle-o');
                 Route::get('/users/create', 'create')->name('create');
                 Route::post('/users/create', 'store')->name('store');
                 Route::get('/users/edit/{id}', 'edit')->name('edit');
