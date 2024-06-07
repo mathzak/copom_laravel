@@ -99,25 +99,25 @@
                             <ul>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-account-circle-o', 'size-6', ['style' => 'color:#fff'])
+                                        @svg('gmdi-account-circle-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Profile') }} </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-message-o', 'size-6', ['style' => 'color:#fff'])
+                                        @svg('gmdi-message-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Messages') }} </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-calendar-month-o', 'size-6', ['style' => 'color:#fff'])
+                                        @svg('gmdi-calendar-month-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Schedule') }} </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-playlist-add-check-o', 'size-6', ['style' => 'color:#fff'])
+                                        @svg('gmdi-playlist-add-check-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Requirements') }} </span>
                                     </a>
                                 </li>
@@ -125,7 +125,7 @@
                                     @csrf
                                     <li>
                                         <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
-                                            @svg('gmdi-logout-o', 'size-6', ['style' => 'color:#fff'])
+                                            @svg('gmdi-logout-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                             <span class="ml-4"> {{ __('Log Out') }} </span>
                                         </a>
                                     </li>
