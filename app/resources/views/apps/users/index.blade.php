@@ -31,11 +31,11 @@
                                 <a :href="`users/edit/${row.id}`">
                                     @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
-                                <a :href="`users/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">
+                                <a :href="`users/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-dialog')">
                                     @svg('gmdi-remove-circle-outline', 'size-6', ['style' => 'color:#FF2D20'])
                                 </a>
 
-                                <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+                                <x-modal name="confirm-dialog" :show="$errors->userDeletion->isNotEmpty()" focusable>
                                     <form method="post" :action="`users/destroy/${row.id}`" class=" p-6">
                                         @csrf
                                         @method('delete')
