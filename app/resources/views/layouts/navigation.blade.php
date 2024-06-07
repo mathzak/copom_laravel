@@ -1,5 +1,5 @@
 <div class="justify-center w-full mx-auto bg-gray-100 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-700">
-    <div x-data="{ open: false }" class="flex flex-col w-full px-8 py-2 mx-auto md:px-12 md:items-center md:justify-between md:flex-row lg:px-32 max-w-7xl">
+    <div x-data="{ open: false }" class="flex flex-col w-full px-4 py-2 mx-auto md:items-center md:justify-between md:flex-row max-w-7xl">
         <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200 ">
             <a class="inline-flex items-center gap-3 text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-200" href="/">
                 <x-application-logo class="block h-9 w-auto fill-current text-zinc-800 dark:text-zinc-200" />
@@ -12,7 +12,7 @@
                 </svg>
             </button>
         </div>
-        <nav :class="{'flex': open, 'hidden': !open}" class="flex-col items-center flex-grow gap-3 p-4 px-5 text-sm font-medium text-zinc-800 dark:text-zinc-200 md:px-0 md:pb-0 md:flex md:justify-center md:flex-row md:ml-4 lg:p-0 md:mt-0 hidden">
+        <nav :class="{'flex': open, 'hidden': !open}" class="flex-col items-center flex-grow gap-3 text-sm font-medium text-zinc-800 dark:text-zinc-200 px-0 md:flex md:justify-center md:flex-row md:ml-4 p-0 md:mt-0 hidden">
             <div class="relative lg:mx-auto" x-data="{ appsMenu: false }" x-on:click.away="appsMenu = false">
                 <div class="relative">
                     <nav class="relative flex items-center justify-around w-full sm:h-10">
@@ -70,9 +70,9 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-shrink-0 px-4">
+            <div class="flex flex-shrink-0">
                 <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
-                    <button @click="open = !open" class="inline-flex items-center justify-between w-full px-4 py-3 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-800 focus:outline-none">
+                    <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-800 focus:outline-none">
                         <span>
                             <span class="flex-shrink-0 block group">
                                 <div class="flex items-center">
