@@ -23,10 +23,10 @@
                         </x-slot>
                         <x-slot name="tableActions">
                             <div class="flex flex-wrap space-x-4">
-                                <a :href="`avengers/${row.id}/edit`" class="text-blue-500 underline">
+                                <a :href="`users/edit/${row.id}`" class="text-blue-500 underline">
                                     @svg('heroicon-o-pencil-square', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
-                                <a :href="`avengers/${row.id}/delete`" class="text-red-500 underline">
+                                <a :href="`users/destroy/${row.id}`" class="text-red-500 underline">
                                     @svg('heroicon-o-x-circle', 'size-6', ['style' => 'color:#FF2D20'])
                                 </a>
                             </div>

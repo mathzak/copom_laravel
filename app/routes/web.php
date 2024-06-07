@@ -47,9 +47,9 @@ Route::middleware('auth')->group(function () {
                 Route::post('/roles/create', 'store')->name('store');
                 Route::get('/roles/edit/{id}', 'edit')->name('edit');
                 Route::patch('/roles/edit/{id}', 'update')->name('update');
-                Route::delete('/roles/destroy', 'destroy')->name('destroy');
-                Route::delete('/roles/forcedestroy', 'forceDestroy')->name('forceDestroy');
-                Route::post('/roles/restore', 'restore')->name('restore');
+                Route::delete('/roles/destroy/{id}', 'destroy')->name('destroy');
+                Route::delete('/roles/forcedestroy/{id}', 'forceDestroy')->name('forceDestroy');
+                Route::post('/roles/restore/{id}', 'restore')->name('restore');
             });
 
             Route::controller(UnitsController::class)->name('units.')->group(function () {
@@ -61,9 +61,9 @@ Route::middleware('auth')->group(function () {
                 Route::post('/units/create', 'store')->name('store');
                 Route::get('/units/edit/{id}', 'edit')->name('edit');
                 Route::patch('/units/edit/{id}', 'update')->name('update');
-                Route::delete('/units/destroy', 'destroy')->name('destroy');
-                Route::delete('/units/forcedestroy', 'forceDestroy')->name('forceDestroy');
-                Route::post('/units/restore', 'restore')->name('restore');
+                Route::delete('/units/destroy/{id}', 'destroy')->name('destroy');
+                Route::delete('/units/forcedestroy/{id}', 'forceDestroy')->name('forceDestroy');
+                Route::post('/units/restore/{id}', 'restore')->name('restore');
             });
 
             Route::controller(UsersController::class)->name('users.')->group(function () {
@@ -75,9 +75,9 @@ Route::middleware('auth')->group(function () {
                 Route::post('/users/create', 'store')->name('store');
                 Route::get('/users/edit/{id}', 'edit')->name('edit');
                 Route::patch('/users/edit/{id}', 'update')->name('update');
-                Route::delete('/users/destroy', 'destroy')->name('destroy');
-                Route::delete('/users/forcedestroy', 'forceDestroy')->name('forceDestroy');
-                Route::post('/users/restore', 'restore')->name('restore');
+                Route::delete('/users/destroy/{id}', 'destroy')->name('destroy');
+                Route::delete('/users/forcedestroy/{id}', 'forceDestroy')->name('forceDestroy');
+                Route::post('/users/restore/{id}', 'restore')->name('restore');
             });
         });
     });
@@ -90,9 +90,9 @@ Route::middleware('auth')->group(function () {
                 Route::post('/reports/create', 'store')->name('store');
                 Route::get('/reports/edit/{user}', 'edit')->name('edit');
                 Route::patch('/reports/edit/{user}', 'update')->name('update');
-                Route::delete('/reports/destroy', 'destroy')->name('destroy');
-                Route::delete('/reports/forcedestroy', 'forceDestroy')->name('forceDestroy');
-                Route::post('/reports/restore', 'restore')->name('restore');
+                Route::delete('/reports/destroy/{id}', 'destroy')->name('destroy');
+                Route::delete('/reports/forcedestroy/{id}', 'forceDestroy')->name('forceDestroy');
+                Route::post('/reports/restore/{id}', 'restore')->name('restore');
             });
         });
     });
