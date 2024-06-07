@@ -83,7 +83,7 @@
                                         <p class="text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
                                             {{ Auth::user()->name }}
                                         </p>
-                                        <p class="text-xs font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
+                                        <p class="text-xs text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
                                             {{ Auth::user()->email }}
                                         </p>
                                     </div>

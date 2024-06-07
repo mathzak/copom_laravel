@@ -36,7 +36,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        return view('apps.users.form', [
+            'parent_route' => 'apps.users.index',
+        ]);
     }
 
     /**
@@ -48,25 +50,20 @@ class UsersController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $id)
     {
-        //
+        return view('apps.users.form', [
+            'parent_route' => 'apps.users.index',
+            'data' => $id,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $id)
     {
         //
     }
@@ -74,8 +71,10 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, User $id)
     {
-        //
+        $request->validateWithBag('userDeletion', [
+            'action' => ['required', 'current_password'],
+        ]);
     }
 }
