@@ -1,4 +1,4 @@
-<div class="justify-center w-full mx-auto bg-gray-100 dark:bg-zinc-800 border-b border-zinc-100 dark:border-zinc-700">
+<div class="justify-center w-full mx-auto bg-gray-100 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-700">
     <div x-data="{ open: false }" class="flex flex-col w-full px-8 py-2 mx-auto md:px-12 md:items-center md:justify-between md:flex-row lg:px-32 max-w-7xl">
         <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200 ">
             <a class="inline-flex items-center gap-3 text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-200" href="/">
@@ -72,7 +72,7 @@
             </div>
             <div class="flex flex-shrink-0 px-4">
                 <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
-                    <button @click="open = !open" class="inline-flex items-center justify-between w-full px-4 py-3 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-900 focus:outline-none">
+                    <button @click="open = !open" class="inline-flex items-center justify-between w-full px-4 py-3 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-800 focus:outline-none">
                         <span>
                             <span class="flex-shrink-0 block group">
                                 <div class="flex items-center">
@@ -95,28 +95,28 @@
                         </svg>
                     </button>
                     <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl" style="display: none;">
-                        <div class="px-2 py-2 bg-gray-200 dark:bg-zinc-900 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                        <div class="px-2 py-2 bg-gray-200 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <ul>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
                                         <span class="ml-4"> {{ __('Profile') }} </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
                                         <span class="ml-4"> {{ __('Messages') }} </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
                                         <span class="ml-4"> {{ __('Schedule') }} </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
                                         <span class="ml-4"> {{ __('Requirements') }} </span>
                                     </a>
@@ -124,7 +124,7 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <li>
-                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-800 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-800 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
                                             <ion-icon class="size-4 md hydrated" name="body-outline" role="img" aria-label="body outline"></ion-icon>
                                             <span class="ml-4"> {{ __('Log Out') }} </span>
                                         </a>
