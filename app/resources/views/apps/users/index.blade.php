@@ -23,16 +23,16 @@
                         </x-slot>
                         <x-slot name="tableHeader">
                             <a :href="`users/create`">
-                                @svg('heroicon-s-plus-circle', 'size-12', ['style' => 'color:#2DAA20'])
+                                @svg('gmdi-add-circle-o', 'size-12', ['style' => 'color:#2DAA20'])
                             </a>
                         </x-slot>
                         <x-slot name="tableActions">
                             <div class="flex flex-wrap space-x-6">
                                 <a :href="`users/edit/${row.id}`">
-                                    @svg('heroicon-o-pencil-square', 'size-6', ['style' => 'color:#2D20FF'])
+                                    @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
                                 <a :href="`users/destroy/${row.id}`">
-                                    @svg('heroicon-o-x-circle', 'size-6', ['style' => 'color:#FF2D20'])
+                                    @svg('gmdi-remove-circle-outline', 'size-6', ['style' => 'color:#FF2D20'])
                                 </a>
                             </div>
                         </x-slot>
