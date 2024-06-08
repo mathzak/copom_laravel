@@ -36,6 +36,8 @@ class RolesController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
+        // dd($roles);
+
         return view('apps.roles.index', [
             'items' => $roles,
             'columns' => [

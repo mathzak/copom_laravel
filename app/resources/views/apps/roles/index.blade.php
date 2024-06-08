@@ -17,8 +17,8 @@
                         </x-slot>
                         <x-slot name="tableTextLink">
                             <div>
-                                <span x-text="row.name" />
-                                <div x-text="row.created_at" class="text-xs" />
+                                <span x-text="row.name"></span>
+                                <div x-text="row.created_at" class="text-xs"></div>
                             </div>
                         </x-slot>
                         <x-slot name="tableActions">
