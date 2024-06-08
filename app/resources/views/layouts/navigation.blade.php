@@ -1,4 +1,4 @@
-<div class="justify-center w-full mx-auto bg-gray-100 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-700">
+<div class="justify-center w-full mx-auto bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-700">
     <div x-data="{ open: false }" class="flex flex-col w-full px-4 py-2 mx-auto md:items-center md:justify-between md:flex-row max-w-7xl">
         <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200 ">
             <a class="inline-flex items-center gap-3 text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-200" href="/">
@@ -43,12 +43,12 @@
                     </nav>
                 </div>
                 <div x-on:click="appsMenu = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" :class="{'translate-y-0 shadow-md duration-150': appsMenu, '-translate-y-full': ! appsMenu}" class="fixed inset-0 top-0 z-40 h-screen mx-auto overflow-y-auto transition origin-top transform -translate-y-full">
-                    <div class="relative overflow-hidden bg-gray-100 dark:bg-zinc-800 shadow-xl lg:bg-transparent" role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
-                        <div class="bg-gray-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border">
+                    <div class="relative overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-xl lg:bg-transparent" role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
+                        <div class="bg-zinc-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border">
                             <div class="grid mx-auto gap-y-2 sm:gap-4 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12 xl:py-16 sm:grid-cols-2 lg:grid-cols-3">
                                 @foreach (app('menu')->make('app') as $item)
                                 <a href="{{ route($item['route']) }}">
-                                    <div class="p-3 duration-200 rounded-xl flex items-start group hover:bg-gray-200 dark:hover:bg-zinc-900">
+                                    <div class="p-3 duration-200 rounded-xl flex items-start group hover:bg-zinc-200 dark:hover:bg-zinc-900">
                                         <div class="flex-shrink-0 mb-0 mr-4">
                                             <div class="p-2 overflow-hidden border border-zinc-100 dark:border-zinc-700 rounded-3xl">
                                                 @svg($item['icon'], 'object-cover h-full shadow-2xl size-16 lg:size-24 rounded-2xl aspect-square', ['style' => 'color:#FF2D20'])
@@ -72,7 +72,7 @@
             </div>
             <div class="flex flex-shrink-0">
                 <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
-                    <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-800 focus:outline-none">
+                    <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none">
                         <span>
                             <span class="flex-shrink-0 block group">
                                 <div class="flex items-center">
@@ -95,28 +95,28 @@
                         </svg>
                     </button>
                     <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl" style="display: none;">
-                        <div class="px-2 py-2 bg-gray-200 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                        <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <ul>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         @svg('gmdi-account-circle-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Profile') }} </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         @svg('gmdi-message-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Messages') }} </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         @svg('gmdi-calendar-month-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Schedule') }} </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
                                         @svg('gmdi-playlist-add-check-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                         <span class="ml-2"> {{ __('Requirements') }} </span>
                                     </a>
@@ -124,7 +124,7 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <li>
-                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
                                             @svg('gmdi-logout-o', 'size-6 text-zinc-900 dark:text-zinc-200')
                                             <span class="ml-4"> {{ __('Log Out') }} </span>
                                         </a>
