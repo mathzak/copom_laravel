@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 
 class RolesController extends Controller
@@ -14,6 +16,21 @@ class RolesController extends Controller
     public function index(Request $request)
     {
         $roles = Role::where('name', 'ilike', "%$request->search%")
+            ->withCount([
+                'users' => function ($query) use ($request) {
+                    $query->when($request->user()->cannot('isSuperAdmin', User::class), function ($query) use ($request) {
+                        $query->join('unit_user', function (JoinClause $join) use ($request, $query) {
+                            $join->on('unit_user.user_id', '=', 'role_user.user_id')->where('unit_user.primary', true);
+
+                            if ($request->user()->cannot('hasFullAccess', [User::class, 'apps.roles.index'])) {
+                                $query->where('unit_user.user_id', $request->user()->id);
+                            }
+
+                            $query->whereIn('unit_user.unit_id', $request->user()->unitsIds('apps.roles.index'));
+                        });
+                    });
+                }
+            ])
             ->orderBy('name')
             ->paginate(30)
             ->onEachSide(1)
@@ -25,10 +42,11 @@ class RolesController extends Controller
                 [
                     "name" => __("Active"),
                     "field" => "active",
+                    "boolean" => true,
                 ],
                 [
-                    "name" => __("Created at"),
-                    "field" => "created_at",
+                    "name" => __("Users"),
+                    "field" => "users_count",
                 ]
             ],
         ]);

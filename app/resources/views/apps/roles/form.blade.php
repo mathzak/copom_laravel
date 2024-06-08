@@ -23,6 +23,9 @@ $form = $data ?? false ? $data : new stdClass();
                             </p>
                         </header>
 
+                        <x-multiselect :options="['Option 1', 'Option 2', 'Option 3', 'Option 4']"></x-multiselect>
+
+
                         <form id="send-verification" method="post" action="{{ route('verification.send') }}">
                             @csrf
                         </form>

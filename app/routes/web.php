@@ -9,6 +9,7 @@ use App\Http\Controllers\Apps\RolesController;
 use App\Http\Controllers\Apps\UnitsController;
 use App\Http\Controllers\Apps\UsersController;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/locale/{locale}', function (string $locale) {
@@ -23,6 +24,10 @@ Route::get('/locale/{locale}', function (string $locale) {
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/out', function () {
+    Auth::logout();
 });
 
 Route::middleware('auth')->group(function () {

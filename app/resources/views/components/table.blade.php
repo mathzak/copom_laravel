@@ -3,7 +3,6 @@
 'columns' => [],
 'striped' => false,
 'actionText' => 'Action',
-'tableTextLinkLabel' => 'Link',
 ])
 
 <?php
@@ -136,8 +135,10 @@ $rows = collect($rows)->all()['data'];
                         @endisset
 
                         <template x-for="(column, columnIndex) in columns" :key="'column-' + columnIndex">
-                            <td :class="`${column.rowClasses}`" class="text-zinc-800 dark:text-zinc-200 px-6 py-3 border-t border-gray-100 dark:border-zinc-900 whitespace-nowrap">
-                                <div x-text="`${row[column.field]}`" class="truncate"></div>
+                            <td x-data="{boolean: column.boolean, value: row[column.field]}" :class="`${column.rowClasses}`" class="text-zinc-800 dark:text-zinc-200 px-6 py-3 border-t border-gray-100 dark:border-zinc-900 whitespace-nowrap">
+                                <div x-show="!boolean" x-text="`${row[column.field]}`" class="truncate"></div>
+                                <x-gmdi-check-circle-o x-show="boolean && value == true" class="size-6 text-green-700" />
+                                <x-gmdi-disabled-by-default-o x-show="boolean && value == false" class="size-6 text-red-700" />
                             </td>
                         </template>
 
