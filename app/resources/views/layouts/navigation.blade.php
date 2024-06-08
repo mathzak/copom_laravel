@@ -42,23 +42,23 @@
                         </div>
                     </nav>
                 </div>
-                <div x-on:click="appsMenu = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" :class="{'translate-y-0 shadow-md duration-150': appsMenu, '-translate-y-full': ! appsMenu}" class="fixed inset-0 top-0 z-40 h-screen mx-auto overflow-y-auto transition origin-top transform max-w-7xl -translate-y-full">
+                <div x-on:click="appsMenu = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" :class="{'translate-y-0 shadow-md duration-150': appsMenu, '-translate-y-full': ! appsMenu}" class="fixed inset-0 top-0 z-40 h-screen mx-auto overflow-y-auto transition origin-top transform -translate-y-full">
                     <div class="relative overflow-hidden bg-gray-100 dark:bg-zinc-800 shadow-xl lg:bg-transparent" role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
                         <div class="bg-gray-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border">
-                            <div class="grid px-4 py-6 mx-auto sm:grid-cols-2 2xl:max-w-7xl gap-y-6 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-3 lg:px-8 lg:py-12 xl:py-16">
+                            <div class="grid mx-auto gap-y-2 sm:gap-4 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12 xl:py-16 sm:grid-cols-2 lg:grid-cols-3">
                                 @foreach (app('menu')->make('app') as $item)
                                 <a href="{{ $item['url'] }}">
-                                    <div class="p-3 duration-200 rounded-xl sm:flex lg:items-start group hover:bg-gray-200 dark:hover:bg-zinc-900">
-                                        <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4">
+                                    <div class="p-3 duration-200 rounded-xl flex items-start group hover:bg-gray-200 dark:hover:bg-zinc-900">
+                                        <div class="flex-shrink-0 mb-0 mr-4">
                                             <div class="p-2 overflow-hidden border border-zinc-100 dark:border-zinc-700 rounded-3xl">
-                                                @svg($item['icon'], 'object-cover h-full shadow-2xl size-16 lg:size-32 rounded-2xl aspect-square', ['style' => 'color:#FF2D20'])
+                                                @svg($item['icon'], 'object-cover h-full shadow-2xl size-16 lg:size-24 rounded-2xl aspect-square', ['style' => 'color:#FF2D20'])
                                             </div>
                                         </div>
                                         <div>
-                                            <p class="mt-3 text-base font-medium text-zinc-800 dark:text-zinc-200 lg:mt-0">
+                                            <p class="mt-0 text-base font-medium text-zinc-800 dark:text-zinc-200">
                                                 {{ $item['label'] }}
                                             </p>
-                                            <p class="mt-4 text-sm font-medium text-zinc-400 dark:text-zinc-500 text-pretty">
+                                            <p class="mt-2 text-sm font-medium text-zinc-400 dark:text-zinc-500 text-pretty">
                                                 {{ $item['description'] }}
                                             </p>
                                         </div>
