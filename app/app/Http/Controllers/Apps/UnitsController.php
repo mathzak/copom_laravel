@@ -36,20 +36,14 @@ class UnitsController extends Controller
                 [
                     "name" => __("Subunits"),
                     "field" => "children_count",
-                    "columnClasses" => "md:flex hidden",
-                    "rowClasses" => "md:flex hidden",
                 ],
                 [
-                    "name" => __("Created at"),
+                    "name" => __("Local"),
                     "field" => "users_count",
-                    "columnClasses" => "md:flex hidden",
-                    "rowClasses" => "md:flex hidden",
                 ],
                 [
-                    "name" => __("Created at"),
+                    "name" => __("Total"),
                     "field" => "users_all_count",
-                    "columnClasses" => "md:flex hidden",
-                    "rowClasses" => "md:flex hidden",
                 ],
             ],
         ]);

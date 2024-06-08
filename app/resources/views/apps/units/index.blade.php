@@ -10,18 +10,16 @@
             <div class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-zinc-900 dark:text-zinc-100">
                     <x-table striped :columns='$columns' :rows="$items ?? []" table-text-link-label="Name">
-                        <x-slot name="tableTextLink">
-                            <div class="flex space-x-3 items-center">
-                                <div>
-                                    <span x-text="row.shortpath"></span>
-                                    <div x-text="row.created_at" class="text-xs"></div>
-                                </div>
-                            </div>
-                        </x-slot>
                         <x-slot name="tableHeader">
                             <a :href="`units/create`">
                                 @svg('gmdi-add-circle-o', 'size-12', ['style' => 'color:#2DAA20'])
                             </a>
+                        </x-slot>
+                        <x-slot name="tableTextLink">
+                            <div>
+                                <span x-text="row.shortpath"></span>
+                                <div x-text="row.created_at" class="text-xs"></div>
+                            </div>
                         </x-slot>
                         <x-slot name="tableActions">
                             <div class="flex flex-wrap space-x-6">

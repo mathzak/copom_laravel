@@ -25,8 +25,6 @@ class RolesController extends Controller
                 [
                     "name" => __("Created at"),
                     "field" => "created_at",
-                    "columnClasses" => "md:flex hidden",
-                    "rowClasses" => "md:flex hidden",
                 ]
             ],
         ]);
