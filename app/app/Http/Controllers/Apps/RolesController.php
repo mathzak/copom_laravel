@@ -76,7 +76,7 @@ class RolesController extends Controller
      */
     public function edit(Role $id)
     {
-        $routes = collect(Menu::make('app', 'false'))->map(function ($item, $key) {
+        $routes = collect(Menu::make('app', 'false'))->map(function ($item) {
             return [
                 'id' => $item['route'],
                 'label' => $item['route']
@@ -84,7 +84,6 @@ class RolesController extends Controller
         });
 
         return view('apps.roles.form', [
-            'parent_route' => 'apps.roles.index',
             'routes' => $routes,
             'data' => $id,
         ]);

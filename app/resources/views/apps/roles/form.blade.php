@@ -4,7 +4,7 @@ $form = $data ?? false ? $data : new stdClass();
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
-            <a href="{{ route($parent_route) }}">{{ __('Roles') }}</a> > {{ __($data ?? false ? 'Edit' : 'Create') }}
+            <a href="{{ route('apps.roles.index') }}">{{ __('Roles') }}</a> > {{ __($data ?? false ? 'Edit' : 'Create') }}
         </h2>
     </x-slot>
 
