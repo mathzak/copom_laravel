@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Apps;
 
+use App\Helpers\Menu;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
@@ -35,8 +36,6 @@ class RolesController extends Controller
             ->paginate(30)
             ->onEachSide(1)
             ->withQueryString();
-
-        // dd($roles);
 
         return view('apps.roles.index', [
             'items' => $roles,
@@ -77,8 +76,16 @@ class RolesController extends Controller
      */
     public function edit(Role $id)
     {
+        $routes = collect(Menu::make('app', 'false'))->map(function ($item, $key) {
+            return [
+                'id' => $item['route'],
+                'label' => $item['route']
+            ];
+        });
+
         return view('apps.roles.form', [
             'parent_route' => 'apps.roles.index',
+            'routes' => $routes,
             'data' => $id,
         ]);
     }

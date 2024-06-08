@@ -41,7 +41,7 @@ $form = $data ?? false ? $data : new stdClass();
 
                             <div>
                                 <x-input-label for="routes" :value="__('Routes')" />
-                                <x-multiselect id="routes" name="routes" :options="['Option 1', 'Option 2', 'Option 3', 'Option 4']"></x-multiselect>
+                                <x-multiselect id="routes" name="routes" :options="$routes"></x-multiselect>
                                 <x-input-error class="mt-2" :messages="$errors->get('routes')" />
                             </div>
 

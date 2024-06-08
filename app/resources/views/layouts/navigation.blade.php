@@ -47,7 +47,7 @@
                         <div class="bg-gray-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border">
                             <div class="grid mx-auto gap-y-2 sm:gap-4 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12 xl:py-16 sm:grid-cols-2 lg:grid-cols-3">
                                 @foreach (app('menu')->make('app') as $item)
-                                <a href="{{ $item['url'] }}">
+                                <a href="{{ route($item['route']) }}">
                                     <div class="p-3 duration-200 rounded-xl flex items-start group hover:bg-gray-200 dark:hover:bg-zinc-900">
                                         <div class="flex-shrink-0 mb-0 mr-4">
                                             <div class="p-2 overflow-hidden border border-zinc-100 dark:border-zinc-700 rounded-3xl">
