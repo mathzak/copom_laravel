@@ -58,8 +58,16 @@ class RolesController extends Controller
      */
     public function create()
     {
+        $routes = collect(Menu::make('app', 'false'))->map(function ($item) {
+            return [
+                'id' => $item['route'],
+                'label' => $item['route']
+            ];
+        });
+
         return view('apps.roles.form', [
-            'parent_route' => 'apps.roles.index',
+            'formAction' => 'apps.roles.store',
+            'routes' => $routes,
         ]);
     }
 
@@ -84,6 +92,7 @@ class RolesController extends Controller
         });
 
         return view('apps.roles.form', [
+            'formAction' => route('apps.roles.update', $id->id),
             'routes' => $routes,
             'data' => $id,
         ]);
@@ -94,7 +103,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd(collect($request->all()), $id);
     }
 
     /**
