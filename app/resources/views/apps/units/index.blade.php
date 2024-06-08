@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
-            {{ __('Roles') }}
+            {{ __('Units') }}
         </h2>
     </x-slot>
 
@@ -13,27 +13,27 @@
                         <x-slot name="tableTextLink">
                             <div class="flex space-x-3 items-center">
                                 <div>
-                                    <span x-text="row.name"></span>
-                                    <div x-text="row.email" class="text-xs"></div>
+                                    <span x-text="row.shortpath"></span>
+                                    <div x-text="row.created_at" class="text-xs"></div>
                                 </div>
                             </div>
                         </x-slot>
                         <x-slot name="tableHeader">
-                            <a :href="`roles/create`">
+                            <a :href="`units/create`">
                                 @svg('gmdi-add-circle-o', 'size-12', ['style' => 'color:#2DAA20'])
                             </a>
                         </x-slot>
                         <x-slot name="tableActions">
                             <div class="flex flex-wrap space-x-6">
-                                <a :href="`roles/edit/${row.id}`">
+                                <a :href="`units/edit/${row.id}`">
                                     @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
-                                <a :href="`roles/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-dialog')">
+                                <a :href="`units/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-dialog')">
                                     @svg('gmdi-remove-circle-outline', 'size-6', ['style' => 'color:#FF2D20'])
                                 </a>
 
                                 <x-modal name="confirm-dialog" :show="$errors->userDeletion->isNotEmpty()" focusable>
-                                    <form method="post" :action="`roles/destroy/${row.id}`" class=" p-6">
+                                    <form method="post" :action="`units/destroy/${row.id}`" class=" p-6">
                                         @csrf
                                         @method('delete')
 

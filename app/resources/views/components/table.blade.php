@@ -155,11 +155,12 @@ $rows = collect($rows)->all()['data'];
 
     <nav class="relative z-0 inline-flex gap-2 -space-x-px justify-center w-full py-4" aria-label="Pagination">
         @foreach($links as $link)
-        @if($link['active'] == true)
+        @if($link['url'] && $link['active'] === false)
         <a href="{{ $link['url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-gray-200 dark:bg-zinc-900 hover:bg-gray-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
             {!! $link['label'] !!}
         </a>
-        @else
+        @endif
+        @if($link['active'] === true)
         <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600/60 dark:text-zinc-500/60 bg-gray-200/60 dark:bg-zinc-900/60 rounded-lg" aria-current="page">
             {!! $link['label'] !!}
         </span>

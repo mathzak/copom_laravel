@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class UnitsController extends Controller
@@ -10,9 +11,48 @@ class UnitsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard');
+        $units = Unit::where('shortpath', 'ilike', "%$request->search%")
+            ->withCount([
+                'children', 'users',
+                'users as users_all_count' => function ($query) {
+                    $query->orWhere(function ($query) {
+                        $query->whereRaw('unit_id IN (
+                    SELECT (json_array_elements(u.children_id::json)::text)::bigint FROM units u WHERE u.id = units.id
+                    )');
+                        $query->where('unit_user.primary', true);
+                    });
+                },
+            ])
+            ->orderBy('shortpath')
+            ->paginate(30)
+            ->onEachSide(1)
+            ->withQueryString();
+
+        return view('apps.units.index', [
+            'items' => $units,
+            'columns' => [
+                [
+                    "name" => __("Subunits"),
+                    "field" => "children_count",
+                    "columnClasses" => "md:flex hidden",
+                    "rowClasses" => "md:flex hidden",
+                ],
+                [
+                    "name" => __("Created at"),
+                    "field" => "users_count",
+                    "columnClasses" => "md:flex hidden",
+                    "rowClasses" => "md:flex hidden",
+                ],
+                [
+                    "name" => __("Created at"),
+                    "field" => "users_all_count",
+                    "columnClasses" => "md:flex hidden",
+                    "rowClasses" => "md:flex hidden",
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -20,7 +60,9 @@ class UnitsController extends Controller
      */
     public function create()
     {
-        //
+        return view('apps.units.form', [
+            'parent_route' => 'apps.units.index',
+        ]);
     }
 
     /**
@@ -32,19 +74,14 @@ class UnitsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Unit $id)
     {
-        //
+        return view('apps.units.form', [
+            'parent_route' => 'apps.units.index',
+            'data' => $id,
+        ]);
     }
 
     /**
@@ -58,8 +95,10 @@ class UnitsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Unit $id)
     {
-        //
+        $request->validateWithBag('userDeletion', [
+            'action' => ['required', 'current_password'],
+        ]);
     }
 }

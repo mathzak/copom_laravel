@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RolesController extends Controller
@@ -10,9 +11,25 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('apps.roles.index');
+        $roles = Role::where('name', 'ilike', "%$request->search%")
+            ->orderBy('name')
+            ->paginate(30)
+            ->onEachSide(1)
+            ->withQueryString();
+
+        return view('apps.roles.index', [
+            'items' => $roles,
+            'columns' => [
+                [
+                    "name" => __("Created at"),
+                    "field" => "created_at",
+                    "columnClasses" => "md:flex hidden",
+                    "rowClasses" => "md:flex hidden",
+                ]
+            ],
+        ]);
     }
 
     /**
@@ -20,7 +37,9 @@ class RolesController extends Controller
      */
     public function create()
     {
-        //
+        return view('apps.roles.form', [
+            'parent_route' => 'apps.roles.index',
+        ]);
     }
 
     /**
@@ -32,19 +51,14 @@ class RolesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Role $id)
     {
-        //
+        return view('apps.roles.form', [
+            'parent_route' => 'apps.roles.index',
+            'data' => $id,
+        ]);
     }
 
     /**
@@ -58,8 +72,10 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Role $id)
     {
-        //
+        $request->validateWithBag('userDeletion', [
+            'action' => ['required', 'current_password'],
+        ]);
     }
 }

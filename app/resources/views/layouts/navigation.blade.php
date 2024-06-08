@@ -44,7 +44,7 @@
                 </div>
                 <div x-on:click="appsMenu = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" :class="{'translate-y-0 shadow-md duration-150': appsMenu, '-translate-y-full': ! appsMenu}" class="fixed inset-0 top-0 z-40 h-screen mx-auto overflow-y-auto transition origin-top transform max-w-7xl -translate-y-full">
                     <div class="relative overflow-hidden bg-gray-100 dark:bg-zinc-800 shadow-xl lg:bg-transparent" role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
-                        <div class="bg-gray-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border-y">
+                        <div class="bg-gray-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700 border">
                             <div class="grid px-4 py-6 mx-auto sm:grid-cols-2 2xl:max-w-7xl gap-y-6 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-3 lg:px-8 lg:py-12 xl:py-16">
                                 @foreach (app('menu')->make('app') as $item)
                                 <a href="{{ $item['url'] }}">
