@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         $units = \App\Models\Unit::get()->pluck('id');
         $superAdmin = \App\Models\User::where('system_role', true)->first();
 
-        \App\Models\User::factory(rand(180, 200))
+        \App\Models\User::factory(rand(18000, 20000))
             ->afterCreating(function (\App\Models\User $user) use ($cities, $units, $superAdmin) {
                 $user->units()->attach($units->random(), ['owner' => $superAdmin->id, 'created_at' => now()]);
 
