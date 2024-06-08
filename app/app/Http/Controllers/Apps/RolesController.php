@@ -23,6 +23,10 @@ class RolesController extends Controller
             'items' => $roles,
             'columns' => [
                 [
+                    "name" => __("Active"),
+                    "field" => "active",
+                ],
+                [
                     "name" => __("Created at"),
                     "field" => "created_at",
                 ]
