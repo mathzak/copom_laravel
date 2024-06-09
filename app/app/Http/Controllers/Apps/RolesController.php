@@ -94,13 +94,6 @@ class RolesController extends Controller
             ];
         });
 
-        $role->abilities = collect(json_decode($role->abilities))->map(function ($item) {
-            return [
-                'id' => $item,
-                'label' => $item
-            ];
-        });
-
         return view('apps.roles.form', [
             'formAction' => route('apps.roles.update', $role->id),
             'routes' => $routes,

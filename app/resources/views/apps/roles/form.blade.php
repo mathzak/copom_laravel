@@ -41,11 +41,9 @@ $form = $data ?? false ? $data : new stdClass();
 
                             <div>
                                 <x-input-label for="routes" :value="__('Routes')" />
-                                <x-multiselect id="routes" name="routes" :options="$routes"></x-multiselect>
+                                <x-multiselect id="routes" name="routes" :options="$routes" :value="$form->abilities"></x-multiselect>
                                 <x-input-error class="mt-2" :messages="$errors->get('routes')" />
                             </div>
-
-                            {{ $form->abilities }}
 
                             <div class="flex items-center gap-4">
                                 <x-primary-button>{{ __('Save') }}</x-primary-button>
