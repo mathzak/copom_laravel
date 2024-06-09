@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
-            {{ __('Roles') }}
+            <a href="{{ route('apps.roles.index') }}">{{ __('Roles') }}</a>
         </h2>
     </x-slot>
 
@@ -9,16 +9,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-zinc-800 overflow-visible shadow-sm sm:rounded-lg">
                 <div class="p-6 text-zinc-900 dark:text-zinc-100">
-                    <x-table striped :columns='$columns' :rows="$items ?? []" table-text-link-label="Name">
-                        <x-slot name="tableHeader">
-                            <a :href="`roles/create`">
-                                @svg('gmdi-add-circle-o', 'size-12', ['style' => 'color:#2DAA20'])
-                            </a>
-                        </x-slot>
+                    <x-table striped :menu='$menu ?? []' :columns='$columns ?? []' :rows="$items ?? []" table-text-link-label="Name">
                         <x-slot name="tableTextLink">
                             <div>
                                 <span x-text="row.name"></span>
                                 <div x-text="row.created_at" class="text-xs"></div>
+                                <div x-text="row.updated_at" class="text-xs"></div>
+                                <template x-if="row.deleted_at">
+                                    <div x-text="row.deleted_at" class="text-xs"></div>
+                                </template>
                             </div>
                         </x-slot>
                         <x-slot name="tableActions">
@@ -26,7 +25,7 @@
                                 <a :href="`roles/edit/${row.id}`">
                                     @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
-                                <a :href="`roles/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-dialog')">
+                                <!-- <a :href="`roles/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-dialog')">
                                     @svg('gmdi-delete-o', 'size-6', ['style' => 'color:#FF2D20'])
                                 </a>
 
@@ -55,7 +54,7 @@
                                             </x-danger-button>
                                         </div>
                                     </form>
-                                </x-modal>
+                                </x-modal> -->
                             </div>
                         </x-slot>
                     </x-table>

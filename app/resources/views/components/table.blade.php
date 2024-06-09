@@ -1,13 +1,14 @@
 @props([
 'rows' => [],
+'menu' => [],
 'columns' => [],
 'striped' => false,
 'actionText' => 'Action',
 ])
 
 <?php
-$links = collect($rows)->all()['links'];
-$rows = collect($rows)->all()['data'];
+$links = collect($rows)->all()['links'] ?? [];
+$rows = collect($rows)->all()['data'] ?? [];
 ?>
 
 <script>
@@ -53,8 +54,30 @@ $rows = collect($rows)->all()['data'];
                 setTimeout(() => {
                     document.getElementById('searchForm').submit();
                 }, 0);
-            }
+            },
         }
+    }
+
+    function toggleSelectAll(source) {
+        checkboxes = document.querySelectorAll('.item-checkbox');
+        checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+        countSelectedCheckboxes();
+    }
+
+    function updateSelectAll() {
+        const selectAllCheckbox = document.getElementById('select-all');
+        const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+        const allChecked = Array.from(itemCheckboxes).every(checkbox => checkbox.checked);
+        selectAllCheckbox.checked = allChecked;
+        countSelectedCheckboxes();
+    }
+
+    let selectedCheckboxes = 0;
+
+    function countSelectedCheckboxes() {
+        const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+        const selectedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked).length;
+        selectedCheckboxes = selectedCount;
     }
 
     function debounce(func, wait) {
@@ -75,9 +98,34 @@ $rows = collect($rows)->all()['data'];
 	}" x-cloak wire:key="{{ md5(collect($rows)) }}">
     <div class="flex justify-between pb-4">
         <div>
-            @isset($tableHeader)
-            {{ $tableHeader }}
-            @endisset
+            <div class="flex flex-shrink-0 w-30">
+                <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
+                    <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none">
+                        <p class="text-xs text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
+                            @svg('gmdi-more-vert-o', 'size-8')
+                        </p>
+                    </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl min-w-max" style="display: none;">
+                        <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <ul>
+                                @foreach ($menu as $item)
+                                <form method="{{ $item['method'] ?? 'get' }}" action="{{ $item['url'] }}">
+                                    @if ($item['method'] ?? false)
+                                    @csrf
+                                    @endif
+                                    <li>
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ $item['url'] }}" onclick="event.preventDefault();this.closest('form').submit();">
+                                            @svg($item['icon'], 'size-6 text-zinc-900 dark:text-zinc-200')
+                                            <span class="ml-4"> {{ $item['label'] }} </span>
+                                        </a>
+                                    </li>
+                                </form>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div x-data="app" x-init="initializeSearchValue">
             <form id="searchForm" method="GET" action="">
@@ -100,6 +148,9 @@ $rows = collect($rows)->all()['data'];
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-zinc-100/50 dark:bg-zinc-900/50 table-striped relative">
             <thead>
                 <tr class="text-left">
+                    <th class="bg-zinc-200 dark:bg-zinc-950 sticky top-0 border-b border-zinc-100 dark:border-zinc-900 px-6 py-3 text-zinc-800 dark:text-zinc-200 font-bold tracking-wider uppercase text-xs truncate">
+                        <input type="checkbox" id="select-all" onclick="toggleSelectAll(this)">
+                    </th>
                     @isset($tableColumns)
                     {{ __($tableColumns) }}
                     @else
@@ -136,6 +187,9 @@ $rows = collect($rows)->all()['data'];
 
                 <template x-for="(row, rowIndex) in rows" :key="'row-' +rowIndex">
                     <tr :class="{'bg-zinc-200/70 dark:bg-zinc-900/70': isStriped === true && ((rowIndex+1) % 2 === 0) }">
+                        <td class="text-zinc-800 dark:text-zinc-200 px-6 py-3 border-t border-zinc-100 dark:border-zinc-900 whitespace-nowrap">
+                            <input type="checkbox" class="item-checkbox" onclick="updateSelectAll()">
+                        </td>
                         @isset($tableRows)
                         {{ ($tableRows) }}
                         @else

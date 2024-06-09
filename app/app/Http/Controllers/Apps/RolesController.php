@@ -41,6 +41,13 @@ class RolesController extends Controller
             ->withQueryString();
 
         return view('apps.roles.index', [
+            'menu' => [
+                [
+                    'icon' => "gmdi-add-circle-o",
+                    'label' => "Adicionar",
+                    'url' => route("apps.roles.create"),
+                ],
+            ],
             'items' => $roles,
             'columns' => [
                 [
