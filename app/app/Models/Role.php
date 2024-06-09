@@ -16,11 +16,7 @@ class Role extends Model
         'name',
         'description',
         'active',
-        'lock_on_expire',
-        'expires_at',
-        'full_access',
-        'manage_nested',
-        'keep_when_changing_unit',
+        'abilities',
     ];
 
     public function users(): BelongsToMany

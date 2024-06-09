@@ -50,11 +50,11 @@ Route::middleware('auth')->group(function () {
                     ->defaults('icon', 'gmdi-account-tree-o');
                 Route::get('/roles/create', 'create')->name('create');
                 Route::post('/roles/create', 'store')->name('store');
-                Route::get('/roles/edit/{id}', 'edit')->name('edit');
-                Route::patch('/roles/edit/{id}', 'update')->name('update');
-                Route::delete('/roles/destroy/{id}', 'destroy')->name('destroy');
-                Route::delete('/roles/forcedestroy/{id}', 'forceDestroy')->name('forceDestroy');
-                Route::post('/roles/restore/{id}', 'restore')->name('restore');
+                Route::get('/roles/edit/{role}', 'edit')->name('edit');
+                Route::patch('/roles/edit/{role}', 'update')->name('update');
+                Route::delete('/roles/destroy/{role}', 'destroy')->name('destroy');
+                Route::delete('/roles/forcedestroy/{role}', 'forceDestroy')->name('forceDestroy');
+                Route::post('/roles/restore/{role}', 'restore')->name('restore');
             });
 
             Route::controller(UnitsController::class)->name('units.')->group(function () {

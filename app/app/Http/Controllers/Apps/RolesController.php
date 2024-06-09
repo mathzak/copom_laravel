@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class RolesController extends Controller
 {
@@ -82,7 +85,7 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $id)
+    public function edit(Role $role)
     {
         $routes = collect(Menu::make('app', 'false'))->map(function ($item) {
             return [
@@ -91,25 +94,44 @@ class RolesController extends Controller
             ];
         });
 
+        $role->abilities = collect(json_decode($role->abilities))->map(function ($item) {
+            return [
+                'id' => $item,
+                'label' => $item
+            ];
+        });
+
         return view('apps.roles.form', [
-            'formAction' => route('apps.roles.update', $id->id),
+            'formAction' => route('apps.roles.update', $role->id),
             'routes' => $routes,
-            'data' => $id,
+            'data' => $role,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Role $role): RedirectResponse
     {
-        dd(collect($request->all()), $id);
+        try {
+            $role->name = $request->name;
+            $role->description = $request->description;
+            $role->abilities = collect(json_decode($request->all()['routes']))->pluck('id');
+
+            $role->save();
+        } catch (\Exception $e) {
+            report($e);
+
+            return Redirect::route('apps.roles.edit', $role->id)->with('status', 'Error on edit selected item.|Error on edit selected items.');
+        }
+
+        return Redirect::route('apps.roles.index')->with('status', 'profile-updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Role $id)
+    public function destroy(Request $request, Role $role)
     {
         $request->validateWithBag('userDeletion', [
             'action' => ['required', 'current_password'],
