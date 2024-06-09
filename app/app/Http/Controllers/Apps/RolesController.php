@@ -49,6 +49,7 @@ class RolesController extends Controller
                     'label' => __("Add"),
                     'dataDeleted' => null,
                     'url' => route("apps.roles.create"),
+                    'method' => "get",
                 ],
                 [
                     'icon' => "gmdi-remove-circle-outline",
@@ -62,7 +63,7 @@ class RolesController extends Controller
                     'label' => __("Restore"),
                     'dataDeleted' => true,
                     'url' => route("apps.roles.restore"),
-                    'method' => "delete",
+                    'method' => "post",
                 ],
                 [
                     'icon' => "gmdi-delete-forever-o",
@@ -175,7 +176,30 @@ class RolesController extends Controller
      */
     public function destroy(Request $request, Role $role)
     {
+        dd($request);
         $role->delete();
+
+        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore(Request $request, Role $role)
+    {
+        dd($request);
+        $role->restore();
+
+        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function forceDestroy(Request $request, Role $role)
+    {
+        dd($request);
+        $role->forceDelete();
 
         return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
     }

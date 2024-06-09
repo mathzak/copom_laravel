@@ -85,7 +85,7 @@ $rows = collect($rows)->all()['data'] ?? [];
         const attributes = JSON.parse(item);
 
         const menuForm = document.createElement('form');
-        menuForm.method = attributes.method || 'get';
+        menuForm.method = 'post';
         menuForm.action = attributes.url;
         document.body.appendChild(menuForm);
 
@@ -94,6 +94,12 @@ $rows = collect($rows)->all()['data'] ?? [];
         token.name = '_token';
         token.value = '{{ csrf_token() }}';
         menuForm.appendChild(token);
+
+        const method = document.createElement('input');
+        method.type = 'hidden';
+        method.name = '_method';
+        method.value = attributes.method;
+        menuForm.appendChild(method);
 
         const itemCheckboxes = document.querySelectorAll('.item-checkbox');
 
@@ -107,8 +113,13 @@ $rows = collect($rows)->all()['data'] ?? [];
             checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked);
         }
 
-        // menuForm.submit();
-        console.log(attributes, checkboxesValues)
+        const values = document.createElement('input');
+        values.type = 'hidden';
+        values.name = 'values[]';
+        values.value = checkboxesValues.map(checkbox => checkbox.value);
+        menuForm.appendChild(values);
+
+        menuForm.submit();
     }
 
     function debounce(func, wait) {
@@ -141,9 +152,6 @@ $rows = collect($rows)->all()['data'] ?? [];
                             <ul>
                                 @foreach ($menu as $item)
                                 <form>
-                                    @if ($item['method'] ?? false)
-                                    @csrf
-                                    @endif
                                     <li>
                                         <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault();formSubmit('{{ json_encode($item) }}');">
                                             <!-- <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault();this.closest('form').submit();"> -->

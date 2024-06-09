@@ -25,36 +25,6 @@
                                 <a :href="`roles/edit/${row.id}`">
                                     @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
-                                <!-- <a :href="`roles/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-dialog')">
-                                    @svg('gmdi-delete-o', 'size-6', ['style' => 'color:#FF2D20'])
-                                </a>
-
-                                <x-modal name="confirm-dialog" :show="$errors->userDeletion->isNotEmpty()" focusable>
-                                    <form method="post" :action="`roles/destroy/${row.id}`" class=" p-6">
-                                        @csrf
-                                        @method('delete')
-
-                                        <h2 class="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                                            {{ __('Attention!') }}
-                                        </h2>
-
-                                        <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                                            {{ __('Are you sure you want to delete this item?') }}
-                                        </p>
-
-                                        <x-input-error :messages="$errors->userDeletion->get('action')" class="mt-2" />
-
-                                        <div class="mt-6 flex justify-end">
-                                            <x-secondary-button x-on:click="$dispatch('close')">
-                                                {{ __('Cancel') }}
-                                            </x-secondary-button>
-
-                                            <x-danger-button class="ms-3">
-                                                {{ __('Delete') }}
-                                            </x-danger-button>
-                                        </div>
-                                    </form>
-                                </x-modal> -->
                             </div>
                         </x-slot>
                     </x-table>
