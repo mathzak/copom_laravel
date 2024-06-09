@@ -177,7 +177,7 @@ class RolesController extends Controller
     {
         Role::whereIn('id', $request->values)->delete();
 
-        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values)));
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values), ['total' => count($request->values)]));
     }
 
     /**
@@ -187,7 +187,7 @@ class RolesController extends Controller
     {
         Role::whereIn('id', $request->values)->restore();
 
-        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values)));
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values), ['total' => count($request->values)]));
     }
 
     /**
@@ -197,6 +197,6 @@ class RolesController extends Controller
     {
         Role::whereIn('id', $request->values)->forceDelete();
 
-        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values)));
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values), ['total' => count($request->values)]));
     }
 }
