@@ -15,6 +15,10 @@ $rows = collect($rows)->all()['data'] ?? [];
     function app() {
         return {
             searchValue: '',
+            modal1: false,
+            columns: @js($columns),
+            rows: @js($rows),
+            isStriped: @js($striped),
 
             initializeSearchValue() {
                 const params = new URLSearchParams(window.location.search);
@@ -28,6 +32,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                 } else {
                     params.delete('search');
                 }
+
                 window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
                 this.updateFormAction();
             },
@@ -55,11 +60,70 @@ $rows = collect($rows)->all()['data'] ?? [];
                     document.getElementById('searchForm').submit();
                 }, 0);
             },
+
+            formSubmit(item) {
+                const attributes = JSON.parse(item);
+
+                const menuForm = document.createElement('form');
+                menuForm.method = 'post';
+                menuForm.action = attributes.url;
+                document.body.appendChild(menuForm);
+
+                const token = document.createElement('input');
+                token.type = 'hidden';
+                token.name = '_token';
+                token.value = '{{ csrf_token() }}';
+                menuForm.appendChild(token);
+
+                const method = document.createElement('input');
+                method.type = 'hidden';
+                method.name = '_method';
+                method.value = attributes.method;
+                menuForm.appendChild(method);
+
+                const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+
+                let checkboxesValues = []
+
+                if (attributes.dataDeleted === true) {
+                    checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'true');
+                } else if (attributes.dataDeleted === false) {
+                    checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'false');
+                } else {
+                    checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked);
+                }
+
+                checkboxesValues.forEach(checkbox => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'values[]';
+                    input.value = checkbox.value;
+                    menuForm.appendChild(input);
+                });
+
+                if (attributes.method != 'get') {
+                    if (checkboxesValues.length > 0) {
+                        window.dispatchEvent(new CustomEvent('open-modal', { detail: 'confirm_action' }));
+
+                        // if (confirm("Do you confirm this action?") == true) {
+                        //     menuForm.submit();
+                        // }
+                    } else {
+                        window.dispatchEvent(new CustomEvent('open-modal', { detail: 'no_items_selected' }));
+                    }
+                } else {
+                    menuForm.submit();
+                }
+            },
+
+            closeModal() {
+                this.modal1 = false;
+            }
         }
     }
 
     function toggleSelectAll(source) {
-        checkboxes = document.querySelectorAll('.item-checkbox');
+        const checkboxes = document.querySelectorAll('.item-checkbox');
         checkboxes.forEach(checkbox => checkbox.checked = source.checked);
         countSelectedCheckboxes();
     }
@@ -74,54 +138,11 @@ $rows = collect($rows)->all()['data'] ?? [];
 
     function countSelectedCheckboxes() {
         const itemCheckboxes = document.querySelectorAll('.item-checkbox');
-        const selectedDeletedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'true');
-        const selectedNotDeletedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'false');
+        const selectedDeletedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'true').length;
+        const selectedNotDeletedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'false').length;
 
-        document.querySelectorAll('.deletedCount').forEach(element => element.innerText = selectedDeletedCount.length);
-        document.querySelectorAll('.notDeletedCount').forEach(element => element.innerText = selectedNotDeletedCount.length);
-    }
-
-    function formSubmit(item) {
-        const attributes = JSON.parse(item);
-
-        const menuForm = document.createElement('form');
-        menuForm.method = 'post';
-        menuForm.action = attributes.url;
-        document.body.appendChild(menuForm);
-
-        const token = document.createElement('input');
-        token.type = 'hidden';
-        token.name = '_token';
-        token.value = '{{ csrf_token() }}';
-        menuForm.appendChild(token);
-
-        const method = document.createElement('input');
-        method.type = 'hidden';
-        method.name = '_method';
-        method.value = attributes.method;
-        menuForm.appendChild(method);
-
-        const itemCheckboxes = document.querySelectorAll('.item-checkbox');
-
-        let checkboxesValues = []
-
-        if (attributes.dataDeleted === true) {
-            checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'true');
-        } else if (attributes.dataDeleted === false) {
-            checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'false');
-        } else {
-            checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked);
-        }
-
-        checkboxesValues.forEach(checkbox => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'values[]';
-            input.value = checkbox.value;
-            menuForm.appendChild(input);
-        });
-
-        menuForm.submit();
+        document.querySelectorAll('.deletedCount').forEach(element => element.innerText = selectedDeletedCount);
+        document.querySelectorAll('.notDeletedCount').forEach(element => element.innerText = selectedNotDeletedCount);
     }
 
     function debounce(func, wait) {
@@ -135,11 +156,47 @@ $rows = collect($rows)->all()['data'] ?? [];
     }
 </script>
 
-<div x-data="{
-		columns: {{ collect($columns) }},
-		rows: {{ collect($rows) }},
-		isStriped: Boolean({{ $striped }})
-	}" x-cloak wire:key="{{ md5(collect($rows)) }}">
+<div x-data="app()" x-cloak wire:key="{{ md5(collect($rows)) }}">
+    <x-modal name="no_items_selected" focusable>
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-zinc-900 dark:text-zinc-100">
+                {{ __('Warning') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                {{ __('No items selected.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Close') }}
+                </x-secondary-button>
+            </div>
+        </div>
+    </x-modal>
+
+    <x-modal name="confirm_action" focusable>
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-zinc-900 dark:text-zinc-100">
+                {{ __('Confirmation') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                {{ __('Do you confirm this action?') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Close') }}
+                </x-secondary-button>
+
+                <x-primary-button class="ms-3">
+                    {{ __('Confirm') }}
+                </x-primary-button>
+            </div>
+        </div>
+    </x-modal>
+
     <div class="flex justify-between pb-4">
         <div>
             <div class="flex flex-shrink-0 w-30">
@@ -155,8 +212,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                                 @foreach ($menu as $item)
                                 <form>
                                     <li>
-                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault();formSubmit('{{ json_encode($item) }}');">
-                                            <!-- <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault();this.closest('form').submit();"> -->
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault(); app().formSubmit('{{ json_encode($item) }}');">
                                             @svg($item['icon'], 'size-6 text-zinc-900 dark:text-zinc-200')
                                             <span class="ml-4 mr-2"> {{ $item['label'] }} </span>
                                             @if($item['dataDeleted'] === true)
@@ -174,7 +230,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                 </div>
             </div>
         </div>
-        <div x-data="app" x-init="initializeSearchValue">
+        <div x-init="initializeSearchValue">
             <form id="searchForm" method="GET" action="">
                 <x-text-input autofocus id="search" name="search" type="text" class="w-[300px]" :value="request()->search" x-model="searchValue" @input="debouncedUpdateUrl" @keydown.escape="clearSearchOnEsc" placeholder="{{ __('Search...') }}" />
             </form>
@@ -208,7 +264,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                     @endisset
 
                     <template x-for="column in columns">
-                        <th :class="`${column.columnClasses}`" class="bg-zinc-200 dark:bg-zinc-950 sticky top-0 border-b  border-zinc-100 dark:border-zinc-900 px-6 py-3 text-zinc-800 dark:text-zinc-200 font-bold tracking-wider uppercase text-xs truncate" x-text="column.name"></th>
+                        <th :class="`${column.columnClasses}`" class="bg-zinc-200 dark:bg-zinc-950 sticky top-0 border-b border-zinc-100 dark:border-zinc-900 px-6 py-3 text-zinc-800 dark:text-zinc-200 font-bold tracking-wider uppercase text-xs truncate" x-text="column.name"></th>
                     </template>
 
                     @isset($tableActions)
@@ -232,8 +288,8 @@ $rows = collect($rows)->all()['data'] ?? [];
                     @endisset
                 </template>
 
-                <template x-for="(row, rowIndex) in rows" :key="'row-' +rowIndex">
-                    <tr :class="{'bg-zinc-200/70 dark:bg-zinc-900/70': isStriped === true && ((rowIndex+1) % 2 === 0), 'line-through italic opacity-50': row.deleted_at ? true : false }">
+                <template x-for="(row, rowIndex) in rows" :key="'row-' + rowIndex">
+                    <tr :class="{'bg-zinc-200/70 dark:bg-zinc-900/70': isStriped === true && ((rowIndex + 1) % 2 === 0), 'line-through italic opacity-50': row.deleted_at ? true : false }">
                         <td class="text-zinc-800 dark:text-zinc-200 px-6 py-3 border-t border-zinc-100 dark:border-zinc-900 whitespace-nowrap">
                             <input type="checkbox" class="item-checkbox" :value="row.id" :data-deleted="row.deleted_at ? 'true' : 'false'" onclick="updateSelectAll(); countSelectedCheckboxes();">
                         </td>
