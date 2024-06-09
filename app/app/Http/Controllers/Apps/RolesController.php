@@ -36,6 +36,8 @@ class RolesController extends Controller
                 }
             ])
             ->orderBy('name')
+            ->withTrashed()
+            // ->onlyTrashed()
             ->paginate(30)
             ->onEachSide(1)
             ->withQueryString();
@@ -43,8 +45,20 @@ class RolesController extends Controller
         return view('apps.roles.index', [
             'menu' => [
                 [
-                    'icon' => "gmdi-add-circle-o",
-                    'label' => "Adicionar",
+                    'icon' => "gmdi-add-circle-outline",
+                    'label' => __("Add"),
+                    'url' => route("apps.roles.create"),
+                ],
+                [
+                    'icon' => "gmdi-remove-circle-outline",
+                    'label' => __("Remove"),
+                    'filter' => "notDeleted",
+                    'url' => route("apps.roles.create"),
+                ],
+                [
+                    'icon' => "gmdi-delete-forever-o",
+                    'label' => __("Erase"),
+                    'filter' => "deleted",
                     'url' => route("apps.roles.create"),
                 ],
             ],

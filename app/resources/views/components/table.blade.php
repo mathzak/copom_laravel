@@ -72,12 +72,41 @@ $rows = collect($rows)->all()['data'] ?? [];
         countSelectedCheckboxes();
     }
 
-    let selectedCheckboxes = 0;
+    let selectedCheckboxes = [];
+    let selectedDeletedCheckboxes = [];
+    let selectedNotDeletedCheckboxes = [];
 
     function countSelectedCheckboxes() {
         const itemCheckboxes = document.querySelectorAll('.item-checkbox');
-        const selectedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked).length;
+        const selectedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked);
+        const selectedDeletedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'true');
+        const selectedNotDeletedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked && checkbox.getAttribute('data-deleted') === 'false');
+
         selectedCheckboxes = selectedCount;
+        selectedDeletedCheckboxes = selectedDeletedCount;
+        selectedNotDeletedCheckboxes = selectedNotDeletedCount;
+
+        console.log(selectedCount.length, selectedDeletedCount.length, selectedNotDeletedCount.length)
+    }
+
+    function submitFormWithDeletedStatus(deleted) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = ''; // The action will be set based on the clicked menu item URL
+        document.body.appendChild(form);
+
+        const checkboxes = document.querySelectorAll('.item-checkbox');
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked && checkbox.getAttribute('data-deleted') === String(deleted)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'items[]'; // Adjust based on your server-side handling
+                input.value = checkbox.value; // Assumes the checkbox value is the ID or a relevant identifier
+                form.appendChild(input);
+            }
+        });
+
+        form.submit();
     }
 
     function debounce(func, wait) {
@@ -109,7 +138,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                         <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <ul>
                                 @foreach ($menu as $item)
-                                <form method="{{ $item['method'] ?? 'get' }}" action="{{ $item['url'] }}">
+                                <form method="{{ $item['method'] ?? 'get' }}" action="{{ $item['url'] }}" onsubmit="event.preventDefault();">
                                     @if ($item['method'] ?? false)
                                     @csrf
                                     @endif
@@ -117,6 +146,9 @@ $rows = collect($rows)->all()['data'] ?? [];
                                         <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ $item['url'] }}" onclick="event.preventDefault();this.closest('form').submit();">
                                             @svg($item['icon'], 'size-6 text-zinc-900 dark:text-zinc-200')
                                             <span class="ml-4"> {{ $item['label'] }} </span>
+                                            @if($item['filter'] ?? false)
+                                            <span class="ml-2 text-sm text-gray-500" id="{{ Str::camel($item['label']) }}">0</span>
+                                            @endif
                                         </a>
                                     </li>
                                 </form>
@@ -126,11 +158,6 @@ $rows = collect($rows)->all()['data'] ?? [];
                     </div>
                 </div>
             </div>
-        </div>
-        <div x-data="app" x-init="initializeSearchValue">
-            <form id="searchForm" method="GET" action="">
-                <x-text-input autofocus id="search" name="search" type="text" class="w-[300px]" :value="request()->search" x-model="searchValue" @input="debouncedUpdateUrl" @keydown.escape="clearSearchOnEsc" placeholder="{{ __('Search...') }}" />
-            </form>
         </div>
     </div>
     <div class="overflow-x-auto rounded-lg shadow overflow-y-auto relative">
@@ -188,7 +215,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                 <template x-for="(row, rowIndex) in rows" :key="'row-' +rowIndex">
                     <tr :class="{'bg-zinc-200/70 dark:bg-zinc-900/70': isStriped === true && ((rowIndex+1) % 2 === 0) }">
                         <td class="text-zinc-800 dark:text-zinc-200 px-6 py-3 border-t border-zinc-100 dark:border-zinc-900 whitespace-nowrap">
-                            <input type="checkbox" class="item-checkbox" onclick="updateSelectAll()">
+                            <input type="checkbox" class="item-checkbox" :data-deleted="row.deleted_at ? 'true' : 'false'" onclick="updateSelectAll(); countSelectedCheckboxes();">
                         </td>
                         @isset($tableRows)
                         {{ ($tableRows) }}
