@@ -167,7 +167,7 @@ class RolesController extends Controller
             return Redirect::route('apps.roles.edit', $role->id)->with('status', 'Error on edit selected item.|Error on edit selected items.');
         }
 
-        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to edit.|[1] Item edited successfully.|[2,*] :total items successfully edited.');
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to edit.|[1] Item edited successfully.|[2,*] :total items successfully edited.', 1));
     }
 
     /**
@@ -177,7 +177,7 @@ class RolesController extends Controller
     {
         Role::whereIn('id', $request->values)->delete();
 
-        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values)));
     }
 
     /**
@@ -187,7 +187,7 @@ class RolesController extends Controller
     {
         Role::whereIn('id', $request->values)->restore();
 
-        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values)));
     }
 
     /**
@@ -197,6 +197,6 @@ class RolesController extends Controller
     {
         Role::whereIn('id', $request->values)->forceDelete();
 
-        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values)));
     }
 }
