@@ -11,6 +11,7 @@ $options = json_encode($options);
         search: '',
         filteredOptions: {{$options}},
         selectAll: false,
+        dropup: false,
         removeLastTag(event) {
             if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
                 if (this.selectedOptions.length && !event.target.value.length) {
@@ -37,9 +38,26 @@ $options = json_encode($options);
         },
         updateHiddenInput() {
             this.$refs.hiddenInput.value = JSON.stringify(this.selectedOptions);
+        },
+        toggleOption(option) {
+            const index = this.selectedOptions.findIndex(selected => selected.id === option.id);
+            if (index > -1) {
+                this.selectedOptions.splice(index, 1);
+            } else {
+                this.selectedOptions.push(option);
+            }
+            this.updateHiddenInput();
+            this.updateSelectAllState();
+        },
+        checkDropDirection() {
+            this.$nextTick(() => {
+                const dropdown = this.$refs.dropdown;
+                const rect = dropdown.getBoundingClientRect();
+                this.dropup = rect.bottom > window.innerHeight;
+            });
         }
-    }" @click.away="isOpen = false" @keydown.window.backspace="removeLastTag" class="relative">
-    <button type="button" @click="isOpen = !isOpen" class="flex items-center justify-between w-full px-4 py-2 min-h-11 text-left border-2 border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+    }" @click.away="isOpen = false" @keydown.window.backspace="removeLastTag" class="relative" @open-dropdown.window="checkDropDirection">
+    <button type="button" @click="isOpen = !isOpen; checkDropDirection();" class="flex items-center justify-between w-full px-4 py-2 min-h-11 text-left border-2 border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
         <span x-show="!selectedOptions.length">{{ __($placeholder) }}</span>
         <div>
             <template x-for="(option, index) in selectedOptions" :key="index">
@@ -58,7 +76,7 @@ $options = json_encode($options);
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
         </svg>
     </button>
-    <div x-show="isOpen" x-transition class="absolute z-50 w-full mt-1 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 dark:text-zinc-300 border rounded shadow-lg max-h-60 overflow-y-auto" @click.away="isOpen = false">
+    <div x-show="isOpen" x-transition class="absolute z-50 w-full bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 dark:text-zinc-300 border rounded shadow-lg max-h-60 overflow-y-auto" :class="{'bottom-12': dropup, 'mt-1': !dropup}" @click.away="isOpen = false" x-ref="dropdown">
         <input x-model="search" @input="filterOptions" type="text" class="w-full px-4 py-2 border-b border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:outline-none" placeholder="{{__('Search...')}}">
 
         <!-- Conditionally render the select all checkbox or no matches message -->
@@ -75,7 +93,7 @@ $options = json_encode($options);
 
         <template x-for="(option, index) in filteredOptions" :key="option.id">
             <label class="flex items-center px-4 py-2">
-                <input type="checkbox" x-model="selectedOptions" @change="updateHiddenInput(); updateSelectAllState()" :value="option" class="form-checkbox h-5 w-5 text-indigo-600">
+                <input type="checkbox" @change="toggleOption(option)" :checked="selectedOptions.some(selected => selected.id === option.id)" class="form-checkbox h-5 w-5 text-indigo-600">
                 <span x-text="option.label" class="pl-3"></span>
             </label>
         </template>
