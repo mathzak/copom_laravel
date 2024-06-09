@@ -39,15 +39,19 @@ $rows = collect($rows)->all()['data'] ?? [];
 
             debouncedUpdateUrl: debounce(function() {
                 this.updateUrl();
-                this.submitForm();
+                this.submitSearchForm();
             }, 500),
 
             clearSearchOnEsc(event) {
                 if (event.key === 'Escape') {
                     this.searchValue = '';
                     this.updateUrl();
-                    this.submitForm();
+                    this.submitSearchForm();
                 }
+            },
+
+            aa() {
+                alert(1)
             },
 
             updateFormAction() {
@@ -55,7 +59,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                 form.action = `${window.location.pathname}?${new URLSearchParams(window.location.search).toString()}`;
             },
 
-            submitForm() {
+            submitSearchForm() {
                 setTimeout(() => {
                     document.getElementById('searchForm').submit();
                 }, 0);
@@ -103,22 +107,43 @@ $rows = collect($rows)->all()['data'] ?? [];
 
                 if (attributes.method != 'get') {
                     if (checkboxesValues.length > 0) {
-                        window.dispatchEvent(new CustomEvent('open-modal', { detail: 'confirm_action' }));
+                        return new Promise((resolve) => {
+                            window.dispatchEvent(new CustomEvent('open-modal', {
+                                detail: 'confirm_action'
+                            }));
+
+                            const confirmButton = document.getElementById('confirm-button');
+                            const handleClick = () => {
+                                resolve(true);
+                                confirmButton.removeEventListener('click', handleClick);
+                            };
+
+                            confirmButton.addEventListener('click', handleClick);
+                        });
+
+
+
+                        // document.getElementById('open-modal-button').addEventListener('click', async function() {
+                        //     const result = await openModal();
+                        //     console.log('Modal result:', result);
+                        //     if (result) {
+                        //         console.log('User confirmed the action.');
+                        //     }
+                        // });
+
 
                         // if (confirm("Do you confirm this action?") == true) {
                         //     menuForm.submit();
                         // }
                     } else {
-                        window.dispatchEvent(new CustomEvent('open-modal', { detail: 'no_items_selected' }));
+                        window.dispatchEvent(new CustomEvent('open-modal', {
+                            detail: 'no_items_selected'
+                        }));
                     }
                 } else {
                     menuForm.submit();
                 }
             },
-
-            closeModal() {
-                this.modal1 = false;
-            }
         }
     }
 
@@ -190,7 +215,7 @@ $rows = collect($rows)->all()['data'] ?? [];
                     {{ __('Close') }}
                 </x-secondary-button>
 
-                <x-primary-button class="ms-3">
+                <x-primary-button id="confirm-button" class="ms-3">
                     {{ __('Confirm') }}
                 </x-primary-button>
             </div>
