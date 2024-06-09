@@ -174,10 +174,9 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Role $role)
+    public function destroy(Request $request)
     {
-        dd($request);
-        $role->delete();
+        Role::whereIn('id', $request->values)->delete();
 
         return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
     }
@@ -185,10 +184,9 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function restore(Request $request, Role $role)
+    public function restore(Request $request)
     {
-        dd($request);
-        $role->restore();
+        Role::whereIn('id', $request->values)->restore();
 
         return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
     }
@@ -196,10 +194,9 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function forceDestroy(Request $request, Role $role)
+    public function forceDestroy(Request $request)
     {
-        dd($request);
-        $role->forceDelete();
+        Role::whereIn('id', $request->values)->forceDelete();
 
         return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
     }

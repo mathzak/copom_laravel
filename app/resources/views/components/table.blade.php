@@ -113,11 +113,13 @@ $rows = collect($rows)->all()['data'] ?? [];
             checkboxesValues = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked);
         }
 
-        const values = document.createElement('input');
-        values.type = 'hidden';
-        values.name = 'values[]';
-        values.value = checkboxesValues.map(checkbox => checkbox.value);
-        menuForm.appendChild(values);
+        checkboxesValues.forEach(checkbox => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'values[]';
+            input.value = checkbox.value;
+            menuForm.appendChild(input);
+        });
 
         menuForm.submit();
     }
