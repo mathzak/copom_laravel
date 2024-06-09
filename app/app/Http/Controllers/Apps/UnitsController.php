@@ -31,6 +31,36 @@ class UnitsController extends Controller
             ->withQueryString();
 
         return view('apps.units.index', [
+            'menu' => [
+                [
+                    'icon' => "gmdi-add-circle-outline",
+                    'label' => __("Add"),
+                    'dataDeleted' => null,
+                    'url' => route("apps.units.create"),
+                    'method' => "get",
+                ],
+                [
+                    'icon' => "gmdi-remove-circle-outline",
+                    'label' => __("Remove"),
+                    'dataDeleted' => false,
+                    'url' => route("apps.units.destroy"),
+                    'method' => "delete",
+                ],
+                [
+                    'icon' => "gmdi-delete-forever-o",
+                    'label' => __("Restore"),
+                    'dataDeleted' => true,
+                    'url' => route("apps.units.restore"),
+                    'method' => "post",
+                ],
+                [
+                    'icon' => "gmdi-delete-forever-o",
+                    'label' => __("Erase"),
+                    'dataDeleted' => true,
+                    'url' => route("apps.units.forceDestroy"),
+                    'method' => "delete",
+                ],
+            ],
             'items' => $units,
             'columns' => [
                 [
