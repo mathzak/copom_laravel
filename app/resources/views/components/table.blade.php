@@ -107,34 +107,25 @@ $rows = collect($rows)->all()['data'] ?? [];
 
                 if (attributes.method != 'get') {
                     if (checkboxesValues.length > 0) {
-                        return new Promise((resolve) => {
-                            window.dispatchEvent(new CustomEvent('open-modal', {
-                                detail: 'confirm_action'
+                        window.dispatchEvent(new CustomEvent('open-modal', {
+                            detail: 'confirm_action'
+                        }));
+
+                        document.getElementById('confirm-button').addEventListener('click', function() {
+                            window.dispatchEvent(new CustomEvent('confirm-action', {
+                                detail: true
                             }));
-
-                            const confirmButton = document.getElementById('confirm-button');
-                            const handleClick = () => {
-                                resolve(true);
-                                confirmButton.removeEventListener('click', handleClick);
-                            };
-
-                            confirmButton.addEventListener('click', handleClick);
                         });
 
+                        window.addEventListener('confirm-action', function(event) {
+                            if (event.detail === true) {
+                                window.dispatchEvent(new CustomEvent('close-modal', {
+                                    detail: 'confirm_action'
+                                }));
 
-
-                        // document.getElementById('open-modal-button').addEventListener('click', async function() {
-                        //     const result = await openModal();
-                        //     console.log('Modal result:', result);
-                        //     if (result) {
-                        //         console.log('User confirmed the action.');
-                        //     }
-                        // });
-
-
-                        // if (confirm("Do you confirm this action?") == true) {
-                        //     menuForm.submit();
-                        // }
+                                menuForm.submit();
+                            }
+                        });
                     } else {
                         window.dispatchEvent(new CustomEvent('open-modal', {
                             detail: 'no_items_selected'
