@@ -86,7 +86,15 @@ $rows = collect($rows)->all()['data'] ?? [];
         selectedDeletedCheckboxes = selectedDeletedCount;
         selectedNotDeletedCheckboxes = selectedNotDeletedCount;
 
-        console.log(selectedCount.length, selectedDeletedCount.length, selectedNotDeletedCount.length)
+        console.log(selectedCount.length, selectedDeletedCount.length, selectedNotDeletedCount.length);
+
+        document.querySelectorAll('.deletedCount').forEach(element => {
+            element.innerText = selectedDeletedCount.length;
+        });
+
+        document.querySelectorAll('.notDeletedCount').forEach(element => {
+            element.innerText = selectedNotDeletedCount.length;
+        });
     }
 
     function submitFormWithDeletedStatus(deleted) {
@@ -146,8 +154,12 @@ $rows = collect($rows)->all()['data'] ?? [];
                                         <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ $item['url'] }}" onclick="event.preventDefault();this.closest('form').submit();">
                                             @svg($item['icon'], 'size-6 text-zinc-900 dark:text-zinc-200')
                                             <span class="ml-4"> {{ $item['label'] }} </span>
-                                            @if($item['filter'] ?? false)
-                                            <span class="ml-2 text-sm text-gray-500" id="{{ Str::camel($item['label']) }}">0</span>
+                                            '{{$item['filter'] ?? null}}'
+                                            @if($item['filter'] ?? null === 'deleted')
+                                            <span class="ml-2 text-sm text-gray-500 deletedCount">0</span>
+                                            @endif
+                                            @if($item['filter'] ?? null === 'notDeleted')
+                                            <span class="ml-2 text-sm text-gray-500 notDeletedCount">0</span>
                                             @endif
                                         </a>
                                     </li>
