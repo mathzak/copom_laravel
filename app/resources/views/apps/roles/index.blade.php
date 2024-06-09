@@ -27,7 +27,7 @@
                                     @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
                                 <a :href="`roles/destroy/${row.id}`" x-on:click.prevent="$dispatch('open-modal', 'confirm-dialog')">
-                                    @svg('gmdi-remove-circle-outline', 'size-6', ['style' => 'color:#FF2D20'])
+                                    @svg('gmdi-delete-o', 'size-6', ['style' => 'color:#FF2D20'])
                                 </a>
 
                                 <x-modal name="confirm-dialog" :show="$errors->userDeletion->isNotEmpty()" focusable>

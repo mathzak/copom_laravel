@@ -69,7 +69,8 @@ class RolesController extends Controller
         });
 
         return view('apps.roles.form', [
-            'formAction' => 'apps.roles.store',
+            'formAction' => route('apps.roles.store'),
+            'method' => 'post',
             'routes' => $routes,
         ]);
     }
@@ -79,7 +80,21 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $role = new Role();
+
+            $role->name = $request->name;
+            $role->description = $request->description;
+            $role->abilities = collect(json_decode($request->all()['routes']))->pluck('id');
+
+            $role->save();
+        } catch (\Exception $e) {
+            report($e);
+
+            return Redirect::route('apps.roles.create', $role->id)->with('status', 'Error on add selected item.|Error on add selected items.');
+        }
+
+        return Redirect::route('apps.roles.index')->with('status', 'profile-updated');
     }
 
     /**
@@ -96,6 +111,7 @@ class RolesController extends Controller
 
         return view('apps.roles.form', [
             'formAction' => route('apps.roles.update', $role->id),
+            'method' => 'patch',
             'routes' => $routes,
             'data' => $role,
         ]);

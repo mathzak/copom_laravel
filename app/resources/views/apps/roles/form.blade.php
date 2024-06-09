@@ -25,7 +25,7 @@ $form = $data ?? false ? $data : new stdClass();
 
                         <form method="post" action="{{ $formAction }}" class="mt-6 space-y-6">
                             @csrf
-                            @method('patch')
+                            @method($method)
 
                             <div>
                                 <x-input-label for="name" :value="__('Name')" />
@@ -41,7 +41,7 @@ $form = $data ?? false ? $data : new stdClass();
 
                             <div>
                                 <x-input-label for="routes" :value="__('Routes')" />
-                                <x-multiselect id="routes" name="routes" :options="$routes" :value="$form->abilities"></x-multiselect>
+                                <x-multiselect id="routes" name="routes" :options="$routes" :value="old('name', $form->abilities ?? [])"></x-multiselect>
                                 <x-input-error class="mt-2" :messages="$errors->get('routes')" />
                             </div>
 

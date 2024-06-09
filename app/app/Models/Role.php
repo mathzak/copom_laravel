@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Role extends Model
 {
@@ -18,6 +19,15 @@ class Role extends Model
         'active',
         'abilities',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($role) {
+            $role->owner = Auth::id();
+        });
+    }
 
     public function users(): BelongsToMany
     {
