@@ -7,8 +7,9 @@
 ])
 
 <?php
-$links = collect($rows)->all()['links'] ?? [];
-$rows = collect($rows)->all()['data'] ?? [];
+$source = collect($rows)->all();
+$links = $source['links'] ?? [];
+$rows = $source['data'] ?? [];
 ?>
 
 <script>
@@ -343,6 +344,12 @@ $rows = collect($rows)->all()['data'] ?? [];
     </div>
 
     <nav class="relative z-0 inline-flex gap-2 -space-x-px justify-center w-full py-4" aria-label="Pagination">
+        @if($source['prev_page_url'] && !$links)
+        <a href="{{ $source['prev_page_url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-zinc-200 dark:bg-zinc-900 hover:bg-zinc-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
+            {!! __('pagination.previous') !!}
+        </a>
+        @endif
+
         @foreach($links as $link)
         @if($link['url'] && $link['active'] === false)
         <a href="{{ $link['url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-zinc-200 dark:bg-zinc-900 hover:bg-zinc-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
@@ -355,5 +362,11 @@ $rows = collect($rows)->all()['data'] ?? [];
         </span>
         @endif
         @endforeach
+
+        @if($source['next_page_url'] && !$links)
+        <a href="{{ $source['next_page_url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-zinc-200 dark:bg-zinc-900 hover:bg-zinc-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
+            {!! __('pagination.next') !!}
+        </a>
+        @endif
     </nav>
 </div>

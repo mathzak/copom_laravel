@@ -123,10 +123,10 @@ class RolesController extends Controller
         } catch (\Exception $e) {
             report($e);
 
-            return Redirect::route('apps.roles.create', $role->id)->with('status', 'Error on add selected item.|Error on add selected items.');
+            return Redirect::route('apps.roles.edit', $role->id)->with('status', trans_choice('Error on add selected item.|Error on add selected items.', 1));
         }
 
-        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to add.|[1] Item added successfully.|[2,*] :total items successfully added.');
+        return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to add.|[1] Item added successfully.|[2,*] :total items successfully added.', 1));
     }
 
     /**
@@ -164,7 +164,7 @@ class RolesController extends Controller
         } catch (\Exception $e) {
             report($e);
 
-            return Redirect::route('apps.roles.edit', $role->id)->with('status', 'Error on edit selected item.|Error on edit selected items.');
+            return Redirect::route('apps.roles.edit', $role->id)->with('status', trans_choice('Error on edit selected item.|Error on edit selected items.', 1));
         }
 
         return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to edit.|[1] Item edited successfully.|[2,*] :total items successfully edited.', 1));

@@ -27,8 +27,8 @@ class UnitsController extends Controller
             ])
             ->orderBy('shortpath')
             ->paginate(30)
-            ->onEachSide(1)
             ->withQueryString();
+
 
         return view('apps.units.index', [
             'menu' => [
