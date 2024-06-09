@@ -52,9 +52,9 @@ Route::middleware('auth')->group(function () {
                 Route::post('/roles/create', 'store')->name('store');
                 Route::get('/roles/edit/{role}', 'edit')->name('edit');
                 Route::patch('/roles/edit/{role}', 'update')->name('update');
-                Route::delete('/roles/destroy/{role}', 'destroy')->name('destroy');
-                Route::delete('/roles/forcedestroy/{role}', 'forceDestroy')->name('forceDestroy');
-                Route::post('/roles/restore/{role}', 'restore')->name('restore');
+                Route::delete('/roles/destroy', 'destroy')->name('destroy');
+                Route::delete('/roles/forcedestroy', 'forceDestroy')->name('forceDestroy');
+                Route::post('/roles/restore', 'restore')->name('restore');
             });
 
             Route::controller(UnitsController::class)->name('units.')->group(function () {
