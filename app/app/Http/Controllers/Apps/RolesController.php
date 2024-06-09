@@ -85,6 +85,7 @@ class RolesController extends Controller
 
             $role->name = $request->name;
             $role->description = $request->description;
+            $role->active = $request->active;
             $role->abilities = collect(json_decode($request->all()['routes']))->pluck('id');
 
             $role->save();
@@ -94,7 +95,7 @@ class RolesController extends Controller
             return Redirect::route('apps.roles.create', $role->id)->with('status', 'Error on add selected item.|Error on add selected items.');
         }
 
-        return Redirect::route('apps.roles.index')->with('status', 'profile-updated');
+        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to add.|[1] Item added successfully.|[2,*] :total items successfully added.');
     }
 
     /**
@@ -125,6 +126,7 @@ class RolesController extends Controller
         try {
             $role->name = $request->name;
             $role->description = $request->description;
+            $role->active = $request->active;
             $role->abilities = collect(json_decode($request->all()['routes']))->pluck('id');
 
             $role->save();
@@ -134,7 +136,7 @@ class RolesController extends Controller
             return Redirect::route('apps.roles.edit', $role->id)->with('status', 'Error on edit selected item.|Error on edit selected items.');
         }
 
-        return Redirect::route('apps.roles.index')->with('status', 'profile-updated');
+        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to edit.|[1] Item edited successfully.|[2,*] :total items successfully edited.');
     }
 
     /**
@@ -142,8 +144,8 @@ class RolesController extends Controller
      */
     public function destroy(Request $request, Role $role)
     {
-        $request->validateWithBag('userDeletion', [
-            'action' => ['required', 'current_password'],
-        ]);
+        $role->delete();
+
+        return Redirect::route('apps.roles.index')->with('status', '{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.');
     }
 }

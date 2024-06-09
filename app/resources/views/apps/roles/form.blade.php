@@ -33,10 +33,16 @@ $form = $data ?? false ? $data : new stdClass();
                                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
                             </div>
 
-                            <div>
-                                <x-input-label for="description" :value="__('Description')" />
-                                <x-text-input id="description" name="description" type="text" class="mt-1 block w-full" :value="old('description', $form->description ?? null)" required autocomplete="username" />
-                                <x-input-error class="mt-2" :messages="$errors->get('description')" />
+                            <div class="flex">
+                                <div class="w-3/4">
+                                    <x-input-label for="description" :value="__('Description')" />
+                                    <x-text-input id="description" name="description" type="text" class="mt-1 block w-full" :value="old('description', $form->description ?? null)" required autocomplete="username" />
+                                    <x-input-error class="mt-2" :messages="$errors->get('description')" />
+                                </div>
+                                <div class="w-1/4 ml-4">
+                                    <x-input-label for="active" :value="__('Active')" />
+                                    <x-toggle id="active" name="active" :checked="old('active', $form->active ?? false)" class="mt-1 block w-full" />
+                                </div>
                             </div>
 
                             <div>

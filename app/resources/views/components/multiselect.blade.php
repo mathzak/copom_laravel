@@ -82,7 +82,6 @@ $value = json_encode($value);
     <div x-show="isOpen" x-transition class="absolute z-50 w-full bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 dark:text-zinc-300 border rounded shadow-lg max-h-60 overflow-y-auto" :class="{'bottom-12': dropup, 'mt-1': !dropup}" @click.away="isOpen = false" x-ref="dropdown">
         <input x-model="search" @input="filterOptions" type="text" class="w-full px-4 py-2 border-b border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:outline-none" placeholder="{{__('Search...')}}">
 
-        <!-- Conditionally render the select all checkbox or no matches message -->
         <template x-if="filteredOptions.length">
             <label class="flex items-center px-4 py-2">
                 <input type="checkbox" x-model="selectAll" @change="toggleSelectAll" class="form-checkbox h-5 w-5 text-indigo-600">
@@ -101,6 +100,5 @@ $value = json_encode($value);
             </label>
         </template>
     </div>
-    <!-- Hidden input to store selected options as JSON -->
     <input type="hidden" id="{{ $id }}" name="{{ $name }}" x-ref="hiddenInput" :value="JSON.stringify(selectedOptions)">
 </div>
