@@ -44,14 +44,19 @@ $form = $data ?? false ? $data : [];
                             @foreach ($component['fields'] ?? [] as $fields)
                             <div class="flex">
                                 @foreach ($fields as $field)
+
+                                @php
+                                $data = $component['data'] ?? [];
+                                @endphp
+
                                 <div class="{{ $field['class'] }}">
                                     <x-input-label for="{{ $field['name'] }}" :value="__($field['label'])" />
                                     @if ($field['type'] == 'input')
-                                    <x-text-input id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" class="mt-1 block w-full" :value="old($field['name'], $form[$field['name']] ?? null)" />
+                                    <x-text-input id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" class="mt-1 block w-full" :value="old($field['name'], $data[$field['name']] ?? null)" />
                                     @elseif ($field['type'] == 'toggle')
-                                    <x-toggle id="{{ $field['name'] }}" name="{{ $field['name'] }}" class="mt-1 block w-full" :checked="old($field['name'], $form[$field['name']] ?? false)" />
+                                    <x-toggle id="{{ $field['name'] }}" name="{{ $field['name'] }}" class="mt-1 block w-full" :checked="old($field['name'], $data[$field['name']] ?? false)" />
                                     @elseif ($field['type'] == 'multiselect')
-                                    <x-multiselect id="{{ $field['name'] }}" name="{{ $field['name'] }}" :options="$field['options']" :value="old($field['name'], $form[$field['name']] ?? [])" />
+                                    <x-multiselect id="{{ $field['name'] }}" name="{{ $field['name'] }}" :options="$field['options']" :value="old($field['name'], $data[$field['name']] ?? [])" />
                                     @endif
                                     <x-input-error class="mt-2" :messages="$errors->get($field['name'])" />
                                 </div>

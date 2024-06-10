@@ -68,8 +68,8 @@ Route::middleware('auth')->group(function () {
                     ->defaults('icon', 'gmdi-apartment-o');
                 Route::get('/units/create', 'create')->name('create');
                 Route::post('/units/create', 'store')->name('store');
-                Route::get('/units/edit/{id}', 'edit')->name('edit');
-                Route::patch('/units/edit/{id}', 'update')->name('update');
+                Route::get('/units/edit/{unit}', 'edit')->name('edit');
+                Route::patch('/units/edit/{unit}', 'update')->name('update');
                 Route::delete('/units/destroy', 'destroy')->name('destroy');
                 Route::delete('/units/forcedestroy', 'forceDestroy')->name('forceDestroy');
                 Route::post('/units/restore', 'restore')->name('restore');

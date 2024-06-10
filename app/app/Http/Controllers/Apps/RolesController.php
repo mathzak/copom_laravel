@@ -171,7 +171,6 @@ class RolesController extends Controller
                 [
                     'label' => 'Role info',
                     'description' => "Insert a role with the necessary abilities to run system resources.",
-                    'data' => [],
                     'action' => route('apps.roles.store'),
                     'method' => 'post',
                     'fields' => [
@@ -181,7 +180,7 @@ class RolesController extends Controller
                                 'label' => 'Name',
                                 'type' => 'input',
                                 'class' => 'w-full',
-                            ]
+                            ],
                         ],
                         [
                             [
@@ -195,7 +194,7 @@ class RolesController extends Controller
                                 'label' => 'Active',
                                 'type' => 'toggle',
                                 'class' => 'w-1/4 ml-4',
-                            ]
+                            ],
                         ],
                         [
                             [
@@ -204,11 +203,11 @@ class RolesController extends Controller
                                 'type' => 'multiselect',
                                 'class' => 'w-full',
                                 'options' => $routes,
-                            ]
+                            ],
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -265,7 +264,7 @@ class RolesController extends Controller
                                 'label' => 'Name',
                                 'type' => 'input',
                                 'class' => 'w-full',
-                            ]
+                            ],
                         ],
                         [
                             [
@@ -279,7 +278,7 @@ class RolesController extends Controller
                                 'label' => 'Active',
                                 'type' => 'toggle',
                                 'class' => 'w-1/4 ml-4',
-                            ]
+                            ],
                         ],
                         [
                             [
@@ -288,11 +287,11 @@ class RolesController extends Controller
                                 'type' => 'multiselect',
                                 'class' => 'w-full',
                                 'options' => $routes,
-                            ]
+                            ],
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 

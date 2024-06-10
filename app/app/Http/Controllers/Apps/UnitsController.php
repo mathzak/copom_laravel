@@ -154,47 +154,50 @@ class UnitsController extends Controller
         $routes = [];
 
         return view('form', [
-            [
-                'index' => 'apps.roles.index',
-                'label' => 'Roles',
-                'descriptionLabel' => 'Role info',
-                'descriptionText' => "Insert a role with the necessary abilities to run system resources.",
-                'formAction' => route('apps.roles.store'),
-                'formMethod' => 'post',
-                'formFields' => [
-                    [
+            'index' => 'apps.roles.index',
+            'label' => 'Roles',
+            'subLabel' => 'Edit',
+            'components' => [
+                [
+                    'label' => 'Role info',
+                    'description' => "Edit the role with the necessary abilities to run system resources.",
+                    'action' => route('apps.units.store'),
+                    'method' => 'patch',
+                    'fields' => [
                         [
-                            'name' => 'name',
-                            'label' => 'Name',
-                            'type' => 'input',
-                            'class' => 'w-full',
-                        ]
-                    ],
-                    [
-                        [
-                            'name' => 'description',
-                            'label' => 'Description',
-                            'type' => 'input',
-                            'class' => 'w-3/4',
+                            [
+                                'name' => 'name',
+                                'label' => 'Name',
+                                'type' => 'input',
+                                'class' => 'w-full',
+                            ],
                         ],
                         [
-                            'name' => 'active',
-                            'label' => 'Active',
-                            'type' => 'toggle',
-                            'class' => 'w-1/4 ml-4',
-                        ]
-                    ],
-                    [
+                            [
+                                'name' => 'description',
+                                'label' => 'Description',
+                                'type' => 'input',
+                                'class' => 'w-3/4',
+                            ],
+                            [
+                                'name' => 'active',
+                                'label' => 'Active',
+                                'type' => 'toggle',
+                                'class' => 'w-1/4 ml-4',
+                            ],
+                        ],
                         [
-                            'name' => 'abilities',
-                            'label' => 'Abilities',
-                            'type' => 'multiselect',
-                            'class' => 'w-full',
-                            'options' => $routes,
-                        ]
+                            [
+                                'name' => 'abilities',
+                                'label' => 'Abilities',
+                                'type' => 'multiselect',
+                                'class' => 'w-full',
+                                'options' => $routes,
+                            ],
+                        ],
                     ],
                 ],
-            ]
+            ],
         ]);
     }
 
@@ -224,11 +227,63 @@ class UnitsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Unit $id): View
+    public function edit(Unit $unit): View
     {
-        return view('apps.units.form', [
-            'parent_route' => 'apps.units.index',
-            'data' => $id,
+        $units = Unit::orderBy('shortpath')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'label' => $item->shortpath,
+                ];
+            });
+
+        return view('form', [
+            'index' => 'apps.roles.index',
+            'label' => 'Roles',
+            'subLabel' => 'Edit',
+            'components' => [
+                [
+                    'label' => 'Role info',
+                    'description' => "Edit the role with the necessary abilities to run system resources.",
+                    'data' => $unit,
+                    'action' => route('apps.roles.update', $unit->id),
+                    'method' => 'patch',
+                    'fields' => [
+                        [
+                            [
+                                'name' => 'name',
+                                'label' => 'Name',
+                                'type' => 'input',
+                                'class' => 'w-full',
+                            ],
+                        ],
+                        [
+                            [
+                                'name' => 'description',
+                                'label' => 'Description',
+                                'type' => 'input',
+                                'class' => 'w-3/4',
+                            ],
+                            [
+                                'name' => 'active',
+                                'label' => 'Active',
+                                'type' => 'toggle',
+                                'class' => 'w-1/4 ml-4',
+                            ],
+                        ],
+                        [
+                            [
+                                'name' => 'abilities',
+                                'label' => 'Abilities',
+                                'type' => 'multiselect',
+                                'class' => 'w-full',
+                                'options' => $units,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 
