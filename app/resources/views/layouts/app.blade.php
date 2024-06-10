@@ -33,7 +33,10 @@
         <main>
             {{ $slot }}
         </main>
+
     </div>
 </body>
+
+<x-tailwind-indicator />
 
 </html>

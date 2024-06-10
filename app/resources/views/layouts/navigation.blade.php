@@ -1,6 +1,6 @@
 <div class="justify-center w-full mx-auto bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-700">
     <div x-data="{ open: false }" class="flex flex-col w-full px-4 py-2 mx-auto md:items-center md:justify-between md:flex-row max-w-7xl">
-        <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200 ">
+        <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200">
             <a class="inline-flex items-center gap-3 text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-200" href="/">
                 <x-application-logo class="block h-9 w-auto fill-current text-zinc-800 dark:text-zinc-200" />
                 <span>SisCOPOM</span>
