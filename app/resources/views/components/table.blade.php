@@ -254,17 +254,6 @@ $rows = $source['data'] ?? [];
         </div>
     </div>
     <div class="overflow-x-auto rounded-lg shadow overflow-y-auto relative">
-        @if (session('status'))
-        <x-message type="success">
-            {{ session('status') }}
-        </x-message>
-        @endif
-
-        @if (session('error'))
-        <x-message type="error">
-            {{ session('error') }}
-        </x-message>
-        @endif
         <table class="border-collapse table-auto w-full whitespace-no-wrap bg-zinc-100/50 dark:bg-zinc-900/50 table-striped relative">
             <thead>
                 <tr class="text-left">
