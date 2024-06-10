@@ -1,20 +1,28 @@
 <div class="justify-center w-full mx-auto bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-700">
     <div x-data="{ open: false }" class="flex flex-col w-full px-4 py-2 mx-auto md:items-center md:justify-between md:flex-row max-w-7xl">
-        <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200">
+        <div class="flex flex-row items-center justify-between text-zinc-800 dark:text-zinc-200 ">
             <a class="inline-flex items-center gap-3 text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-200" href="/">
                 <x-application-logo class="block h-9 w-auto fill-current text-zinc-800 dark:text-zinc-200" />
                 <span>SisCOPOM</span>
             </a>
-            <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
-                <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path :class="{'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    <path :class="{'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+            <div class="flex justify-between gap-4">
+                <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
+                    <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path :class="{'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <path :class="{'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+
+                <div @click.away="open = false" class="flex md:hidden items-center justify-between flex-1" x-data="{ open: false }">
+                    <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none">
+                        <img class="inline-block object-cover rounded-full h-9 w-9" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="">
+                    </button>
+                </div>
+            </div>
         </div>
         <nav :class="{'flex': open, 'hidden': !open}" class="flex-col items-center flex-grow gap-3 text-sm font-medium text-zinc-800 dark:text-zinc-200 px-0 md:flex md:justify-center md:flex-row md:ml-4 p-0 md:mt-0 hidden">
             <div class="relative lg:mx-auto" x-data="{ appsMenu: false }" x-on:click.away="appsMenu = false">
-                <div class="relative">
+                <div class="relative justify-between">
                     <nav class="relative flex items-center justify-around w-full sm:h-10">
                         <div class="flex items-center justify-between flex-1">
                             <a class="flex flex-row items-center w-full pr-4 py-2 mt-2 text-sm text-left text-zinc-800 dark:text-zinc-200 md:w-auto md:inline md:mt-0 hover:text-blue-600 dark:hover:text-yellow-600 focus:outline-none focus:shadow-outline" href="{{ route('dashboard') }}">
@@ -70,71 +78,71 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-shrink-0">
-                <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
-                    <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none">
-                        <span>
-                            <span class="flex-shrink-0 block group">
-                                <div class="flex items-center">
-                                    <div>
-                                        <img class="inline-block object-cover rounded-full h-9 w-9" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="">
-                                    </div>
-                                    <div class="ml-3 text-left">
-                                        <p class="text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
-                                            {{ Auth::user()->name }}
-                                        </p>
-                                        <p class="text-xs text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
-                                            {{ Auth::user()->email }}
-                                        </p>
-                                    </div>
+        </nav>
+        <div class="hidden md:flex flex-shrink-0">
+            <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
+                <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none">
+                    <span>
+                        <span class="flex-shrink-0 block group">
+                            <div class="flex items-center">
+                                <div>
+                                    <img class="inline-block object-cover rounded-full h-9 w-9" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="">
                                 </div>
-                            </span>
+                                <div class="ml-3 text-left">
+                                    <p class="text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
+                                        {{ Auth::user()->name }}
+                                    </p>
+                                    <p class="text-xs text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
+                                        {{ Auth::user()->email }}
+                                    </p>
+                                </div>
+                            </div>
                         </span>
-                        <svg :class="{'rotate-180': open, 'rotate-0': !open}" xmlns="http://www.w3.org/2000/svg" class="inline size-5 ml-4 text-zinc-800 dark:text-zinc-200 transition-transform duration-200 transform rotate-0" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                    <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl" style="display: none;">
-                        <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                            <ul>
+                    </span>
+                    <svg :class="{'rotate-180': open, 'rotate-0': !open}" xmlns="http://www.w3.org/2000/svg" class="inline size-5 ml-4 text-zinc-800 dark:text-zinc-200 transition-transform duration-200 transform rotate-0" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl" style="display: none;">
+                    <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                        <ul>
+                            <li>
+                                <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    @svg('gmdi-account-circle-o', 'size-6 text-zinc-900 dark:text-zinc-200')
+                                    <span class="ml-2"> {{ __('Profile') }} </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    @svg('gmdi-message-o', 'size-6 text-zinc-900 dark:text-zinc-200')
+                                    <span class="ml-2"> {{ __('Messages') }} </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    @svg('gmdi-calendar-month-o', 'size-6 text-zinc-900 dark:text-zinc-200')
+                                    <span class="ml-2"> {{ __('Schedule') }} </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
+                                    @svg('gmdi-playlist-add-check-o', 'size-6 text-zinc-900 dark:text-zinc-200')
+                                    <span class="ml-2"> {{ __('Requirements') }} </span>
+                                </a>
+                            </li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-account-circle-o', 'size-6 text-zinc-900 dark:text-zinc-200')
-                                        <span class="ml-2"> {{ __('Profile') }} </span>
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
+                                        @svg('gmdi-logout-o', 'size-6 text-zinc-900 dark:text-zinc-200')
+                                        <span class="ml-4"> {{ __('Log Out') }} </span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-message-o', 'size-6 text-zinc-900 dark:text-zinc-200')
-                                        <span class="ml-2"> {{ __('Messages') }} </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-calendar-month-o', 'size-6 text-zinc-900 dark:text-zinc-200')
-                                        <span class="ml-2"> {{ __('Schedule') }} </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('profile.edit') }}">
-                                        @svg('gmdi-playlist-add-check-o', 'size-6 text-zinc-900 dark:text-zinc-200')
-                                        <span class="ml-2"> {{ __('Requirements') }} </span>
-                                    </a>
-                                </li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <li>
-                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
-                                            @svg('gmdi-logout-o', 'size-6 text-zinc-900 dark:text-zinc-200')
-                                            <span class="ml-4"> {{ __('Log Out') }} </span>
-                                        </a>
-                                    </li>
-                                </form>
-                            </ul>
-                        </div>
+                            </form>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </nav>
+        </div>
     </div>
 </div>

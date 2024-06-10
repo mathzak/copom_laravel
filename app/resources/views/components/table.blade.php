@@ -214,7 +214,7 @@ $rows = $source['data'] ?? [];
         </div>
     </x-modal>
 
-    <div class="flex justify-between pb-4">
+    <div class="flex justify-between">
         <div>
             <div class="flex flex-shrink-0 w-30">
                 <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
