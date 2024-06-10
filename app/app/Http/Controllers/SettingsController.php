@@ -11,14 +11,16 @@ class SettingsController extends Controller
 {
     public function setCookie(string $name, $value = null, $minutes = 60)
     {
-        $cookie = Cookie::make($name, is_array($value) ? serialize($value) : $value, $minutes);
+        $cookie = cookie($name, is_array($value) ? serialize($value) : $value, $minutes)
+            // ->domain('.example.com')->path('/')->secure()
+        ;
 
         return back()->withCookie($cookie);
     }
 
     public function unsetCookie(string $name)
     {
-        $cookie = Cookie::make($name, null, -1);
+        $cookie = cookie($name, null, -1);
 
         return back()->withCookie($cookie);
     }
