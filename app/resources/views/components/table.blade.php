@@ -287,7 +287,7 @@ $rows = $source['data'] ?? [];
                     {{ $empty }}
                     @else
                     <tr>
-                        <td colspan="100%" class="text-center px-4 py-1 text-sm">
+                        <td colspan="100%" class="text-center text-zinc-800 dark:text-zinc-200 px-4 py-1 text-sm">
                             {{ __('No records found.') }}
                         </td>
                     </tr>
