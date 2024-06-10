@@ -181,7 +181,7 @@ class RolesController extends Controller
         } catch (\Exception $e) {
             report($e);
 
-            return Redirect::route('apps.roles.create', $role->id)->with('error', trans_choice('Error on add selected item.|Error on add selected items.', 1));
+            return Redirect::route('apps.roles.create', $role->id)->with('error', trans_choice('Error on add this item.|Error on add the items.', 1));
         }
 
         return Redirect::route('apps.roles.index')->with('status', trans_choice('{0} Nothing to add.|[1] Item added successfully.|[2,*] :total items successfully added.', 1));
