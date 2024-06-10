@@ -46,7 +46,7 @@ class UnitsController extends Controller
             'label' => 'Units',
             'name' => [
                 [
-                    'field' => 'name',
+                    'field' => 'shortpath',
                     'class' => '',
                 ],
                 [
@@ -151,8 +151,48 @@ class UnitsController extends Controller
      */
     public function create(): View
     {
-        return view('apps.units.form', [
-            'parent_route' => 'apps.units.index',
+        $routes = [];
+
+        return view('form', [
+            'index' => 'apps.roles.index',
+            'label' => 'Roles',
+            'descriptionLabel' => 'Role info',
+            'descriptionText' => "Insert a role with the necessary abilities to run system resources.",
+            'formAction' => route('apps.roles.store'),
+            'formMethod' => 'post',
+            'formFields' => [
+                [
+                    [
+                        'name' => 'name',
+                        'label' => 'Name',
+                        'type' => 'input',
+                        'class' => 'w-full',
+                    ]
+                ],
+                [
+                    [
+                        'name' => 'description',
+                        'label' => 'Description',
+                        'type' => 'input',
+                        'class' => 'w-3/4',
+                    ],
+                    [
+                        'name' => 'active',
+                        'label' => 'Active',
+                        'type' => 'toggle',
+                        'class' => 'w-1/4 ml-4',
+                    ]
+                ],
+                [
+                    [
+                        'name' => 'abilities',
+                        'label' => 'Abilities',
+                        'type' => 'multiselect',
+                        'class' => 'w-full',
+                        'options' => $routes,
+                    ]
+                ],
+            ],
         ]);
     }
 
