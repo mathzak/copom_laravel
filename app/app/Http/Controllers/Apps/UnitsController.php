@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
 use App\Models\Unit;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UnitsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $units = Unit::where('shortpath', 'ilike', "%$request->search%")
             ->withCount([
@@ -82,7 +85,7 @@ class UnitsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('apps.units.form', [
             'parent_route' => 'apps.units.index',
@@ -92,15 +95,30 @@ class UnitsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        try {
+            $unit = new Unit();
+
+            $unit->name = $request->name;
+            $unit->description = $request->description;
+            $unit->active = $request->active;
+            $unit->abilities = collect(json_decode($request->all()['routes']))->pluck('id');
+
+            $unit->save();
+        } catch (\Exception $e) {
+            report($e);
+
+            return Redirect::route('apps.units.edit', $unit->id)->with('status', trans_choice('Error on add selected item.|Error on add selected items.', 1));
+        }
+
+        return Redirect::route('apps.units.index')->with('status', trans_choice('{0} Nothing to add.|[1] Item added successfully.|[2,*] :total items successfully added.', 1));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Unit $id)
+    public function edit(Unit $id): View
     {
         return view('apps.units.form', [
             'parent_route' => 'apps.units.index',
@@ -111,18 +129,51 @@ class UnitsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Unit $unit): RedirectResponse
     {
-        //
+        try {
+            $unit->name = $request->name;
+            $unit->description = $request->description;
+            $unit->active = $request->active;
+            $unit->abilities = collect(json_decode($request->all()['routes']))->pluck('id');
+
+            $unit->save();
+        } catch (\Exception $e) {
+            report($e);
+
+            return Redirect::route('apps.units.edit', $unit->id)->with('status', trans_choice('Error on edit selected item.|Error on edit selected items.', 1));
+        }
+
+        return Redirect::route('apps.units.index')->with('status', trans_choice('{0} Nothing to edit.|[1] Item edited successfully.|[2,*] :total items successfully edited.', 1));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Unit $id)
+    public function destroy(Request $request)
     {
-        $request->validateWithBag('userDeletion', [
-            'action' => ['required', 'current_password'],
-        ]);
+        Unit::whereIn('id', $request->values)->delete();
+
+        return Redirect::route('apps.units.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values), ['total' => count($request->values)]));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore(Request $request)
+    {
+        Unit::whereIn('id', $request->values)->restore();
+
+        return Redirect::route('apps.units.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values), ['total' => count($request->values)]));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function forceDestroy(Request $request)
+    {
+        Unit::whereIn('id', $request->values)->forceDelete();
+
+        return Redirect::route('apps.units.index')->with('status', trans_choice('{0} Nothing to remove.|[1] Item removed successfully.|[2,*] :total items successfully removed.', count($request->values), ['total' => count($request->values)]));
     }
 }

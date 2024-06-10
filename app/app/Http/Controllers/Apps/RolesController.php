@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Redirect;
 
 class RolesController extends Controller
@@ -16,7 +17,7 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $roles = Role::where('name', 'ilike', "%$request->search%")
             ->withCount([
@@ -90,7 +91,7 @@ class RolesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $routes = collect(Menu::make('app', 'false'))->map(function ($item) {
             return [
@@ -109,7 +110,7 @@ class RolesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         try {
             $role = new Role();
@@ -132,7 +133,7 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role)
+    public function edit(Role $role): View
     {
         $routes = collect(Menu::make('app', 'false'))->map(function ($item) {
             return [
@@ -173,7 +174,7 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request): RedirectResponse
     {
         Role::whereIn('id', $request->values)->delete();
 
@@ -183,7 +184,7 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function restore(Request $request)
+    public function restore(Request $request): RedirectResponse
     {
         Role::whereIn('id', $request->values)->restore();
 
@@ -193,7 +194,7 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function forceDestroy(Request $request)
+    public function forceDestroy(Request $request): RedirectResponse
     {
         Role::whereIn('id', $request->values)->forceDelete();
 

@@ -19,6 +19,10 @@
                             <div>
                                 <span x-text="row.shortpath"></span>
                                 <div x-text="row.created_at" class="text-xs"></div>
+                                <div x-text="row.updated_at" class="text-xs"></div>
+                                <template x-if="row.deleted_at">
+                                    <div x-text="row.deleted_at" class="text-xs"></div>
+                                </template>
                             </div>
                         </x-slot>
                         <x-slot name="tableActions">
