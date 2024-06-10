@@ -13,14 +13,14 @@ class SettingsController extends Controller
     {
         $cookie = Cookie::make($name, $value, $minutes);
 
-        return back()->withCookie($cookie)->with('status', __("Cookie ':cookie' has been set with value ':value'.", ['cookie' => $name, 'value' => $value]));
+        return back()->withCookie($cookie);
     }
 
     public function unsetCookie(Request $request, string $name)
     {
         $cookie = Cookie::make($name, null, -1);
 
-        return back()->withCookie($cookie)->with('status', __("Cookie ':cookie' was unset.", ['cookie' => $name]));
+        return back()->withCookie($cookie);
     }
 
     // $cookie = cookie()->forever('user_name', encrypt('John Doe'));

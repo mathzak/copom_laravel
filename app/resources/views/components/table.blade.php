@@ -227,19 +227,19 @@ $rows = $source['data'] ?? [];
                         <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <ul>
                                 @foreach ($menu as $item)
-                                <form>
-                                    <li>
-                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault(); app().formSubmit('{{ json_encode($item) }}');">
-                                            @svg($item['icon'], 'size-6 text-zinc-900 dark:text-zinc-200')
-                                            <span class="ml-4 mr-2"> {{ $item['label'] }} </span>
-                                            @if($item['dataDeleted'] === true)
-                                            <span class="text-xs text-white deletedCount ml-auto bg-blue-500 rounded-full px-2">0</span>
-                                            @elseif($item['dataDeleted'] === false)
-                                            <span class="text-xs text-white notDeletedCount ml-auto bg-blue-500 rounded-full px-2">0</span>
-                                            @endif
-                                        </a>
-                                    </li>
-                                </form>
+                                @if($item['visible'] === true)
+                                <li>
+                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault(); app().formSubmit('{{ json_encode($item) }}');">
+                                        @svg($item['icon'], 'size-6 text-zinc-900 dark:text-zinc-200')
+                                        <span class="ml-4 mr-2"> {{ $item['label'] }} </span>
+                                        @if($item['dataDeleted'] === true)
+                                        <span class="text-xs text-white deletedCount ml-auto bg-blue-500 rounded-full px-2">0</span>
+                                        @elseif($item['dataDeleted'] === false)
+                                        <span class="text-xs text-white notDeletedCount ml-auto bg-blue-500 rounded-full px-2">0</span>
+                                        @endif
+                                    </a>
+                                </li>
+                                @endif
                                 @endforeach
                             </ul>
                         </div>
