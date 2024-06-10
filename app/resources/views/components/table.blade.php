@@ -16,7 +16,6 @@ $rows = $source['data'] ?? [];
     function app() {
         return {
             searchValue: '',
-            modal1: false,
             columns: @js($columns),
             rows: @js($rows),
             isStriped: @js($striped),
@@ -227,7 +226,7 @@ $rows = $source['data'] ?? [];
                         <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <ul>
                                 @foreach ($menu as $item)
-                                @if($item['visible'] === true)
+                                @if($item['visible'] ?? true === true)
                                 <li>
                                     <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-zinc-900 dark:text-zinc-200 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-zinc-200 dark:hover:bg-zinc-900 hover:scale-95 hover:text-blue-500 dark:hover:text-yellow-600" href="#" onclick="event.preventDefault(); app().formSubmit('{{ json_encode($item) }}');">
                                         @svg($item['icon'], 'size-6 text-zinc-900 dark:text-zinc-200')

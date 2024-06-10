@@ -47,8 +47,6 @@ class RolesController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
-        // dd($request->cookie('a'));
-
         return view('index', [
             'index' => 'apps.roles.index',
             'edit' => 'apps.roles.edit',

@@ -29,9 +29,16 @@ class UnitsController extends Controller
                 },
             ])
             ->orderBy('shortpath')
+            ->when($cookie = $request->cookie('showItems') ?? null, function ($query, $cookie) {
+                if ($cookie == 'both') {
+                    $query->withTrashed();
+                } elseif ($cookie == 'trashed') {
+                    $query->onlyTrashed();
+                }
+            })
             ->paginate(30)
+            ->onEachSide(1)
             ->withQueryString();
-
 
         return view('index', [
             'index' => 'apps.units.index',
@@ -62,6 +69,7 @@ class UnitsController extends Controller
                     'dataDeleted' => null,
                     'url' => route("apps.units.create"),
                     'method' => "get",
+                    'visible' => true,
                 ],
                 [
                     'icon' => "gmdi-remove-circle-outline",
@@ -69,6 +77,7 @@ class UnitsController extends Controller
                     'dataDeleted' => false,
                     'url' => route("apps.units.destroy"),
                     'method' => "delete",
+                    'visible' => ($request->cookie('showItems') == null || $request->cookie('showItems') == 'both') ? true : false,
                 ],
                 [
                     'icon' => "gmdi-delete-forever-o",
@@ -76,6 +85,7 @@ class UnitsController extends Controller
                     'dataDeleted' => true,
                     'url' => route("apps.units.restore"),
                     'method' => "post",
+                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
                 ],
                 [
                     'icon' => "gmdi-delete-forever-o",
@@ -83,6 +93,39 @@ class UnitsController extends Controller
                     'dataDeleted' => true,
                     'url' => route("apps.units.forceDestroy"),
                     'method' => "delete",
+                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                ],
+                [
+                    'icon' => "gmdi-folder-o",
+                    'label' => __("Only active"),
+                    'dataDeleted' => null,
+                    'url' => route("unsetCookie", [
+                        'name' => 'showItems',
+                    ]),
+                    'method' => "get",
+                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                ],
+                [
+                    'icon' => "gmdi-folder-delete-o",
+                    'label' => __("Only removed"),
+                    'dataDeleted' => null,
+                    'url' => route("setCookie", [
+                        'name' => 'showItems',
+                        'value' => 'trashed',
+                    ]),
+                    'method' => "get",
+                    'visible' => ($request->cookie('showItems') != 'trashed') ? true : false,
+                ],
+                [
+                    'icon' => "gmdi-rule-folder-o",
+                    'label' => __("Show all"),
+                    'dataDeleted' => null,
+                    'url' => route("setCookie", [
+                        'name' => 'showItems',
+                        'value' => 'both',
+                    ]),
+                    'method' => "get",
+                    'visible' => ($request->cookie('showItems') != 'both') ? true : false,
                 ],
             ],
             'items' => $units,
