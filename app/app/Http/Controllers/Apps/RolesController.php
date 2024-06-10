@@ -42,7 +42,28 @@ class RolesController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
-        return view('apps.roles.index', [
+        return view('index', [
+            'index' => 'apps.roles.index',
+            'edit' => 'apps.roles.edit',
+            'label' => 'Roles',
+            'name' => [
+                [
+                    'field' => 'name',
+                    'class' => '',
+                ],
+                [
+                    'field' => 'created_at',
+                    'class' => 'text-xs',
+                ],
+                [
+                    'field' => 'updated_at',
+                    'class' => 'text-xs',
+                ],
+                [
+                    'field' => 'deleted_at',
+                    'class' => 'text-xs',
+                ],
+            ],
             'menu' => [
                 [
                     'icon' => "gmdi-add-circle-outline",
@@ -100,10 +121,46 @@ class RolesController extends Controller
             ];
         });
 
-        return view('apps.roles.form', [
+        return view('form', [
+            'index' => 'apps.roles.index',
+            'label' => 'Roles',
+            'descriptionLabel' => 'Profile Information',
+            'descriptionText' => "Update your account's profile information and email address.",
             'formAction' => route('apps.roles.store'),
-            'method' => 'post',
-            'routes' => $routes,
+            'formMethod' => 'post',
+            'formFields' => [
+                [
+                    [
+                        'name' => 'name',
+                        'label' => 'Name',
+                        'type' => 'input',
+                        'class' => 'w-full',
+                    ]
+                ],
+                [
+                    [
+                        'name' => 'description',
+                        'label' => 'Description',
+                        'type' => 'input',
+                        'class' => 'w-3/4',
+                    ],
+                    [
+                        'name' => 'active',
+                        'label' => 'Active',
+                        'type' => 'toggle',
+                        'class' => 'w-1/4 ml-4',
+                    ]
+                ],
+                [
+                    [
+                        'name' => 'routes',
+                        'label' => 'Routes',
+                        'type' => 'multiselect',
+                        'class' => 'w-full',
+                        'options' => $routes,
+                    ]
+                ],
+            ],
         ]);
     }
 
@@ -142,11 +199,47 @@ class RolesController extends Controller
             ];
         });
 
-        return view('apps.roles.form', [
-            'formAction' => route('apps.roles.update', $role->id),
-            'method' => 'patch',
-            'routes' => $routes,
+        return view('form', [
+            'index' => 'apps.roles.index',
+            'label' => 'Roles',
+            'descriptionLabel' => 'Profile Information',
+            'descriptionText' => "Update your account's profile information and email address.",
             'data' => $role,
+            'formAction' => route('apps.roles.update', $role->id),
+            'formMethod' => 'patch',
+            'formFields' => [
+                [
+                    [
+                        'name' => 'name',
+                        'label' => 'Name',
+                        'type' => 'input',
+                        'class' => 'w-full',
+                    ]
+                ],
+                [
+                    [
+                        'name' => 'description',
+                        'label' => 'Description',
+                        'type' => 'input',
+                        'class' => 'w-3/4',
+                    ],
+                    [
+                        'name' => 'active',
+                        'label' => 'Active',
+                        'type' => 'toggle',
+                        'class' => 'w-1/4 ml-4',
+                    ]
+                ],
+                [
+                    [
+                        'name' => 'abilities',
+                        'label' => 'Abilities',
+                        'type' => 'multiselect',
+                        'class' => 'w-full',
+                        'options' => $routes,
+                    ]
+                ],
+            ],
         ]);
     }
 

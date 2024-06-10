@@ -1,7 +1,13 @@
+<script>
+    window.appRoutes = {
+        rolesEdit: "{{ route($edit, '__id__') }}"
+    };
+</script>
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
-            {{ __('Roles') }}
+            {{ __($label) }}
         </h2>
     </x-slot>
 
@@ -12,17 +18,16 @@
                     <x-table striped :menu='$menu ?? []' :columns='$columns ?? []' :rows="$items ?? []" table-text-link-label="Name">
                         <x-slot name="tableTextLink">
                             <div>
-                                <span x-text="row.name"></span>
-                                <div x-text="row.created_at" class="text-xs"></div>
-                                <div x-text="row.updated_at" class="text-xs"></div>
-                                <template x-if="row.deleted_at">
-                                    <div x-text="row.deleted_at" class="text-xs"></div>
+                                @foreach ($name as $item)
+                                <template x-if="row.{{ $item['field'] }}">
+                                    <div x-text="row.{{ $item['field'] }}" class="{{ $item['class'] }}"></div>
                                 </template>
+                                @endforeach
                             </div>
                         </x-slot>
                         <x-slot name="tableActions">
-                            <div class="flex flex-wrap space-x-6">
-                                <a :href="`roles/edit/${row.id}`">
+                            <div x-data="{ rowId: row.id, editUrl: '' }" x-init="editUrl = window.appRoutes.rolesEdit.replace('__id__', rowId)">
+                                <a :href="editUrl">
                                     @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
                             </div>

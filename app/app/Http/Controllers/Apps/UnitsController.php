@@ -33,7 +33,28 @@ class UnitsController extends Controller
             ->withQueryString();
 
 
-        return view('apps.units.index', [
+        return view('index', [
+            'index' => 'apps.units.index',
+            'edit' => 'apps.units.edit',
+            'label' => 'Units',
+            'name' => [
+                [
+                    'field' => 'name',
+                    'class' => '',
+                ],
+                [
+                    'field' => 'created_at',
+                    'class' => 'text-xs',
+                ],
+                [
+                    'field' => 'updated_at',
+                    'class' => 'text-xs',
+                ],
+                [
+                    'field' => 'deleted_at',
+                    'class' => 'text-xs',
+                ],
+            ],
             'menu' => [
                 [
                     'icon' => "gmdi-add-circle-outline",

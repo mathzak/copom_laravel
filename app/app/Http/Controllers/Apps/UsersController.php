@@ -23,7 +23,31 @@ class UsersController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
-        return view('apps.users.index', [
+        return view('index', [
+            'index' => 'apps.users.index',
+            'edit' => 'apps.users.edit',
+            'label' => 'Users',
+            'name' => [
+                [
+                    'field' => 'name',
+                    'class' => '',
+                ],
+                [
+                    'field' => 'email',
+                    'class' => 'text-sm',
+                ],                [
+                    'field' => 'created_at',
+                    'class' => 'text-xs',
+                ],
+                [
+                    'field' => 'updated_at',
+                    'class' => 'text-xs',
+                ],
+                [
+                    'field' => 'deleted_at',
+                    'class' => 'text-xs',
+                ],
+            ],
             'menu' => [
                 [
                     'icon' => "gmdi-add-circle-outline",
