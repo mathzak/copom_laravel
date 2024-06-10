@@ -42,14 +42,14 @@ $form = $data ?? false ? $data : [];
                             @method($component['method'])
 
                             @foreach ($component['fields'] ?? [] as $fields)
-                            <div class="flex">
+                            <div class="flex w-full">
                                 @foreach ($fields as $field)
 
                                 @php
                                 $data = $component['data'] ?? [];
                                 @endphp
 
-                                <div class="{{ $field['class'] }}">
+                                <div class="{{ $field['class'] }} w-full">
                                     <x-input-label for="{{ $field['name'] }}" :value="__($field['label'])" />
                                     @if ($field['type'] == 'calendar')
                                     <x-calendar id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" class="mt-1 block w-full" :value="old($field['name'], $data[$field['name']] ?? null)" />
