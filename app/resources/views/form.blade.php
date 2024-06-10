@@ -4,7 +4,7 @@ $form = $data ?? false ? $data : [];
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
-            <a href="{{ route($index) }}">{{ __($label) }}</a> > {{ __($data ?? false ? 'Edit' : 'Add') }}
+            <a href="{{ route($index) }}">{{ __($label) }}</a> > {{ __($subLabel) }}
         </h2>
     </x-slot>
 
@@ -26,33 +26,34 @@ $form = $data ?? false ? $data : [];
             <div class="bg-white dark:bg-zinc-800 overflow-visible shadow-sm sm:rounded-lg">
                 <div class="p-6 text-zinc-900 dark:text-zinc-100">
                     <section>
+                        @foreach ($components as $component)
                         <header>
                             <h2 class="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                                {{ __($descriptionLabel) }}
+                                {{ __($component['label']) }}
                             </h2>
 
                             <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                                {{ __($descriptionText) }}
+                                {{ __($component['description']) }}
                             </p>
                         </header>
 
-                        <form method="post" action="{{ $formAction }}" class="mt-6 space-y-6">
+                        <form method="post" action="{{ $component['action'] }}" class="mt-6 space-y-6">
                             @csrf
-                            @method($formMethod)
+                            @method($component['method'])
 
-                            @foreach ($formFields as $_formFields)
+                            @foreach ($component['fields'] ?? [] as $fields)
                             <div class="flex">
-                                @foreach ($_formFields as $_formField)
-                                <div class="{{ $_formField['class'] }}">
-                                    <x-input-label for="{{ $_formField['name'] }}" :value="__($_formField['label'])" />
-                                    @if ($_formField['type'] == 'input')
-                                    <x-text-input id="{{ $_formField['name'] }}" name="{{ $_formField['name'] }}" type="text" class="mt-1 block w-full" :value="old($_formField['name'], $form[$_formField['name']] ?? null)" />
-                                    @elseif ($_formField['type'] == 'toggle')
-                                    <x-toggle id="{{ $_formField['name'] }}" name="{{ $_formField['name'] }}" class="mt-1 block w-full" :checked="old($_formField['name'], $form[$_formField['name']] ?? false)" />
-                                    @elseif ($_formField['type'] == 'multiselect')
-                                    <x-multiselect id="{{ $_formField['name'] }}" name="{{ $_formField['name'] }}" :options="$_formField['options']" :value="old($_formField['name'], $form[$_formField['name']] ?? [])" />
+                                @foreach ($fields as $field)
+                                <div class="{{ $field['class'] }}">
+                                    <x-input-label for="{{ $field['name'] }}" :value="__($field['label'])" />
+                                    @if ($field['type'] == 'input')
+                                    <x-text-input id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" class="mt-1 block w-full" :value="old($field['name'], $form[$field['name']] ?? null)" />
+                                    @elseif ($field['type'] == 'toggle')
+                                    <x-toggle id="{{ $field['name'] }}" name="{{ $field['name'] }}" class="mt-1 block w-full" :checked="old($field['name'], $form[$field['name']] ?? false)" />
+                                    @elseif ($field['type'] == 'multiselect')
+                                    <x-multiselect id="{{ $field['name'] }}" name="{{ $field['name'] }}" :options="$field['options']" :value="old($field['name'], $form[$field['name']] ?? [])" />
                                     @endif
-                                    <x-input-error class="mt-2" :messages="$errors->get($_formField['name'])" />
+                                    <x-input-error class="mt-2" :messages="$errors->get($field['name'])" />
                                 </div>
                                 @endforeach
                             </div>
@@ -66,6 +67,7 @@ $form = $data ?? false ? $data : [];
                                 @endif
                             </div>
                         </form>
+                        @endforeach
                     </section>
                 </div>
             </div>

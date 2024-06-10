@@ -166,43 +166,49 @@ class RolesController extends Controller
         return view('form', [
             'index' => 'apps.roles.index',
             'label' => 'Roles',
-            'descriptionLabel' => 'Role info',
-            'descriptionText' => "Insert a role with the necessary abilities to run system resources.",
-            'formAction' => route('apps.roles.store'),
-            'formMethod' => 'post',
-            'formFields' => [
+            'subLabel' => 'Add',
+            'components' => [
                 [
-                    [
-                        'name' => 'name',
-                        'label' => 'Name',
-                        'type' => 'input',
-                        'class' => 'w-full',
-                    ]
-                ],
-                [
-                    [
-                        'name' => 'description',
-                        'label' => 'Description',
-                        'type' => 'input',
-                        'class' => 'w-3/4',
+                    'label' => 'Role info',
+                    'description' => "Insert a role with the necessary abilities to run system resources.",
+                    'data' => [],
+                    'action' => route('apps.roles.store'),
+                    'method' => 'post',
+                    'fields' => [
+                        [
+                            [
+                                'name' => 'name',
+                                'label' => 'Name',
+                                'type' => 'input',
+                                'class' => 'w-full',
+                            ]
+                        ],
+                        [
+                            [
+                                'name' => 'description',
+                                'label' => 'Description',
+                                'type' => 'input',
+                                'class' => 'w-3/4',
+                            ],
+                            [
+                                'name' => 'active',
+                                'label' => 'Active',
+                                'type' => 'toggle',
+                                'class' => 'w-1/4 ml-4',
+                            ]
+                        ],
+                        [
+                            [
+                                'name' => 'abilities',
+                                'label' => 'Abilities',
+                                'type' => 'multiselect',
+                                'class' => 'w-full',
+                                'options' => $routes,
+                            ]
+                        ],
                     ],
-                    [
-                        'name' => 'active',
-                        'label' => 'Active',
-                        'type' => 'toggle',
-                        'class' => 'w-1/4 ml-4',
-                    ]
-                ],
-                [
-                    [
-                        'name' => 'abilities',
-                        'label' => 'Abilities',
-                        'type' => 'multiselect',
-                        'class' => 'w-full',
-                        'options' => $routes,
-                    ]
-                ],
-            ],
+                ]
+            ]
         ]);
     }
 
@@ -244,44 +250,49 @@ class RolesController extends Controller
         return view('form', [
             'index' => 'apps.roles.index',
             'label' => 'Roles',
-            'descriptionLabel' => 'Role info',
-            'descriptionText' => "Edit the role with the necessary abilities to run system resources.",
-            'data' => $role,
-            'formAction' => route('apps.roles.update', $role->id),
-            'formMethod' => 'patch',
-            'formFields' => [
+            'subLabel' => 'Edit',
+            'components' => [
                 [
-                    [
-                        'name' => 'name',
-                        'label' => 'Name',
-                        'type' => 'input',
-                        'class' => 'w-full',
-                    ]
-                ],
-                [
-                    [
-                        'name' => 'description',
-                        'label' => 'Description',
-                        'type' => 'input',
-                        'class' => 'w-3/4',
+                    'label' => 'Role info',
+                    'description' => "Edit the role with the necessary abilities to run system resources.",
+                    'data' => $role,
+                    'action' => route('apps.roles.update', $role->id),
+                    'method' => 'patch',
+                    'fields' => [
+                        [
+                            [
+                                'name' => 'name',
+                                'label' => 'Name',
+                                'type' => 'input',
+                                'class' => 'w-full',
+                            ]
+                        ],
+                        [
+                            [
+                                'name' => 'description',
+                                'label' => 'Description',
+                                'type' => 'input',
+                                'class' => 'w-3/4',
+                            ],
+                            [
+                                'name' => 'active',
+                                'label' => 'Active',
+                                'type' => 'toggle',
+                                'class' => 'w-1/4 ml-4',
+                            ]
+                        ],
+                        [
+                            [
+                                'name' => 'abilities',
+                                'label' => 'Abilities',
+                                'type' => 'multiselect',
+                                'class' => 'w-full',
+                                'options' => $routes,
+                            ]
+                        ],
                     ],
-                    [
-                        'name' => 'active',
-                        'label' => 'Active',
-                        'type' => 'toggle',
-                        'class' => 'w-1/4 ml-4',
-                    ]
-                ],
-                [
-                    [
-                        'name' => 'abilities',
-                        'label' => 'Abilities',
-                        'type' => 'multiselect',
-                        'class' => 'w-full',
-                        'options' => $routes,
-                    ]
-                ],
-            ],
+                ]
+            ]
         ]);
     }
 
