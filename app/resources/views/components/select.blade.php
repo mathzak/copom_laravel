@@ -1,8 +1,9 @@
-@props(['id', 'name', 'options', 'value' => '[]', 'placeholder' => ''])
+@props(['id', 'name', 'options', 'value' => '[]', 'placeholder' => '', 'multiple' => false])
 
 @php
 $options = json_encode($options);
 $value = json_encode($value);
+$multiple = json_encode($multiple);
 @endphp
 
 <div x-data="{
@@ -13,6 +14,7 @@ $value = json_encode($value);
         filteredOptions: {{$options}},
         selectAll: false,
         dropup: false,
+        multiple: {{$multiple}},
         removeLastTag(event) {
             if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
                 if (this.selectedOptions.length && !event.target.value.length) {
@@ -41,11 +43,16 @@ $value = json_encode($value);
             this.$refs.hiddenInput.value = JSON.stringify(this.selectedOptions);
         },
         toggleOption(option) {
-            const index = this.selectedOptions.findIndex(selected => selected.id === option.id);
-            if (index > -1) {
-                this.selectedOptions.splice(index, 1);
+            if (this.multiple) {
+                const index = this.selectedOptions.findIndex(selected => selected.id === option.id);
+                if (index > -1) {
+                    this.selectedOptions.splice(index, 1);
+                } else {
+                    this.selectedOptions.push(option);
+                }
             } else {
-                this.selectedOptions.push(option);
+                this.selectedOptions = [option];
+                this.isOpen = false;
             }
             this.updateHiddenInput();
             this.updateSelectAllState();
@@ -82,10 +89,10 @@ $value = json_encode($value);
     <div x-show="isOpen" x-transition class="absolute z-50 w-full bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 dark:text-zinc-300 border rounded shadow-lg max-h-60 overflow-y-auto" :class="{'bottom-12': dropup, 'mt-1': !dropup}" @click.away="isOpen = false" x-ref="dropdown">
         <input x-model="search" @input="filterOptions" type="text" class="w-full px-4 py-2 border-b border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:outline-none" placeholder="{{__('Search...')}}">
 
-        <template x-if="filteredOptions.length">
+        <template x-if="filteredOptions.length && multiple">
             <label class="flex items-center px-4 py-2">
                 <input type="checkbox" x-model="selectAll" @change="toggleSelectAll" class="form-checkbox h-5 w-5 text-indigo-600">
-                <span class="pl-3"></span>
+                <span class="pl-3">{{ __('Select all') }}</span>
             </label>
         </template>
 

@@ -200,7 +200,8 @@ class RolesController extends Controller
                             [
                                 'name' => 'abilities',
                                 'label' => 'Abilities',
-                                'type' => 'multiselect',
+                                'type' => 'select',
+                                'multiple' => true,
                                 'class' => 'w-full',
                                 'options' => $routes,
                             ],
@@ -284,7 +285,8 @@ class RolesController extends Controller
                             [
                                 'name' => 'abilities',
                                 'label' => 'Abilities',
-                                'type' => 'multiselect',
+                                'type' => 'select',
+                                'multiple' => true,
                                 'class' => 'w-full',
                                 'options' => $routes,
                             ],

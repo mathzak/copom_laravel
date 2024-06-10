@@ -154,9 +154,9 @@ class UnitsController extends Controller
         $routes = [];
 
         return view('form', [
-            'index' => 'apps.roles.index',
-            'label' => 'Roles',
-            'subLabel' => 'Edit',
+            'index' => 'apps.units.index',
+            'label' => 'Units',
+            'subLabel' => 'Add',
             'components' => [
                 [
                     'label' => 'Role info',
@@ -190,7 +190,7 @@ class UnitsController extends Controller
                             [
                                 'name' => 'abilities',
                                 'label' => 'Abilities',
-                                'type' => 'multiselect',
+                                'type' => 'select',
                                 'class' => 'w-full',
                                 'options' => $routes,
                             ],
@@ -239,8 +239,8 @@ class UnitsController extends Controller
             });
 
         return view('form', [
-            'index' => 'apps.roles.index',
-            'label' => 'Roles',
+            'index' => 'apps.units.index',
+            'label' => 'Units',
             'subLabel' => 'Edit',
             'components' => [
                 [
@@ -276,7 +276,7 @@ class UnitsController extends Controller
                             [
                                 'name' => 'abilities',
                                 'label' => 'Abilities',
-                                'type' => 'multiselect',
+                                'type' => 'select',
                                 'class' => 'w-full',
                                 'options' => $units,
                             ],

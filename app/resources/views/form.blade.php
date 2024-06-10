@@ -55,8 +55,8 @@ $form = $data ?? false ? $data : [];
                                     <x-text-input id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" class="mt-1 block w-full" :value="old($field['name'], $data[$field['name']] ?? null)" />
                                     @elseif ($field['type'] == 'toggle')
                                     <x-toggle id="{{ $field['name'] }}" name="{{ $field['name'] }}" class="mt-1 block w-full" :checked="old($field['name'], $data[$field['name']] ?? false)" />
-                                    @elseif ($field['type'] == 'multiselect')
-                                    <x-multiselect id="{{ $field['name'] }}" name="{{ $field['name'] }}" :options="$field['options']" :value="old($field['name'], $data[$field['name']] ?? [])" />
+                                    @elseif ($field['type'] == 'select')
+                                    <x-select id="{{ $field['name'] }}" name="{{ $field['name'] }}" :options="$field['options']" :multiple="$field['multiple'] ?? false" :value="old($field['name'], $data[$field['name']] ?? [])" />
                                     @endif
                                     <x-input-error class="mt-2" :messages="$errors->get($field['name'])" />
                                 </div>
