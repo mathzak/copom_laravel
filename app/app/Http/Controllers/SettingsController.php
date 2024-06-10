@@ -22,10 +22,4 @@ class SettingsController extends Controller
 
         return back()->withCookie($cookie);
     }
-
-    // $cookie = cookie()->forever('user_name', encrypt('John Doe'));
-
-    // $cookie = cookie('user_name', 'John Doe', 60)->domain('.example.com')->path('/')->secure();
-
-
 }
