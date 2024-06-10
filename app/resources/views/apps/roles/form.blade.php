@@ -25,7 +25,7 @@ $form = $data ?? false ? $data : new stdClass();
 
                         <form method="post" action="{{ $formAction }}" class="mt-6 space-y-6">
                             @csrf
-                            @method($method)
+                            @method($formMethod)
 
                             <div>
                                 <x-input-label for="name" :value="__('Name')" />

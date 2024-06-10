@@ -199,7 +199,7 @@ class RolesController extends Controller
             ];
         });
 
-        return view('form', [
+        return view('apps.roles.form', [
             'index' => 'apps.roles.index',
             'label' => 'Roles',
             'descriptionLabel' => 'Profile Information',
@@ -207,6 +207,9 @@ class RolesController extends Controller
             'data' => $role,
             'formAction' => route('apps.roles.update', $role->id),
             'formMethod' => 'patch',
+
+            'routes' => $routes,
+
             'formFields' => [
                 [
                     [
