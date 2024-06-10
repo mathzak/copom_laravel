@@ -316,19 +316,19 @@ class UnitsController extends Controller
                         [
                             [
                                 'name' => 'country_id',
-                                'label' => 'Country id',
+                                'label' => 'Country',
                                 'type' => 'input',
                                 'class' => 'w-1/3',
                             ],
                             [
                                 'name' => 'state_id',
-                                'label' => 'State id',
-                                'type' => 'toggle',
+                                'label' => 'State',
+                                'type' => 'input',
                                 'class' => 'w-1/3 ml-4',
                             ],
                             [
-                                'name' => 'City_id',
-                                'label' => 'City id',
+                                'name' => 'city_id',
+                                'label' => 'City',
                                 'type' => 'input',
                                 'class' => 'w-1/3 ml-4',
                             ],
