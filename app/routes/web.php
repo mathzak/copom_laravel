@@ -8,6 +8,7 @@ use App\Http\Controllers\HelpController;
 use App\Http\Controllers\Apps\RolesController;
 use App\Http\Controllers\Apps\UnitsController;
 use App\Http\Controllers\Apps\UsersController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,9 @@ Route::get('/out', function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/setCookie/{name}/{value}/{duration?}', [SettingsController::class, 'setCookie'])->name('setCookie');
+    Route::get('/unsetCookie/{name}', [SettingsController::class, 'unsetCookie'])->name('unsetCookie');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::name('profile.')->group(function () {
