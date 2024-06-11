@@ -135,8 +135,8 @@ $multiple = json_encode($multiple);
         </template>
     </div>
     @if ($multiple === 'true')
-    <select id="{{ $id }}" name="{{ $name }}[]" class="w-1 h-1 opacity-0 absolute overflow-hidden -z-10" multiple></select>
+    <select id="{{ $id }}" name="{{ $name }}[]" class="w-0 h-0 opacity-0 absolute overflow-hidden -z-10" multiple></select>
     @else
-    <select id="{{ $id }}" name="{{ $name }}" class="w-1 h-1 opacity-0 absolute overflow-hidden -z-10"></select>
+    <select id="{{ $id }}" name="{{ $name }}" class="w-0 h-0 opacity-0 absolute overflow-hidden -z-10"></select>
     @endif
 </div>
