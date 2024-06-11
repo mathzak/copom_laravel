@@ -223,10 +223,11 @@ class RolesController extends Controller
             $role->name = $request->name;
             $role->description = $request->description;
             $role->active = $request->active;
-            $role->abilities = collect(json_decode($request->all()['abilities']))->pluck('id');
+            $role->abilities = collect($request->abilities)->toJson();
 
             $role->save();
         } catch (\Exception $e) {
+            dd($e);
             report($e);
 
             return Redirect::route('apps.roles.create', $role->id)->with('error', trans_choice('Error on add this item.|Error on add the items.', 1));
@@ -306,7 +307,7 @@ class RolesController extends Controller
             $role->name = $request->name;
             $role->description = $request->description;
             $role->active = $request->active;
-            $role->abilities = collect(json_decode($request->all()['abilities']))->pluck('id');
+            $role->abilities = collect($request->abilities)->toJson();
 
             $role->save();
         } catch (\Exception $e) {

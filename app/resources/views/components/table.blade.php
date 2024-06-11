@@ -50,10 +50,6 @@ $rows = $source['data'] ?? [];
                 }
             },
 
-            aa() {
-                alert(1)
-            },
-
             updateFormAction() {
                 const form = document.getElementById('searchForm');
                 form.action = `${window.location.pathname}?${new URLSearchParams(window.location.search).toString()}`;
