@@ -303,6 +303,7 @@ class UnitsController extends Controller
                             [
                                 'name' => 'cellphone',
                                 'label' => 'Cellphone',
+                                'mask' => '(99) 9 9999-9999',
                                 'type' => 'input',
                                 'class' => 'w-1/2 ml-4',
                             ],

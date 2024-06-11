@@ -54,7 +54,7 @@ $form = $data ?? false ? $data : [];
                                     @if ($field['type'] == 'calendar')
                                     <x-calendar id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" class="mt-1 block w-full" :value="old($field['name'], $data[$field['name']] ?? null)" />
                                     @elseif ($field['type'] == 'input')
-                                    <x-text-input id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" class="mt-1 block w-full" :value="old($field['name'], $data[$field['name']] ?? null)" />
+                                    <x-text-input id="{{ $field['name'] }}" name="{{ $field['name'] }}" type="text" mask="{{ $field['mask'] ?? null }}" class="mt-1 block w-full" :value="old($field['name'], $data[$field['name']] ?? null)" />
                                     @elseif ($field['type'] == 'select')
                                     <x-select id="{{ $field['name'] }}" name="{{ $field['name'] }}" :options="$field['options']" :multiple="$field['multiple'] ?? false" :value="old($field['name'], $data[$field['name']] ?? [])" />
                                     @elseif ($field['type'] == 'toggle')
