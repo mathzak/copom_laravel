@@ -92,7 +92,7 @@ $multiple = json_encode($multiple);
             this.updateHiddenInput();
             this.updateSelectAllState();
         }
-    }" x-init="initSelectedOptions()" @click.away="isOpen = false" class="relative" @open-dropdown.window="checkDropDirection">
+    }" x-init="initSelectedOptions()" @click.away="isOpen = false" class="relative pt-1" @open-dropdown.window="checkDropDirection">
     <button type="button" @click="isOpen = !isOpen; checkDropDirection();" class="flex items-center justify-between w-full p-1 min-h-11 text-left border-2 border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
         <span x-show="!selectedOptions.length">{{ __($placeholder) }}</span>
         <div>
