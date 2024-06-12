@@ -47,106 +47,114 @@ class RolesController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
-        return view('index', [
+        return view('form', [
             'index' => 'apps.roles.index',
-            'edit' => 'apps.roles.edit',
             'label' => 'Roles',
-            'name' => [
+            'subLabel' => 'Edit',
+            'components' => [
                 [
-                    'field' => 'name',
-                    'class' => '',
+                    'type' => 'index',
+                    'label' => 'Users list',
+                    'description' => "Define which users have access to this role.",
+                    'data' => $roles,
+                    'action' => 'apps.roles.edit',
+                    'nameColumn' => [
+                        [
+                            'field' => 'name',
+                            'class' => '',
+                        ],
+                        [
+                            'field' => 'created_at',
+                            'class' => 'text-xs',
+                        ],
+                        [
+                            'field' => 'updated_at',
+                            'class' => 'text-xs',
+                        ],
+                        [
+                            'field' => 'deleted_at',
+                            'class' => 'text-xs',
+                        ],
+                    ],
+                    'columns' => [
+                        [
+                            "name" => __("Active"),
+                            "field" => "active",
+                            "boolean" => true,
+                        ],
+                        [
+                            "name" => __("Users"),
+                            "field" => "users_count",
+                        ]
+                    ],
+                    'menu' => [
+                        [
+                            'icon' => "gmdi-add-circle-outline",
+                            'label' => __("Add"),
+                            'dataDeleted' => null,
+                            'url' => route("apps.roles.create"),
+                            'method' => "get",
+                            'visible' => true,
+                        ],
+                        [
+                            'icon' => "gmdi-remove-circle-outline",
+                            'label' => __("Remove"),
+                            'dataDeleted' => false,
+                            'url' => route("apps.roles.destroy"),
+                            'method' => "delete",
+                            'visible' => true,
+                            'visible' => ($request->cookie('showItems') == null || $request->cookie('showItems') == 'both') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-delete-forever-o",
+                            'label' => __("Restore"),
+                            'dataDeleted' => true,
+                            'url' => route("apps.roles.restore"),
+                            'method' => "post",
+                            'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-delete-forever-o",
+                            'label' => __("Erase"),
+                            'dataDeleted' => true,
+                            'url' => route("apps.roles.forceDestroy"),
+                            'method' => "delete",
+                            'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-folder-o",
+                            'label' => __("Only active"),
+                            'dataDeleted' => null,
+                            'url' => route("unsetCookie", [
+                                'name' => 'showItems',
+                            ]),
+                            'method' => "get",
+                            'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-folder-delete-o",
+                            'label' => __("Only removed"),
+                            'dataDeleted' => null,
+                            'url' => route("setCookie", [
+                                'name' => 'showItems',
+                                'value' => 'trashed',
+                            ]),
+                            'method' => "get",
+                            'visible' => ($request->cookie('showItems') != 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-rule-folder-o",
+                            'label' => __("Show all"),
+                            'dataDeleted' => null,
+                            'url' => route("setCookie", [
+                                'name' => 'showItems',
+                                'value' => 'both',
+                            ]),
+                            'method' => "get",
+                            'visible' => ($request->cookie('showItems') != 'both') ? true : false,
+                        ],
+                    ],
                 ],
-                [
-                    'field' => 'created_at',
-                    'class' => 'text-xs',
-                ],
-                [
-                    'field' => 'updated_at',
-                    'class' => 'text-xs',
-                ],
-                [
-                    'field' => 'deleted_at',
-                    'class' => 'text-xs',
-                ],
-            ],
-            'menu' => [
-                [
-                    'icon' => "gmdi-add-circle-outline",
-                    'label' => __("Add"),
-                    'dataDeleted' => null,
-                    'url' => route("apps.roles.create"),
-                    'method' => "get",
-                    'visible' => true,
-                ],
-                [
-                    'icon' => "gmdi-remove-circle-outline",
-                    'label' => __("Remove"),
-                    'dataDeleted' => false,
-                    'url' => route("apps.roles.destroy"),
-                    'method' => "delete",
-                    'visible' => true,
-                    'visible' => ($request->cookie('showItems') == null || $request->cookie('showItems') == 'both') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-delete-forever-o",
-                    'label' => __("Restore"),
-                    'dataDeleted' => true,
-                    'url' => route("apps.roles.restore"),
-                    'method' => "post",
-                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-delete-forever-o",
-                    'label' => __("Erase"),
-                    'dataDeleted' => true,
-                    'url' => route("apps.roles.forceDestroy"),
-                    'method' => "delete",
-                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-folder-o",
-                    'label' => __("Only active"),
-                    'dataDeleted' => null,
-                    'url' => route("unsetCookie", [
-                        'name' => 'showItems',
-                    ]),
-                    'method' => "get",
-                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-folder-delete-o",
-                    'label' => __("Only removed"),
-                    'dataDeleted' => null,
-                    'url' => route("setCookie", [
-                        'name' => 'showItems',
-                        'value' => 'trashed',
-                    ]),
-                    'method' => "get",
-                    'visible' => ($request->cookie('showItems') != 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-rule-folder-o",
-                    'label' => __("Show all"),
-                    'dataDeleted' => null,
-                    'url' => route("setCookie", [
-                        'name' => 'showItems',
-                        'value' => 'both',
-                    ]),
-                    'method' => "get",
-                    'visible' => ($request->cookie('showItems') != 'both') ? true : false,
-                ],
-            ],
-            'items' => $roles,
-            'columns' => [
-                [
-                    "name" => __("Active"),
-                    "field" => "active",
-                    "boolean" => true,
-                ],
-                [
-                    "name" => __("Users"),
-                    "field" => "users_count",
-                ]
             ],
         ]);
     }
@@ -206,6 +214,20 @@ class RolesController extends Controller
                                 'options' => $routes,
                             ],
                         ],
+                        [
+                            [
+                                'name' => 'full_access',
+                                'label' => 'Full access',
+                                'type' => 'toggle',
+                                'class' => 'w-1/2',
+                            ],
+                            [
+                                'name' => 'manage_nested',
+                                'label' => 'Manage nested',
+                                'type' => 'toggle',
+                                'class' => 'w-1/2 ml-4',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -223,11 +245,12 @@ class RolesController extends Controller
             $role->name = $request->name;
             $role->description = $request->description;
             $role->active = $request->active;
+            $role->full_access = $request->full_access;
+            $role->manage_nested = $request->manage_nested;
             $role->abilities = collect($request->abilities)->toJson();
 
             $role->save();
         } catch (\Exception $e) {
-            dd($e);
             report($e);
 
             return Redirect::route('apps.roles.create', $role->id)->with('error', trans_choice('Error on add this item.|Error on add the items.', 1));
@@ -254,6 +277,7 @@ class RolesController extends Controller
             'subLabel' => 'Edit',
             'components' => [
                 [
+                    'type' => 'form',
                     'label' => 'Role info',
                     'description' => "Edit the role with the necessary abilities to run system resources.",
                     'data' => $role,
@@ -292,6 +316,20 @@ class RolesController extends Controller
                                 'options' => $routes,
                             ],
                         ],
+                        [
+                            [
+                                'name' => 'full_access',
+                                'label' => 'Full access',
+                                'type' => 'toggle',
+                                'class' => 'w-1/2',
+                            ],
+                            [
+                                'name' => 'manage_nested',
+                                'label' => 'Manage nested',
+                                'type' => 'toggle',
+                                'class' => 'w-1/2 ml-4',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -307,6 +345,8 @@ class RolesController extends Controller
             $role->name = $request->name;
             $role->description = $request->description;
             $role->active = $request->active;
+            $role->full_access = $request->full_access;
+            $role->manage_nested = $request->manage_nested;
             $role->abilities = collect($request->abilities)->toJson();
 
             $role->save();

@@ -17,6 +17,11 @@ return new class() extends Migration
             $table->boolean('superadmin')->default(false);
             $table->boolean('manager')->default(false);
             $table->boolean('active')->default(false);
+            $table->boolean('lock_on_expire')->default(false);
+            $table->date('expires_at')->nullable();
+            $table->boolean('full_access')->default(false);
+            $table->boolean('manage_nested')->default(false);
+            $table->boolean('keep_when_changing_unit')->default(false);
             $table->jsonb('abilities')->nullable();
             $table->timestamps();
             $table->softDeletes();

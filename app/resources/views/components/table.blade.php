@@ -209,16 +209,16 @@ $rows = $source['data'] ?? [];
         </div>
     </x-modal>
 
-    <div class="flex justify-between">
+    <div class="flex justify-between pb-3">
         <div>
             <div class="flex flex-shrink-0 w-30">
-                <div @click.away="open = false" class="relative inline-flex items-center w-full" x-data="{ open: false }">
-                    <button @click="open = !open" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none">
+                <div @click.away="openMenu = false" class="relative inline-flex items-center w-full" x-data="{ openMenu: false }">
+                    <button @click="openMenu = !openMenu" class="inline-flex items-center justify-between w-full p-1 text-lg font-medium text-center text-zinc-800 dark:text-zinc-200 transition duration-500 ease-in-out transform rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none">
                         <p class="text-xs text-zinc-800 dark:text-zinc-200 group-hover:text-blue-500 dark:group-hover:text-yellow-600">
                             @svg('gmdi-more-vert-o', 'size-8')
                         </p>
                     </button>
-                    <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl min-w-max" style="display: none;">
+                    <div x-show="openMenu" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute top-0 z-50 w-full mx-auto mt-2 origin-top-right rounded-xl min-w-max" style="display: none;">
                         <div class="px-2 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <ul>
                                 @foreach ($menu as $item)
@@ -328,7 +328,7 @@ $rows = $source['data'] ?? [];
     </div>
 
     <nav class="relative z-0 inline-flex gap-2 -space-x-px justify-center w-full py-4" aria-label="Pagination">
-        @if($source['prev_page_url'] && !$links)
+        @if($source['prev_page_url'] ?? false && !$links)
         <a href="{{ $source['prev_page_url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-zinc-200 dark:bg-zinc-900 hover:bg-zinc-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
             {!! __('pagination.previous') !!}
         </a>
@@ -347,7 +347,7 @@ $rows = $source['data'] ?? [];
         @endif
         @endforeach
 
-        @if($source['next_page_url'] && !$links)
+        @if($source['next_page_url'] ?? false && !$links)
         <a href="{{ $source['next_page_url'] }}" class="relative inline-flex items-center px-4 py-2 text-sm font-light text-zinc-600 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-200 bg-zinc-200 dark:bg-zinc-900 hover:bg-zinc-300 dark:hover:bg-zinc-950 rounded-lg " aria-label="Go to page 2">
             {!! __('pagination.next') !!}
         </a>

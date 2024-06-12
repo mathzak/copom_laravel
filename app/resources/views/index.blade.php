@@ -1,6 +1,6 @@
 <script>
     window.appRoutes = {
-        rolesEdit: "{{ route($edit, '__id__') }}"
+        routeEdit: "{{ route($edit, '__id__') }}"
     };
 </script>
 
@@ -39,7 +39,7 @@
                             </div>
                         </x-slot>
                         <x-slot name="tableActions">
-                            <div x-data="{ rowId: row.id, editUrl: '' }" x-init="editUrl = window.appRoutes.rolesEdit.replace('__id__', rowId)">
+                            <div x-data="{ rowId: row.id, editUrl: '' }" x-init="editUrl = window.appRoutes.routeEdit.replace('__id__', rowId)">
                                 <a :href="editUrl">
                                     @svg('gmdi-edit-o', 'size-6', ['style' => 'color:#2D20FF'])
                                 </a>
