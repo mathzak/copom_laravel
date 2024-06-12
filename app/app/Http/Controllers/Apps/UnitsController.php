@@ -40,107 +40,114 @@ class UnitsController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
-        return view('index', [
+        return view('bood4ll', [
             'index' => 'apps.units.index',
-            'edit' => 'apps.units.edit',
             'label' => 'Units',
-            'name' => [
+            'components' => [
                 [
-                    'field' => 'shortpath',
-                    'class' => '',
-                ],
-                [
-                    'field' => 'created_at',
-                    'class' => 'text-xs',
-                ],
-                [
-                    'field' => 'updated_at',
-                    'class' => 'text-xs',
-                ],
-                [
-                    'field' => 'deleted_at',
-                    'class' => 'text-xs',
-                ],
-            ],
-            'menu' => [
-                [
-                    'icon' => "gmdi-add-circle-outline",
-                    'label' => __("Add"),
-                    'dataDeleted' => null,
-                    'url' => route("apps.units.create"),
-                    'method' => "get",
-                    'visible' => true,
-                ],
-                [
-                    'icon' => "gmdi-remove-circle-outline",
-                    'label' => __("Remove"),
-                    'dataDeleted' => false,
-                    'url' => route("apps.units.destroy"),
-                    'method' => "delete",
-                    'visible' => ($request->cookie('showItems') == null || $request->cookie('showItems') == 'both') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-delete-forever-o",
-                    'label' => __("Restore"),
-                    'dataDeleted' => true,
-                    'url' => route("apps.units.restore"),
-                    'method' => "post",
-                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-delete-forever-o",
-                    'label' => __("Erase"),
-                    'dataDeleted' => true,
-                    'url' => route("apps.units.forceDestroy"),
-                    'method' => "delete",
-                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-folder-o",
-                    'label' => __("Only active"),
-                    'dataDeleted' => null,
-                    'url' => route("unsetCookie", [
-                        'name' => 'showItems',
-                    ]),
-                    'method' => "get",
-                    'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-folder-delete-o",
-                    'label' => __("Only removed"),
-                    'dataDeleted' => null,
-                    'url' => route("setCookie", [
-                        'name' => 'showItems',
-                        'value' => 'trashed',
-                    ]),
-                    'method' => "get",
-                    'visible' => ($request->cookie('showItems') != 'trashed') ? true : false,
-                ],
-                [
-                    'icon' => "gmdi-rule-folder-o",
-                    'label' => __("Show all"),
-                    'dataDeleted' => null,
-                    'url' => route("setCookie", [
-                        'name' => 'showItems',
-                        'value' => 'both',
-                    ]),
-                    'method' => "get",
-                    'visible' => ($request->cookie('showItems') != 'both') ? true : false,
-                ],
-            ],
-            'items' => $units,
-            'columns' => [
-                [
-                    "name" => __("Subunits"),
-                    "field" => "children_count",
-                ],
-                [
-                    "name" => __("Local"),
-                    "field" => "users_count",
-                ],
-                [
-                    "name" => __("Total"),
-                    "field" => "users_all_count",
+                    'type' => 'index',
+                    'label' => 'Users list',
+                    'description' => "Define which users have access to this role.",
+                    'data' => $units,
+                    'action' => 'apps.units.edit',
+                    'nameColumn' => [
+                        [
+                            'field' => 'shortpath',
+                            'class' => '',
+                        ],
+                        [
+                            'field' => 'created_at',
+                            'class' => 'text-xs',
+                        ],
+                        [
+                            'field' => 'updated_at',
+                            'class' => 'text-xs',
+                        ],
+                        [
+                            'field' => 'deleted_at',
+                            'class' => 'text-xs',
+                        ],
+                    ],
+                    'columns' => [
+                        [
+                            "name" => __("Subunits"),
+                            "field" => "children_count",
+                        ],
+                        [
+                            "name" => __("Local"),
+                            "field" => "users_count",
+                        ],
+                        [
+                            "name" => __("Total"),
+                            "field" => "users_all_count",
+                        ],
+                    ],
+                    'menu' => [
+                        [
+                            'icon' => "gmdi-add-circle-outline",
+                            'label' => __("Add"),
+                            'dataDeleted' => null,
+                            'url' => route("apps.units.create"),
+                            'method' => "get",
+                            'visible' => true,
+                        ],
+                        [
+                            'icon' => "gmdi-remove-circle-outline",
+                            'label' => __("Remove"),
+                            'dataDeleted' => false,
+                            'url' => route("apps.units.destroy"),
+                            'method' => "delete",
+                            'visible' => ($request->cookie('showItems') == null || $request->cookie('showItems') == 'both') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-delete-forever-o",
+                            'label' => __("Restore"),
+                            'dataDeleted' => true,
+                            'url' => route("apps.units.restore"),
+                            'method' => "post",
+                            'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-delete-forever-o",
+                            'label' => __("Erase"),
+                            'dataDeleted' => true,
+                            'url' => route("apps.units.forceDestroy"),
+                            'method' => "delete",
+                            'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-folder-o",
+                            'label' => __("Only active"),
+                            'dataDeleted' => null,
+                            'url' => route("unsetCookie", [
+                                'name' => 'showItems',
+                            ]),
+                            'method' => "get",
+                            'visible' => ($request->cookie('showItems') == 'both' || $request->cookie('showItems') == 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-folder-delete-o",
+                            'label' => __("Only removed"),
+                            'dataDeleted' => null,
+                            'url' => route("setCookie", [
+                                'name' => 'showItems',
+                                'value' => 'trashed',
+                            ]),
+                            'method' => "get",
+                            'visible' => ($request->cookie('showItems') != 'trashed') ? true : false,
+                        ],
+                        [
+                            'icon' => "gmdi-rule-folder-o",
+                            'label' => __("Show all"),
+                            'dataDeleted' => null,
+                            'url' => route("setCookie", [
+                                'name' => 'showItems',
+                                'value' => 'both',
+                            ]),
+                            'method' => "get",
+                            'visible' => ($request->cookie('showItems') != 'both') ? true : false,
+                        ],
+                    ],
                 ],
             ],
         ]);
@@ -151,14 +158,22 @@ class UnitsController extends Controller
      */
     public function create(): View
     {
-        $routes = [];
+        $units = Unit::orderBy('shortpath')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'label' => $item->shortpath,
+                ];
+            });
 
-        return view('form', [
+        return view('bood4ll', [
             'index' => 'apps.units.index',
             'label' => 'Units',
             'subLabel' => 'Add',
             'components' => [
                 [
+                    'type' => 'form',
                     'label' => 'Role info',
                     'description' => "Edit the role with the necessary abilities to run system resources.",
                     'action' => route('apps.units.store'),
@@ -169,30 +184,117 @@ class UnitsController extends Controller
                                 'name' => 'name',
                                 'label' => 'Name',
                                 'type' => 'input',
-                                'class' => 'w-full',
+                                'class' => 'w-1/2',
+                            ],
+                            [
+                                'name' => 'nickname',
+                                'label' => 'Nickname',
+                                'type' => 'input',
+                                'class' => 'w-1/2 ml-4',
                             ],
                         ],
                         [
                             [
-                                'name' => 'description',
-                                'label' => 'Description',
-                                'type' => 'input',
-                                'class' => 'w-3/4',
+                                'name' => 'parent_id',
+                                'label' => 'Parent unit',
+                                'type' => 'select',
+                                'class' => 'w-full',
+                                'options' => $units,
+                            ],
+                        ],
+                        [
+                            [
+                                'name' => 'founded',
+                                'label' => 'Founded',
+                                'type' => 'calendar',
+                                'class' => 'w-1/3',
                             ],
                             [
                                 'name' => 'active',
                                 'label' => 'Active',
                                 'type' => 'toggle',
+                                'class' => 'w-1/3 ml-4',
+                            ],
+                            [
+                                'name' => 'City_id',
+                                'label' => 'Expires at',
+                                'type' => 'calendar',
+                                'class' => 'w-1/3 ml-4',
+                            ],
+                        ],
+                        [
+                            [
+                                'name' => 'email',
+                                'label' => 'Email',
+                                'type' => 'input',
+                                'class' => 'w-1/3',
+                            ],
+                            [
+                                'name' => 'cellphone',
+                                'label' => 'Cellphone',
+                                'mask' => '(99) 9 9999-9999',
+                                'type' => 'input',
+                                'class' => 'w-1/2 ml-4',
+                            ],
+                            [
+                                'name' => 'landline',
+                                'label' => 'Landline',
+                                'type' => 'input',
+                                'class' => 'w-1/2 ml-4',
+                            ],
+                        ],
+                        [
+                            [
+                                'name' => 'country_id',
+                                'label' => 'Country',
+                                'type' => 'input',
+                                'class' => 'w-1/3',
+                            ],
+                            [
+                                'name' => 'state_id',
+                                'label' => 'State',
+                                'type' => 'input',
+                                'class' => 'w-1/3 ml-4',
+                            ],
+                            [
+                                'name' => 'city_id',
+                                'label' => 'City',
+                                'type' => 'input',
+                                'class' => 'w-1/3 ml-4',
+                            ],
+                        ],
+                        [
+                            [
+                                'name' => 'postcode',
+                                'label' => 'Postcode',
+                                'type' => 'input',
+                                'class' => 'w-1/4',
+                            ],
+                            [
+                                'name' => 'address',
+                                'label' => 'Address',
+                                'type' => 'input',
+                                'class' => 'w-2/4 ml-4',
+                            ],
+                            [
+                                'name' => 'complement',
+                                'label' => 'Complement',
+                                'type' => 'input',
                                 'class' => 'w-1/4 ml-4',
                             ],
                         ],
                         [
                             [
-                                'name' => 'abilities',
-                                'label' => 'Abilities',
-                                'type' => 'select',
-                                'class' => 'w-full',
-                                'options' => $routes,
+                                'name' => 'latitude',
+                                'label' => 'Latitude',
+                                'type' => 'input',
+                                'class' => 'w-1/2',
+                            ],
+                            [
+                                'name' => 'longitude',
+                                'label' => 'Longitude',
+                                'type' => 'input',
+                                'class' => 'w-1/2 ml-4',
                             ],
                         ],
                     ],
@@ -238,12 +340,13 @@ class UnitsController extends Controller
                 ];
             });
 
-        return view('form', [
+        return view('bood4ll', [
             'index' => 'apps.units.index',
             'label' => 'Units',
             'subLabel' => 'Edit',
             'components' => [
                 [
+                    'type' => 'form',
                     'label' => 'Role info',
                     'description' => "Edit the role with the necessary abilities to run system resources.",
                     'data' => $unit,

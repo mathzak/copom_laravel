@@ -47,15 +47,14 @@ class RolesController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
-        return view('form', [
+        return view('bood4ll', [
             'index' => 'apps.roles.index',
             'label' => 'Roles',
-            'subLabel' => 'Edit',
             'components' => [
                 [
                     'type' => 'index',
-                    'label' => 'Users list',
-                    'description' => "Define which users have access to this role.",
+                    'label' => 'Roles',
+                    'description' => "Registered roles in the system.",
                     'data' => $roles,
                     'action' => 'apps.roles.edit',
                     'nameColumn' => [
@@ -171,12 +170,13 @@ class RolesController extends Controller
             ];
         });
 
-        return view('form', [
+        return view('bood4ll', [
             'index' => 'apps.roles.index',
             'label' => 'Roles',
             'subLabel' => 'Add',
             'components' => [
                 [
+                    'type' => 'form',
                     'label' => 'Role info',
                     'description' => "Insert a role with the necessary abilities to run system resources.",
                     'action' => route('apps.roles.store'),
@@ -271,7 +271,7 @@ class RolesController extends Controller
             ];
         });
 
-        return view('form', [
+        return view('bood4ll', [
             'index' => 'apps.roles.index',
             'label' => 'Roles',
             'subLabel' => 'Edit',

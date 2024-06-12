@@ -23,67 +23,74 @@ class UsersController extends Controller
             ->onEachSide(1)
             ->withQueryString();
 
-        return view('index', [
+        return view('bood4ll', [
             'index' => 'apps.users.index',
-            'edit' => 'apps.users.edit',
             'label' => 'Users',
-            'name' => [
+            'components' => [
                 [
-                    'field' => 'name',
-                    'class' => '',
+                    'type' => 'index',
+                    'label' => 'Users',
+                    'description' => "Registered users in the system.",
+                    'data' => $users,
+                    'action' => 'apps.users.edit',
+                    'nameColumn' => [
+                        [
+                            'field' => 'name',
+                            'class' => '',
+                        ],
+                        [
+                            'field' => 'email',
+                            'class' => 'text-sm',
+                        ],                [
+                            'field' => 'created_at',
+                            'class' => 'text-xs',
+                        ],
+                        [
+                            'field' => 'updated_at',
+                            'class' => 'text-xs',
+                        ],
+                        [
+                            'field' => 'deleted_at',
+                            'class' => 'text-xs',
+                        ],
+                    ],
+                    'columns' => [
+                        [
+                            "name" => __("Created at"),
+                            "field" => "created_at",
+                        ],
+                    ],
+                    'menu' => [
+                        [
+                            'icon' => "gmdi-add-circle-outline",
+                            'label' => __("Add"),
+                            'dataDeleted' => null,
+                            'url' => route("apps.users.create"),
+                            'method' => "get",
+                        ],
+                        [
+                            'icon' => "gmdi-remove-circle-outline",
+                            'label' => __("Remove"),
+                            'dataDeleted' => false,
+                            'url' => route("apps.users.destroy"),
+                            'method' => "delete",
+                        ],
+                        [
+                            'icon' => "gmdi-delete-forever-o",
+                            'label' => __("Restore"),
+                            'dataDeleted' => true,
+                            'url' => route("apps.users.restore"),
+                            'method' => "post",
+                        ],
+                        [
+                            'icon' => "gmdi-delete-forever-o",
+                            'label' => __("Erase"),
+                            'dataDeleted' => true,
+                            'url' => route("apps.users.forceDestroy"),
+                            'method' => "delete",
+                        ],
+                    ],
                 ],
-                [
-                    'field' => 'email',
-                    'class' => 'text-sm',
-                ],                [
-                    'field' => 'created_at',
-                    'class' => 'text-xs',
-                ],
-                [
-                    'field' => 'updated_at',
-                    'class' => 'text-xs',
-                ],
-                [
-                    'field' => 'deleted_at',
-                    'class' => 'text-xs',
-                ],
-            ],
-            'menu' => [
-                [
-                    'icon' => "gmdi-add-circle-outline",
-                    'label' => __("Add"),
-                    'dataDeleted' => null,
-                    'url' => route("apps.users.create"),
-                    'method' => "get",
-                ],
-                [
-                    'icon' => "gmdi-remove-circle-outline",
-                    'label' => __("Remove"),
-                    'dataDeleted' => false,
-                    'url' => route("apps.users.destroy"),
-                    'method' => "delete",
-                ],
-                [
-                    'icon' => "gmdi-delete-forever-o",
-                    'label' => __("Restore"),
-                    'dataDeleted' => true,
-                    'url' => route("apps.users.restore"),
-                    'method' => "post",
-                ],
-                [
-                    'icon' => "gmdi-delete-forever-o",
-                    'label' => __("Erase"),
-                    'dataDeleted' => true,
-                    'url' => route("apps.users.forceDestroy"),
-                    'method' => "delete",
-                ],
-            ],
-            'items' => $users,
-            'columns' => [
-                [
-                    "name" => __("Created at"),
-                    "field" => "created_at",
-                ]
             ],
         ]);
     }

@@ -1,7 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
-            <a href="{{ route($index) }}">{{ __($label) }}</a> > {{ __($subLabel) }}
+            <a href="{{ route($index) }}">{{ __($label ?? null) }}</a>
+            @if ($subLabel ?? false)
+            > {{ __($subLabel ?? null) }}
+            @endif
         </h2>
     </x-slot>
 
