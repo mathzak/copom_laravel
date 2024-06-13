@@ -54,7 +54,7 @@ class RolesController extends Controller
                 [
                     'type' => 'index',
                     'label' => 'Roles',
-                    'description' => "Registered roles in the system.",
+                    'description' => "Manage roles registered in the system.",
                     'data' => $roles,
                     'action' => 'apps.roles.edit',
                     'nameColumn' => [
@@ -177,8 +177,8 @@ class RolesController extends Controller
             'components' => [
                 [
                     'type' => 'form',
-                    'label' => 'Role info',
-                    'description' => "Insert a role with the necessary abilities to run system resources.",
+                    'label' => 'Main data',
+                    'description' => "Add a role with the necessary abilities to run system resources.",
                     'action' => route('apps.roles.store'),
                     'method' => 'post',
                     'fields' => [
@@ -278,7 +278,7 @@ class RolesController extends Controller
             'components' => [
                 [
                     'type' => 'form',
-                    'label' => 'Role info',
+                    'label' => 'Main data',
                     'description' => "Edit the role with the necessary abilities to run system resources.",
                     'data' => $role,
                     'action' => route('apps.roles.update', $role->id),

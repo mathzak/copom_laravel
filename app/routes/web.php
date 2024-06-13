@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
             Route::controller(RolesController::class)->name('roles.')->group(function () {
                 Route::get('/roles', 'index')->name('index')
                     ->defaults('label', 'Roles')
-                    ->defaults('description', "Manage user access roles.")
+                    ->defaults('description', "Manage roles registered in the system.")
                     ->defaults('icon', 'gmdi-account-tree-o');
                 Route::get('/roles/create', 'create')->name('create');
                 Route::post('/roles/create', 'store')->name('store');
@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
             Route::controller(UsersController::class)->name('users.')->group(function () {
                 Route::get('/users', 'index')->name('index')
                     ->defaults('label', 'Users')
-                    ->defaults('description', "Manage users and their information registered in the system.")
+                    ->defaults('description', "Manage users registered in the system.")
                     ->defaults('icon', 'gmdi-account-circle-o');
                 Route::get('/users/create', 'create')->name('create');
                 Route::post('/users/create', 'store')->name('store');

@@ -30,7 +30,7 @@ class UsersController extends Controller
                 [
                     'type' => 'index',
                     'label' => 'Users',
-                    'description' => "Registered users in the system.",
+                    'description' => "Manage users registered in the system.",
                     'data' => $users,
                     'action' => 'apps.users.edit',
                     'nameColumn' => [

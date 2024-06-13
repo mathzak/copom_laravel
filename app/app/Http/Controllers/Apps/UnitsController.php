@@ -46,8 +46,8 @@ class UnitsController extends Controller
             'components' => [
                 [
                     'type' => 'index',
-                    'label' => 'Users list',
-                    'description' => "Define which users have access to this role.",
+                    'label' => 'Units',
+                    'description' => "Manage units registered in the system.",
                     'data' => $units,
                     'action' => 'apps.units.edit',
                     'nameColumn' => [
@@ -174,8 +174,8 @@ class UnitsController extends Controller
             'components' => [
                 [
                     'type' => 'form',
-                    'label' => 'Role info',
-                    'description' => "Edit the role with the necessary abilities to run system resources.",
+                    'label' => 'Main data',
+                    'description' => "Add a unit to classify data recorded in the system.",
                     'action' => route('apps.units.store'),
                     'method' => 'patch',
                     'fields' => [
@@ -347,8 +347,8 @@ class UnitsController extends Controller
             'components' => [
                 [
                     'type' => 'form',
-                    'label' => 'Role info',
-                    'description' => "Edit the role with the necessary abilities to run system resources.",
+                    'label' => 'Main data',
+                    'description' => "Edit the unit to classify data recorded in the system.",
                     'data' => $unit,
                     'action' => route('apps.roles.update', $unit->id),
                     'method' => 'patch',
